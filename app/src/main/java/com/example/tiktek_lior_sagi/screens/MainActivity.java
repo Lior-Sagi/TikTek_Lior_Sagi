@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.lior.myapplication.model.User;
+import com.example.tiktek_lior_sagi.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
