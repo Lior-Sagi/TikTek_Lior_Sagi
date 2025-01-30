@@ -10,68 +10,98 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="144dp"
-        android:layout_height="45dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="122dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="61dp"
         android:text="הוספת ספר"
-        tools:layout_editor_absoluteX="122dp"
-        tools:layout_editor_absoluteY="38dp" />
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/etBookName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etBookName"
-        android:layout_width="350dp"
-        android:layout_height="45dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Book name"
         android:inputType="text"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="144dp" />
+        app:layout_constraintBottom_toTopOf="@+id/spSubject"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/spSubject"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Spinner
         android:id="@+id/spSubject"
-        android:layout_width="351dp"
-        android:layout_height="45dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="25dp"
         android:entries="@array/subjectsArr"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="205dp" />
+        app:layout_constraintBottom_toTopOf="@+id/etPagesNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBookName" />
 
     <EditText
         android:id="@+id/etPagesNumber"
         android:layout_width="126dp"
-        android:layout_height="45dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginBottom="37dp"
         android:ems="10"
         android:inputType="number"
-        tools:layout_editor_absoluteX="120dp"
-        tools:layout_editor_absoluteY="275dp" />
+        app:layout_constraintBottom_toTopOf="@+id/IVPreviewImage"
+        app:layout_constraintStart_toStartOf="@+id/spSubject"
+        app:layout_constraintTop_toBottomOf="@+id/spSubject" />
 
     <Button
         android:id="@+id/btnCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="266dp"
-        tools:layout_editor_absoluteY="380dp" />
+        android:layout_marginEnd="54dp"
+        android:layout_marginBottom="36dp"
+        android:text="Camera"
+        app:layout_constraintBottom_toTopOf="@+id/btnGallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/IVPreviewImage" />
 
     <Button
         android:id="@+id/btnGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="266dp"
-        tools:layout_editor_absoluteY="464dp" />
+        android:layout_marginBottom="34dp"
+        android:text="Gallery"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddBook"
+        app:layout_constraintStart_toStartOf="@+id/btnCamera"
+        app:layout_constraintTop_toBottomOf="@+id/IVPreviewImage" />
 
     <ImageView
         android:id="@+id/IVPreviewImage"
-        android:layout_width="128dp"
-        android:layout_height="107dp"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="357dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="93dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGallery"
+        app:layout_constraintEnd_toStartOf="@+id/btnCamera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPagesNumber"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnAddBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="155dp"
-        tools:layout_editor_absoluteY="546dp" />
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="137dp"
+        android:text="Add book"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnGallery"
+        app:layout_constraintTop_toBottomOf="@+id/btnGallery" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
