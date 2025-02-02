@@ -38,6 +38,7 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
     Button btnCamera;
     Button btnGallery;
     Button btnAddBook;
+    Button btnToSearch;
     /// Activity result launcher for selecting image from gallery
     private ActivityResultLauncher<Intent> selectImageLauncher;
     /// Activity result launcher for capturing image from camera
@@ -73,6 +74,8 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
         etBookName=findViewById(R.id.etBookName);
         etPagesNumber=findViewById(R.id.etPagesNumber);
         spSubject=findViewById(R.id.spSubject);
+        btnToSearch=findViewById(R.id.btnToSearch);
+        btnToSearch.setOnClickListener(this);
 
         /// register the activity result launcher for selecting image from gallery
         selectImageLauncher = registerForActivityResult(
@@ -97,6 +100,12 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        //quick access to search page
+        if(v==btnToSearch)
+        {
+            Intent goLog=new Intent(getApplicationContext(), Search.class);
+            startActivity(goLog);
+        }
         if (v.getId() == btnAddBook.getId()) {
             Log.d(TAG, "Add book button clicked");
             addBookToDatabase();

@@ -1,9 +1,13 @@
 package com.example.tiktek_lior_sagi.screens;
 
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,16 +17,18 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Book;
-
+import com.example.tiktek_lior_sagi.services.DatabaseService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Search extends AppCompatActivity implements View.OnClickListener {
-    ArrayList<Book> subjects= new ArrayList<Book>();
     Spinner spSubject;
     Spinner spBook;
     Spinner spPage;
     Spinner spQuestion;
+    List<Book> bookList=new ArrayList<>();
+    String[] books={getBooks(bookList)};
     Button btnSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

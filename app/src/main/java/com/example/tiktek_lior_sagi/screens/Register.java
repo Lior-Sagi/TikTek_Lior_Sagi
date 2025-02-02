@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Register extends AppCompatActivity implements View.OnClickListener {
     EditText etFName, etLName, etPhone, etEmail, etPass;
     Button btnReg;
+    Button btnToLogin;
     String fName,lName, phone, email, pass;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -53,7 +54,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         initViews();
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
+        btnToLogin.setOnClickListener(this);
         btnReg.setOnClickListener(this);
         // Write a message to the database
         database = FirebaseDatabase.getInstance();
@@ -63,6 +64,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     private void initViews() {
         btnReg=findViewById(R.id.btnRegister);
+        btnToLogin=findViewById(R.id.btnToLogin);
         etFName=findViewById(R.id.etFname);
         etLName=findViewById(R.id.etLname);
         etPhone=findViewById(R.id.etPhone);
@@ -72,6 +74,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
+        //quick access to login page
+        if(view==btnToLogin)
+        {
+            Intent goLog=new Intent(getApplicationContext(), Login.class);
+            startActivity(goLog);
+        }
         fName=etFName.getText().toString();
         lName=etLName.getText().toString();
         phone=etPhone.getText().toString();
@@ -131,6 +139,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 Toast.makeText(Register.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
+
                             // ...
                         }
                     });

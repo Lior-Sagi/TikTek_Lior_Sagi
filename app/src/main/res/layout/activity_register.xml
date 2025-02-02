@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".screens.Register">
-
+lior
     <TextView
         android:id="@+id/tvSignIn"
         android:layout_width="202dp"
@@ -83,10 +83,10 @@
         tools:layout_editor_absoluteY="538dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="next"
+        android:text="התחבר"
         tools:layout_editor_absoluteX="162dp"
         tools:layout_editor_absoluteY="618dp" />
 
