@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             Log.d("TAG", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             final String userUid = user.getUid();
-                            Intent go = new Intent(getApplicationContext(), AddBook.class);
+                            Intent go = new Intent(getApplicationContext(), Search.class);
                             startActivity(go);
                         }
                         else {

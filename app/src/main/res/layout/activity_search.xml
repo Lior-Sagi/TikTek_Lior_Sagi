@@ -8,14 +8,17 @@
     tools:context=".screens.Search"
     android:orientation="vertical"
     >
+
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="141dp"
+        android:layout_height="41dp"
         android:layout_marginStart="118dp"
         android:layout_marginTop="51dp"
         android:layout_marginBottom="87dp"
         android:text="חיפוש שאלה"
+        android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,10 +70,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner3" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <Button
         android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="119dp"
+        android:layout_height="59dp"
         android:layout_marginBottom="230dp"
         android:text="חפש"
         app:layout_constraintBottom_toBottomOf="parent"

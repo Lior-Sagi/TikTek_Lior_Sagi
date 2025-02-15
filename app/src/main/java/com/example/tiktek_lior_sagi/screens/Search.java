@@ -28,27 +28,18 @@ import java.util.List;
 
 public class Search extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     Spinner spSubject, spBook, spPage, spQuestion;
-
     String subject;
-
-
     //List<Book> bookList=new ArrayList<>();
     DatabaseService.DatabaseCallback<List<Book>> bookList;
     Button btnSearch;
-
-
     /// tag for logging
     private static final String TAG = "SearchBook";
-
-
     private BookSpinnerAdapter bookSpinnerAdapter;
     //  private BooksAdapter booksAdapter;
     private List<Book> selectedBooks;
-
     List<Book> allBooks;
     private DatabaseService databaseService;
     private ArrayList<Book> serchSubject;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +75,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener, A
         });
     }
     private void initViews() {
-
         spSubject = findViewById(R.id.spSubject);
         spSubject.setOnItemSelectedListener(this);
         spBook = findViewById(R.id.spBook);
@@ -99,10 +89,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener, A
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
         subject = (String) parent.getItemAtPosition(position);
-
-
         //   eSearch1 = etSearch1.getText().toString() + "";
         for (int i = 0; i < allBooks.size(); i++) {
             Book current1 = allBooks.get(i);

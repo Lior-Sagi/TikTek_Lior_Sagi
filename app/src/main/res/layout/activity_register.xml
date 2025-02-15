@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".screens.Register">
-lior
+
     <TextView
         android:id="@+id/tvSignIn"
         android:layout_width="202dp"
