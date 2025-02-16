@@ -4,16 +4,15 @@ import java.io.Serializable;
 
 public class Answer  implements Serializable {
     int page;
-    int QuestionNumber;
+    int questionNumber;
     String picAnswer;
-
 
     public Answer() {
     }
 
     public Answer(int page, int questionNumber, String picAnswer) {
         this.page = page;
-        QuestionNumber = questionNumber;
+        this.questionNumber = questionNumber;
         this.picAnswer = picAnswer;
     }
 
@@ -26,11 +25,11 @@ public class Answer  implements Serializable {
     }
 
     public int getQuestionNumber() {
-        return QuestionNumber;
+        return questionNumber;
     }
 
     public void setQuestionNumber(int questionNumber) {
-        QuestionNumber = questionNumber;
+        questionNumber = questionNumber;
     }
 
     public String getPicAnswer() {
@@ -45,7 +44,7 @@ public class Answer  implements Serializable {
     public String toString() {
         return "Answer{" +
                 "page=" + page +
-                ", QuestionNumber=" + QuestionNumber +
+                ", questionNumber=" + questionNumber +
 
                 '}';
     }
