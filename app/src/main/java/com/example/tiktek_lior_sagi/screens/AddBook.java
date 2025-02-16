@@ -63,20 +63,7 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
         /// request permission for the camera and storage
         ImageUtil.requestPermission(this);
         /// get the instance of the database service
-        databaseService = DatabaseService.getInstance();
-        btnAddBook=findViewById(R.id.btnAddBook);
-        btnAddBook.setOnClickListener(this);
-        btnCamera=findViewById(R.id.btnCamera);
-        btnCamera.setOnClickListener(this);
-        btnGallery=findViewById(R.id.btnGallery);
-        btnGallery.setOnClickListener(this);
-        IVPreviewImage=findViewById(R.id.IVPreviewImage);
-        etBookName=findViewById(R.id.etBookName);
-        etPagesNumber=findViewById(R.id.etPagesNumber);
-        spSubject=findViewById(R.id.spSubject);
-        btnToSearch=findViewById(R.id.btnToSearch);
-        btnToSearch.setOnClickListener(this);
-
+        initviews();
         /// register the activity result launcher for selecting image from gallery
         selectImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -96,6 +83,21 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
                         IVPreviewImage.setImageBitmap(bitmap);
                     }
                 });
+    }
+    private void initviews() {
+        databaseService = DatabaseService.getInstance();
+        btnAddBook=findViewById(R.id.btnAddBook);
+        btnAddBook.setOnClickListener(this);
+        btnCamera=findViewById(R.id.btnCamera);
+        btnCamera.setOnClickListener(this);
+        btnGallery=findViewById(R.id.btnGallery);
+        btnGallery.setOnClickListener(this);
+        IVPreviewImage=findViewById(R.id.IVPreviewImage);
+        etBookName=findViewById(R.id.etBookName);
+        etPagesNumber=findViewById(R.id.etPagesNumber);
+        spSubject=findViewById(R.id.spSubject);
+        btnToSearch=findViewById(R.id.btnToSearch);
+        btnToSearch.setOnClickListener(this);
     }
 
     @Override
@@ -166,6 +168,12 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
                 etBookName.setText("");
                 etPagesNumber.setText("");
                 IVPreviewImage.setImageBitmap(null);
+                Intent go=new Intent(getApplicationContext(), AddAnswer.class);
+                go.putExtra("book",book);
+
+                startActivity(go);
+
+
             }
 
             @Override
@@ -217,7 +225,7 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
         return true;
     }
 
-    void imageChooser() {
+    public void imageChooser() {
 
         // create an instance of the
         // intent of the type image

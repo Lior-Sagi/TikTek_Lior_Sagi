@@ -13,6 +13,16 @@
         android:theme="@style/Theme.TikTek_Lior_Sagi"
         tools:targetApi="31">
         <activity
+            android:name=".screens.AddAnswer"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".screens.AddBook"
             android:exported="false" />
         <activity
@@ -26,18 +36,12 @@
             android:exported="false" />
         <activity
             android:name=".screens.Register"
-            android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".screens.MainActivity"
-            android:exported="false"/>
-
-
+            android:exported="false" />
     </application>
 
 </manifest>

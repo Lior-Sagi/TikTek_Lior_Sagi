@@ -1,6 +1,8 @@
 package com.example.tiktek_lior_sagi.model;
 
-public class Answer {
+import java.io.Serializable;
+
+public class Answer  implements Serializable {
     int page;
     int QuestionNumber;
     String picAnswer;

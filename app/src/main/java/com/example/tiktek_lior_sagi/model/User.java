@@ -1,5 +1,8 @@
 package com.example.tiktek_lior_sagi.model;
-public class User {
+
+import java.io.Serializable;
+
+public class User  implements Serializable {
     String id;
     String fname;
     String lname;

@@ -60,7 +60,7 @@ public class BookSpinnerAdapter extends ArrayAdapter<Book> {
         /// Set the text for the TextView
         TextView textView = convertView.findViewById(android.R.id.text1);
 
-        textView.setText(Book.getBook());
+        textView.setText(Book.getBookName());
 
         return convertView;
     }
@@ -86,8 +86,8 @@ public class BookSpinnerAdapter extends ArrayAdapter<Book> {
         if (Book == null) return convertView;
 
         /// Set the text for the TextView
-     //   TextView textView = convertView.findViewById(R.id.Book_name_text_view);
-      //  textView.setText(Book.getName());
+      // TextView textView = convertView.findViewById(R.id.tv);
+    //  textView.setText(Book.getName());
 
         /// Set the image for the ImageView
       //  ImageView imageView = convertView.findViewById(R.id.Book_image_view);

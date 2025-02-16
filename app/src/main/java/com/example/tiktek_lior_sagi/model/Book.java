@@ -1,29 +1,22 @@
 package com.example.tiktek_lior_sagi.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Book {
+public class Book implements Serializable {
 
   protected   String id;
   protected   String subject;
-  protected   String book;
-
-
+  protected   String bookName;
   protected   int pagesNumber;
    protected String bookCover;
-
-
   protected   List<Answer> answerList;
-
     public Book() {
     }
-
-
-
-    public Book(String id, String subject, String book, int pagesNumber, String bookCover, List<Answer> answerList) {
+    public Book(String id, String subject, String bookName, int pagesNumber, String bookCover, List<Answer> answerList) {
         this.id = id;
         this.subject = subject;
-        this.book = book;
+        this.bookName = bookName;
         this.pagesNumber = pagesNumber;
         this.bookCover = bookCover;
         this.answerList = answerList;
@@ -37,12 +30,12 @@ public class Book {
         this.subject = subject;
     }
 
-    public String getBook() {
-        return book;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setBook(String book) {
-        this.book = book;
+    public void setBookName(String book) {
+        this.bookName = book;
     }
 
     public String getId() {
@@ -83,7 +76,7 @@ public class Book {
         return "Book{" +
                 "id='" + id + '\'' +
                 ", subject='" + subject + '\'' +
-                ", book='" + book + '\'' +
+                ", book='" + bookName + '\'' +
                 ", pagesNumber=" + pagesNumber +
                 ", bookCover='" + bookCover + '\'' +
                 ", answerList=" + answerList +
