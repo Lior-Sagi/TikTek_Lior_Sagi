@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Book;
+import com.example.tiktek_lior_sagi.services.DatabaseService;
 
 public class AddAnswer extends AppCompatActivity {
 
@@ -33,6 +34,8 @@ public class AddAnswer extends AppCompatActivity {
     private ActivityResultLauncher<Intent> selectImageLauncher;
     /// Activity result launcher for capturing image from camera
     private ActivityResultLauncher<Intent> captureImageLauncher;
+    int SELECT_PICTURE = 200;
+    private DatabaseService databaseService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class AddAnswer extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initViews();
         /// register the activity result launcher for selecting image from gallery
         selectImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -62,7 +66,7 @@ public class AddAnswer extends AppCompatActivity {
                         ivQuestion.setImageBitmap(bitmap);
                     }
                 });
-        initViews();
+
         takeit=getIntent();
         book= (Book) takeit.getSerializableExtra("book");
         if(book!=null){
@@ -71,29 +75,29 @@ public class AddAnswer extends AppCompatActivity {
         }
     }
     /// select image from gallery
-    /*private void selectImageFromGallery() {
+    private void selectImageFromGallery() {
         //   Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         //  selectImageLauncher.launch(intent);
         imageChooser();
-    }*/
+    }
 
     /// capture image from camera
 
     private void initViews() {
-        ivBookCover.findViewById(R.id.ivBookCover);
-        ivQuestion.findViewById(R.id.ivQuestion);
-        tvBookName.findViewById(R.id.tvBookName);
-        spPages.findViewById(R.id.spPages);
-        spQuestion.findViewById(R.id.spQuestion);
-        btnCamera.findViewById(R.id.btnCamera);
-        btnGallery.findViewById(R.id.btnGallery);
-        btnAddAnswer.findViewById(R.id.btnAddAnswer);
+        ivBookCover=findViewById(R.id.ivBookCover);
+        ivQuestion=findViewById(R.id.ivQuestion);
+        tvBookName=findViewById(R.id.tvBookName);
+        spPages=findViewById(R.id.spPages);
+        spQuestion=findViewById(R.id.spQuestion);
+        btnCamera=findViewById(R.id.btnCamera);
+        btnGallery=findViewById(R.id.btnGallery);
+        btnAddAnswer=findViewById(R.id.btnAddAnswer);
     }
     private void captureImageFromCamera() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         captureImageLauncher.launch(takePictureIntent);
     }
-    /*public void imageChooser() {
+    public void imageChooser() {
 
         // create an instance of the
         // intent of the type image
@@ -120,9 +124,9 @@ public class AddAnswer extends AppCompatActivity {
                 Uri selectedImageUri = data.getData();
                 if (null != selectedImageUri) {
                     // update the preview image in the layout
-                    IVPreviewImage.setImageURI(selectedImageUri);
+                    ivQuestion.setImageURI(selectedImageUri);
                 }
             }
         }
-    }*/
+    }
 }

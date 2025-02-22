@@ -27,8 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.tiktek_lior_sagi.model.User;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Button btnToRegister,btnToLogin,btnToAddBook,btnToAddAnswer,btnToSearch,btnToAnswers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,57 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initviews();
     }
 
+    private void initviews()
+    {
+        btnToRegister=findViewById(R.id.btnToRegister);
+        btnToRegister.setOnClickListener(this);
+        btnToLogin=findViewById(R.id.btnToLogin);
+        btnToLogin.setOnClickListener(this);
+        btnToAddBook=findViewById(R.id.btnToAddBook);
+        btnToAddBook.setOnClickListener(this);
+        btnToAddAnswer=findViewById(R.id.btnToAddAnswer);
+        btnToAddAnswer.setOnClickListener(this);
+        btnToSearch=findViewById(R.id.btnToSearch);
+        btnToSearch.setOnClickListener(this);
+        btnToAnswers=findViewById(R.id.btnToAnswers);
+        btnToAnswers.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view==btnToRegister)
+        {
+            Intent go = new Intent(getApplicationContext(), Register.class);
+            startActivity(go);
+        }
+        if(view==btnToLogin)
+        {
+            Intent go = new Intent(getApplicationContext(), Login.class);
+            startActivity(go);
+        }
+        if(view==btnToAddBook)
+        {
+            Intent go = new Intent(getApplicationContext(), AddBook.class);
+            startActivity(go);
+        }
+        if(view==btnToAddAnswer)
+        {
+            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
+            startActivity(go);
+        }
+        if(view==btnToSearch)
+        {
+            Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        if(view==btnToAnswers)
+        {
+            Intent go = new Intent(getApplicationContext(), Answers.class);
+            startActivity(go);
+        }
+    }
 }
 
