@@ -155,7 +155,7 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
 
 
             /// create a new book object
-        Book book = new Book(id, subject, bookName, numOfPages,imageBase64,null);
+        Book book = new Book(id, subject, bookName, numOfPages,imageBase64);
 
         /// save the book to the database and get the result in the callback
         databaseService.createNewBook(book, new DatabaseService.DatabaseCallback<Void>() {

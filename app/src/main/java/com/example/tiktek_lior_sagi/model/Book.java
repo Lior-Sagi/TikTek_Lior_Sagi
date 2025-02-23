@@ -1,6 +1,7 @@
 package com.example.tiktek_lior_sagi.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Book implements Serializable {
@@ -10,17 +11,49 @@ public class Book implements Serializable {
   protected   String bookName;
   protected   int pagesNumber;
    protected String bookCover;
-  protected   List<Answer> answerList;
+  protected  List<ArrayList<Answer>> pagesList;
     public Book() {
     }
-    public Book(String id, String subject, String bookName, int pagesNumber, String bookCover, List<Answer> answerList) {
+
+    public Book(String id, String subject, String bookName, int pagesNumber, String bookCover) {
         this.id = id;
         this.subject = subject;
         this.bookName = bookName;
         this.pagesNumber = pagesNumber;
         this.bookCover = bookCover;
-        this.answerList = answerList;
+        this.pagesList =setPagesAnswerList(pagesNumber) ;
     }
+
+    public Book(String id, String subject, String bookName, int pagesNumber, String bookCover, List<ArrayList<Answer>> pagesList) {
+        this.id = id;
+        this.subject = subject;
+        this.bookName = bookName;
+        this.pagesNumber = pagesNumber;
+        this.bookCover = bookCover;
+        this.pagesList = pagesList;
+    }
+
+    public List<ArrayList<Answer>> setPagesAnswerList(int pagesNumber) {
+        ArrayList<ArrayList<Answer>>answersList=new ArrayList<>();
+        for(int i=1;i<=pagesNumber;i++)
+        {
+         ArrayList<Answer>pagesAnswer=new ArrayList<>();
+         pagesAnswer.add(new Answer());
+            answersList.add(pagesAnswer);
+        }
+        return answersList;
+    }
+
+    public  List<Answer> getAnswerListByPage(int pageNumber){
+      return this.pagesList.get(pageNumber);
+
+
+    }
+
+    public  Answer getAnswerByPageAndQuestionNumber(int pageNumber, int numQuestion){
+        return this.pagesList.get(pageNumber).get(numQuestion);
+    }
+
 
     public String getSubject() {
         return subject;
@@ -54,14 +87,13 @@ public class Book implements Serializable {
         this.bookCover = bookCover;
     }
 
-    public List<Answer> getAnswerList() {
-        return answerList;
+    public List<ArrayList<Answer>> getPagesList() {
+        return pagesList;
     }
 
-    public void setAnswerList(List<Answer> answerList) {
-        this.answerList = answerList;
+    public void setPagesList(List<ArrayList<Answer>> pagesList) {
+        this.pagesList = pagesList;
     }
-
 
     public int getPagesNumber() {
         return pagesNumber;
@@ -76,10 +108,10 @@ public class Book implements Serializable {
         return "Book{" +
                 "id='" + id + '\'' +
                 ", subject='" + subject + '\'' +
-                ", book='" + bookName + '\'' +
+                ", bookName='" + bookName + '\'' +
                 ", pagesNumber=" + pagesNumber +
                 ", bookCover='" + bookCover + '\'' +
-                ", answerList=" + answerList +
+                ", pagesList=" + pagesList +
                 '}';
     }
 }

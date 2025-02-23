@@ -86,14 +86,14 @@ public class BookSpinnerAdapter extends ArrayAdapter<Book> {
         if (Book == null) return convertView;
 
         /// Set the text for the TextView
-      // TextView textView = convertView.findViewById(R.id.tv);
-    //  textView.setText(Book.getName());
+      TextView textView = convertView.findViewById(R.id.tvBookNameAd);
+   textView.setText(Book.getBookName());
 
         /// Set the image for the ImageView
-      //  ImageView imageView = convertView.findViewById(R.id.Book_image_view);
+       ImageView imageView = convertView.findViewById(R.id.ivBookCoverAd);
         /// convert the image from base64 to bitmap
         /// @see ImageUtil#convertFrom64base(String)
-    //    imageView.setImageBitmap(ImageUtil.convertFrom64base(Book.getImageBase64()));
+      imageView.setImageBitmap(ImageUtil.convertFrom64base(Book.getBookCover()));
 
 
         return convertView;

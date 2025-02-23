@@ -16,6 +16,9 @@ public class Answer  implements Serializable {
         this.picAnswer = picAnswer;
     }
 
+
+
+
     public int getPage() {
         return page;
     }

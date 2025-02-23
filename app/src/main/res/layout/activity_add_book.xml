@@ -11,13 +11,15 @@
         android:id="@+id/textView3"
         android:layout_width="144dp"
         android:layout_height="0dp"
-        android:layout_marginStart="122dp"
+        android:layout_marginStart="92dp"
         android:layout_marginTop="38dp"
+        android:layout_marginEnd="92dp"
         android:layout_marginBottom="61dp"
         android:text="הוספת ספר"
         android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/etBookName"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnCamera"
+        app:layout_constraintStart_toStartOf="@+id/spSubject"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -25,16 +27,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="157dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="391dp"
         android:ems="10"
         android:hint="Book name"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/btnToSearch"
+        app:layout_constraintBottom_toTopOf="@+id/spSubject"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/spSubject"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Spinner
         android:id="@+id/spSubject"
@@ -51,32 +51,32 @@
 
     <EditText
         android:id="@+id/etPagesNumber"
-        android:layout_width="126dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="90dp"
         android:layout_marginBottom="37dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintBottom_toTopOf="@+id/IVPreviewImage"
-        app:layout_constraintStart_toStartOf="@+id/spSubject"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddBook"
+        app:layout_constraintStart_toStartOf="@+id/btnToSearch"
         app:layout_constraintTop_toBottomOf="@+id/spSubject" />
 
     <Button
         android:id="@+id/btnCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="53dp"
         android:text="Camera"
-        app:layout_constraintBottom_toTopOf="@+id/btnGallery"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/IVPreviewImage" />
+        app:layout_constraintStart_toEndOf="@+id/IVPreviewImage"
+        app:layout_constraintTop_toBottomOf="@+id/etPagesNumber" />
 
     <Button
         android:id="@+id/btnGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="36dp"
         android:text="Gallery"
         app:layout_constraintBottom_toTopOf="@+id/btnAddBook"
         app:layout_constraintStart_toStartOf="@+id/btnCamera"
@@ -98,10 +98,10 @@
         android:id="@+id/btnAddBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="137dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="47dp"
         android:text="הוסף ספר"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnToSearch"
         app:layout_constraintEnd_toStartOf="@+id/btnGallery"
         app:layout_constraintTop_toBottomOf="@+id/btnGallery" />
 
@@ -109,12 +109,12 @@
         android:id="@+id/btnToSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="77dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="40dp"
         android:text="חיפוש שאלה"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnAddBook"
-        app:layout_constraintTop_toBottomOf="@+id/etBookName" />
+        app:layout_constraintEnd_toEndOf="@+id/btnAddBook"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddBook" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
