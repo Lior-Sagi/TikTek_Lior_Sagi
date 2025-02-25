@@ -160,9 +160,9 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see Answer
-   // public void createNewAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
-   //     writeData("answers/" + answer.g(), answer, callback);
-  //  }
+   public void createNewAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
+     writeData("answers/" + answer.g(), answer, callback);
+     }
 
 
     /// get a user from the database
@@ -218,6 +218,9 @@ public class DatabaseService {
     public String generateAnswerId() {
         return generateNewId("answers");
     }
+
+
+
 
     /// get all the books from the database
     /// @param callback the callback to call when the operation is completed

@@ -1,12 +1,16 @@
 package com.example.tiktek_lior_sagi.screens;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -25,11 +29,12 @@ import com.example.tiktek_lior_sagi.adapter.BookSpinnerAdapter;
 import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
+import com.example.tiktek_lior_sagi.utils.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddAnswer extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class AddAnswer extends AppCompatActivity implements  View.OnClickListener {
 
     /// tag for logging
     private static final String TAG = "AddAnswerActivity";
@@ -52,6 +57,8 @@ public class AddAnswer extends AppCompatActivity implements AdapterView.OnItemSe
     private Spinner spbookSpinner, spSubject;
     String subject="";
 
+    ArrayAdapter<String> bookPagesAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,13 +70,23 @@ public class AddAnswer extends AppCompatActivity implements AdapterView.OnItemSe
             return insets;
         });
 
-        databaseService=DatabaseService.getInstance();
+        /// get the instance of the database service
+        databaseService = DatabaseService.getInstance();
+        /// request permission for the camera and storage
+        ImageUtil.requestPermission(this);
+
+
         initViews();
+
 
         allBooks=new ArrayList<>();
 
-        bookSpinnerAdapter=new BookSpinnerAdapter(AddAnswer.this, android.R.layout.simple_spinner_item,selectedBooks);
-       spbookSpinner.setAdapter(bookSpinnerAdapter);
+
+spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        subject = (String) parent.getItemAtPosition(position);
+
 
         databaseService.getBooks(new DatabaseService.DatabaseCallback<List<Book>>() {
             @Override
@@ -79,23 +96,63 @@ public class AddAnswer extends AppCompatActivity implements AdapterView.OnItemSe
 
                 // Initially filter books based on the first selected subject
                 selectedBooks.clear();
-                for (Book book : allBooks) {
-                    if (book.getSubject().equals(subject)) {
-                        selectedBooks.add(book);
-                    }
+
+
+                    for (Book book : allBooks) {
+                        if (book.getSubject().contains(subject)) {
+                            selectedBooks.add(book);
+                        }
+
+                    bookSpinnerAdapter=new BookSpinnerAdapter(AddAnswer.this, android.R.layout.simple_spinner_item,selectedBooks);
+
+                    // Notify adapter instead of creating a new one
+
+                    spbookSpinner.setAdapter(bookSpinnerAdapter);
+                    bookSpinnerAdapter.notifyDataSetChanged();
+                    spbookSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                              Book      book = (Book) parent.getItemAtPosition(position);
+
+                            String[] bookPages = new String[book.getPagesNumber() + 1];
+                            for (int i = 0; i <= book.getPagesNumber(); i++) {
+                                bookPages[i] =( i + "");
+
+                            }
+                           bookPagesAdapter = new ArrayAdapter<String>(AddAnswer.this, android.R.layout.simple_spinner_item, bookPages);
+                              spPages.setAdapter(bookPagesAdapter);
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                         //   book = null;
+
+                        }
+                    });
+
+
                 }
-
-                // Notify adapter instead of creating a new one
-                bookSpinnerAdapter.notifyDataSetChanged();
-                spbookSpinner.setOnItemSelectedListener(this);
-
-
             }
             @Override
             public void onFailed(Exception e) {
 
             }
         });
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+});
+
+
+
+
+
         /// register the activity result launcher for selecting image from gallery
         selectImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -125,13 +182,15 @@ public class AddAnswer extends AppCompatActivity implements AdapterView.OnItemSe
     }
     /// select image from gallery
     private void selectImageFromGallery() {
-        //   Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        //  selectImageLauncher.launch(intent);
+           Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+           selectImageLauncher.launch(intent);
         imageChooser();
     }
-
     /// capture image from camera
-
+    private void captureImageFromCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        captureImageLauncher.launch(takePictureIntent);
+    }
     private void initViews() {
         ivBookCover=findViewById(R.id.ivBookCover);
         ivQuestion=findViewById(R.id.ivQuestion);
@@ -139,17 +198,15 @@ public class AddAnswer extends AppCompatActivity implements AdapterView.OnItemSe
         spPages=findViewById(R.id.spPages);
         spQuestion=findViewById(R.id.spQuestion);
         btnCamera=findViewById(R.id.btnCamera);
+        btnCamera.setOnClickListener(this);
         btnGallery=findViewById(R.id.btnGallery);
+        btnGallery.setOnClickListener(this);
         btnAddAnswer=findViewById(R.id.btnAddAnswer);
         spbookSpinner = findViewById(R.id.spBooks);
         spSubject=findViewById(R.id.spSubjectAddAnswer);
 
-        spSubject.setOnItemSelectedListener(this);
 
-    }
-    private void captureImageFromCamera() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        captureImageLauncher.launch(takePictureIntent);
+
     }
     public void imageChooser() {
 
@@ -184,23 +241,21 @@ public class AddAnswer extends AppCompatActivity implements AdapterView.OnItemSe
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        subject = (String) parent.getItemAtPosition(position);
 
-        // Clear and update selectedBooks list
-        selectedBooks.clear();
-        for (Book book : allBooks) {
-            if (book.getSubject().equals(subject)) {
-                selectedBooks.add(book);
-            }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == btnGallery.getId()) {
+            // select image from gallery
+            Log.d(TAG, "Select image button clicked");
+            selectImageFromGallery();
+            return;
         }
-
-        // Notify adapter about data change
-        bookSpinnerAdapter.notifyDataSetChanged();
-    }
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+        if (v.getId() == btnCamera.getId()) {
+            // capture image from camera
+            Log.d(TAG, "Capture image button clicked");
+            captureImageFromCamera();
+            return;
+        }
     }
 }
