@@ -160,10 +160,9 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see Answer
-   public void createNewAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
-     writeData("answers/" + answer.g(), answer, callback);
+   public void createNewAnswer(@NotNull final Answer answer, @NotNull final Book book,  @Nullable final DatabaseCallback<Void> callback ) {
+     writeData("books/" + book.getId()+"/pagesList/" + answer.getPage()+"/"+answer.getQuestionNumber()+"/"+answer.getId(), answer, callback);
      }
-
 
     /// get a user from the database
     /// @param uid the id of the user to get

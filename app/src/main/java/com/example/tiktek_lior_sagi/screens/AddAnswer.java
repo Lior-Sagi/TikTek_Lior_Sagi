@@ -1,6 +1,7 @@
 package com.example.tiktek_lior_sagi.screens;
 
 import static android.content.ContentValues.TAG;
+import static android.opengl.ETC1.isValid;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -43,7 +45,7 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
     Spinner spPages,spQuestion;
     Button btnCamera,btnGallery,btnAddAnswer;
     Intent takeit;
-    Book book=null;
+    Book book2=null;
     /// Activity result launcher for selecting image from gallery
     private ActivityResultLauncher<Intent> selectImageLauncher;
     /// Activity result launcher for capturing image from camera
@@ -58,6 +60,8 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
     String subject="";
 
     ArrayAdapter<String> bookPagesAdapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,15 +116,17 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     spbookSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                              Book      book = (Book) parent.getItemAtPosition(position);
 
-                            String[] bookPages = new String[book.getPagesNumber() + 1];
-                            for (int i = 0; i <= book.getPagesNumber(); i++) {
-                                bookPages[i] =( i + "");
+                       Book book= (Book) parent.getItemAtPosition(position);
+                                book2=book;
 
-                            }
-                           bookPagesAdapter = new ArrayAdapter<String>(AddAnswer.this, android.R.layout.simple_spinner_item, bookPages);
-                              spPages.setAdapter(bookPagesAdapter);
+                                String[] bookPages = new String[book.getPagesNumber() + 1];
+                                for (int i = 0; i <= book.getPagesNumber(); i++) {
+                                    bookPages[i] = (i + "");
+
+                                }
+                                bookPagesAdapter = new ArrayAdapter<>(AddAnswer.this, android.R.layout.simple_spinner_item, bookPages);
+                                spPages.setAdapter(bookPagesAdapter);
 
                         }
 
@@ -173,12 +179,7 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     }
                 });
 
-        takeit=getIntent();
-        book= (Book) takeit.getSerializableExtra("book");
-        if(book!=null){
-            tvBookName.setText(book.getBookName());
-            ivBookCover.setImageURI(Uri.parse(book.getBookCover()));
-        }
+
     }
     /// select image from gallery
     private void selectImageFromGallery() {
@@ -202,11 +203,9 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         btnGallery=findViewById(R.id.btnGallery);
         btnGallery.setOnClickListener(this);
         btnAddAnswer=findViewById(R.id.btnAddAnswer);
+        btnAddAnswer.setOnClickListener(this::onClick);
         spbookSpinner = findViewById(R.id.spBooks);
         spSubject=findViewById(R.id.spSubjectAddAnswer);
-
-
-
     }
     public void imageChooser() {
 
@@ -220,7 +219,6 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         // with the returned requestCode
         startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
     }
-
     // this function is triggered when user
     // selects the image from the imageChooser
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -240,22 +238,60 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             }
         }
     }
+    private void addAnswerToDatabase() {
+        /// get the values from the input fields
+        int page = Integer.parseInt(spPages.getSelectedItem().toString());
+        int questionNumber = Integer.parseInt(spQuestion.getSelectedItem().toString());
+        String imageBase64 = ImageUtil.convertTo64Base(ivQuestion);
 
+        /// validate the input
+        /// stop if the input is not valid
+        //if (!isValid(page, questionNumber, imageBase64)) return;
+        /// generate a new id for the book
+        String id = databaseService.generateAnswerId();
 
+        Log.d(TAG, "Adding book to database");
+        Log.d(TAG, "ID: " + id);
+        Log.d(TAG, "page: " + page);
+        Log.d(TAG, "questionNumber: " + questionNumber);
+        Log.d(TAG, "Image: " + imageBase64);
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == btnGallery.getId()) {
-            // select image from gallery
-            Log.d(TAG, "Select image button clicked");
-            selectImageFromGallery();
-            return;
+        /// create a new answer object
+        Answer answer = new Answer(id, page, questionNumber, imageBase64);
+        /// save the answer to the database and get the result in the callback
+        databaseService.createNewAnswer(answer,book2 ,new DatabaseService.DatabaseCallback<Void>() {
+                @Override
+                public void onCompleted(Void object) {
+                    Log.d(TAG, "Book added successfully");
+                    Toast.makeText(AddAnswer.this, "Answer added successfully", Toast.LENGTH_SHORT).show();
+                    /// clear the input fields after adding the book for the next answer
+                    ivQuestion.setImageBitmap(null);
+                }
+                @Override
+                public void onFailed(Exception e) {
+                    Log.e(TAG, "Failed to add answer", e);
+                    Toast.makeText(AddAnswer.this, "Failed to add answer", Toast.LENGTH_SHORT).show();
+                }
+        });
+    };
+        @Override
+            public void onClick(View v) {
+                if (v.getId() == btnGallery.getId()) {
+                // select image from gallery
+                    Log.d(TAG, "Select image button clicked");
+                    selectImageFromGallery();
+                return;
         }
-        if (v.getId() == btnCamera.getId()) {
-            // capture image from camera
-            Log.d(TAG, "Capture image button clicked");
-            captureImageFromCamera();
-            return;
+            if (v.getId() == btnCamera.getId()) {
+                // capture image from camera
+                Log.d(TAG, "Capture image button clicked");
+                captureImageFromCamera();
+                return;
+            }
+            if (v.getId() == btnAddAnswer.getId()) {
+                Log.d(TAG, "Add answer button clicked");
+                addAnswerToDatabase();
+                return;
+            }
         }
     }
-}

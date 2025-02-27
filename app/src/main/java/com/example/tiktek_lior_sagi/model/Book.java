@@ -46,8 +46,6 @@ public class Book implements Serializable {
 
     public  List<Answer> getAnswerListByPage(int pageNumber){
       return this.pagesList.get(pageNumber);
-
-
     }
 
     public  Answer getAnswerByPageAndQuestionNumber(int pageNumber, int numQuestion){
