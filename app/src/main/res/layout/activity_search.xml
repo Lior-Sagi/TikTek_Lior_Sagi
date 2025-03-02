@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Spinner
-        android:id="@+id/spPage"
+        android:id="@+id/spPages"
         android:layout_width="332dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
@@ -62,6 +62,7 @@
         android:id="@+id/spQuestion"
         android:layout_width="327dp"
         android:layout_height="36dp"
+        android:entries="@array/questionsArr"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="99dp"
@@ -71,7 +72,7 @@
         app:layout_constraintTop_toBottomOf="@+id/spinner3" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgVBookCover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:srcCompat="@tools:sample/avatars" />

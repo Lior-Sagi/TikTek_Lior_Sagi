@@ -155,10 +155,6 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
     }
 });
 
-
-
-
-
         /// register the activity result launcher for selecting image from gallery
         selectImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),

@@ -9,6 +9,8 @@ public class Answer  implements Serializable {
     String picAnswer;
 
     public Answer() {
+
+
     }
 
     public Answer(String id, int page, int questionNumber, String picAnswer) {

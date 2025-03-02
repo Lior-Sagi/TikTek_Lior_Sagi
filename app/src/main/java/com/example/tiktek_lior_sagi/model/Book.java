@@ -35,10 +35,10 @@ public class Book implements Serializable {
 
     public List<ArrayList<Answer>> setPagesAnswerList(int pagesNumber) {
         ArrayList<ArrayList<Answer>>answersList=new ArrayList<>();
-        for(int i=1;i<=pagesNumber;i++)
+        for(int i=0;i<=pagesNumber;i++)
         {
          ArrayList<Answer>pagesAnswer=new ArrayList<>();
-         pagesAnswer.add(new Answer());
+         pagesAnswer.add(new Answer("oo",0,0,"uiuiui"));
             answersList.add(pagesAnswer);
         }
         return answersList;

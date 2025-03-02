@@ -1,5 +1,6 @@
 package com.example.tiktek_lior_sagi.screens;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,26 +21,28 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.adapter.BookSpinnerAdapter;
 import com.example.tiktek_lior_sagi.model.Book;
+import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class Search extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-    Spinner spSubject, spBook, spPage, spQuestion;
+public class Search extends AppCompatActivity implements View.OnClickListener {
+    Spinner spSubject, spBook, spPages, spQuestion;
     String subject;
-    //List<Book> bookList=new ArrayList<>();
     DatabaseService.DatabaseCallback<List<Book>> bookList;
     Button btnSearch;
     /// tag for logging
     private static final String TAG = "SearchBook";
-    private BookSpinnerAdapter bookSpinnerAdapter;
-    //  private BooksAdapter booksAdapter;
-    private List<Book> selectedBooks;
-    List<Book> allBooks;
     private DatabaseService databaseService;
-    private ArrayList<Book> serchSubject;
+    private ArrayList<Book> allBooks = new ArrayList<>();
+    private ArrayList<Book> selectedBooks = new ArrayList<>();
+    BookSpinnerAdapter bookSpinnerAdapter;
+    private Spinner spbookSpinner;
+    ArrayAdapter<String> bookPagesAdapter;
+    Book book2=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,53 +56,90 @@ public class Search extends AppCompatActivity implements View.OnClickListener, A
         initViews();
         /// get the instance of the database service
         databaseService = DatabaseService.getInstance();
-        bookSpinnerAdapter = new BookSpinnerAdapter(Search.this, android.R.layout.simple_spinner_item, allBooks);
-        //   bookSpinner.setAdapter(bookSpinnerAdapter);
-        /// get all the books from the database
-        databaseService.getBooks(new DatabaseService.DatabaseCallback<List<Book>>() {
+        allBooks = new ArrayList<>();
+
+
+        spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onCompleted(List<Book> object) {
-                Log.d(TAG, "onCompleted: " + object);
-                allBooks.clear();
-                allBooks.addAll(object);
-                /// notify the adapter that the data has changed
-                /// this specifies that the data has changed
-                /// and the adapter should update the view
-                /// @see BookSpinnerAdapter#notifyDataSetChanged()
-                // bookSpinnerAdapter.notifyDataSetChanged();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                subject = (String) parent.getItemAtPosition(position);
+
+
+                databaseService.getBooks(new DatabaseService.DatabaseCallback<List<Book>>() {
+                    @Override
+                    public void onCompleted(List<Book> object) {
+                        allBooks.clear();
+                        allBooks.addAll(object);
+
+                        // Initially filter books based on the first selected subject
+                        selectedBooks.clear();
+
+
+                        for (Book book : allBooks) {
+                            if (book.getSubject().contains(subject)) {
+                                selectedBooks.add(book);
+                            }
+
+                            bookSpinnerAdapter = new BookSpinnerAdapter(Search.this, android.R.layout.simple_spinner_item, selectedBooks);
+
+                            // Notify adapter instead of creating a new one
+
+                            spBook.setAdapter(bookSpinnerAdapter);
+                            bookSpinnerAdapter.notifyDataSetChanged();
+                            spBook.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                    Book book = (Book) parent.getItemAtPosition(position);
+                                    book2 = book;
+
+                                    String[] bookPages = new String[book.getPagesNumber() + 1];
+                                    for (int i = 0; i <= book.getPagesNumber(); i++) {
+                                        bookPages[i] = (i + "");
+
+                                    }
+                                    bookPagesAdapter = new ArrayAdapter<>(Search.this, android.R.layout.simple_spinner_item, bookPages);
+                                    spPages.setAdapter(bookPagesAdapter);
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                    //   book = null;
+
+                                }
+                            });
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailed(Exception e) {
+
+                    }
+                });
             }
             @Override
-            public void onFailed(Exception e) {
-                Log.e(TAG, "onFailed: ", e);
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
-    private void initViews() {
-        spSubject = findViewById(R.id.spSubject);
-        spSubject.setOnItemSelectedListener(this);
-        spBook = findViewById(R.id.spBook);
-        spPage = findViewById(R.id.spPage);
-        spQuestion = findViewById(R.id.spQuestion);
-        btnSearch = findViewById(R.id.btnSearch);
-        btnSearch.setOnClickListener(this);
-    }
+        private void initViews () {
+            spSubject = findViewById(R.id.spSubject);
+            spBook = findViewById(R.id.spBook);
+            spPages = findViewById(R.id.spPages);
+            spQuestion = findViewById(R.id.spQuestion);
+            btnSearch = findViewById(R.id.btnSearch);
+            btnSearch.setOnClickListener(this);
+        }
+
     @Override
     public void onClick(View v) {
-
-    }
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        subject = (String) parent.getItemAtPosition(position);
-        //   eSearch1 = etSearch1.getText().toString() + "";
-        for (int i = 0; i < allBooks.size(); i++) {
-            Book current1 = allBooks.get(i);
-            if (current1.getSubject().equals(subject)) {
-                selectedBooks.add(current1);
-            }
-        }
-    }
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+        SendBook sendBook= new SendBook(book2.getBookName(), (Integer) spPages.getSelectedItem(), (Integer) spQuestion.getSelectedItem());
+        Intent go=new Intent(getApplicationContext(), Answers.class);
+        go.putExtra("sendBook",sendBook);
+        startActivity(go);
     }
 }
