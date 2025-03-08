@@ -137,7 +137,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        SendBook sendBook= new SendBook(book2.getBookName(), (Integer) spPages.getSelectedItem(), (Integer) spQuestion.getSelectedItem());
+        SendBook sendBook= new SendBook(book2.getBookName(), Integer.parseInt(spPages.getSelectedItem().toString()), Integer.parseInt(spQuestion.getSelectedItem().toString()));
         Intent go=new Intent(getApplicationContext(), Answers.class);
         go.putExtra("sendBook",sendBook);
         startActivity(go);

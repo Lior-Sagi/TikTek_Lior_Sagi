@@ -1,6 +1,8 @@
 package com.example.tiktek_lior_sagi.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import com.example.tiktek_lior_sagi.R;
 
 public class Answers extends AppCompatActivity {
 
+    ListView lvAnswers;
+    Intent takeit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +26,6 @@ public class Answers extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        lvAnswers=findViewById(R.id.lvAnswers);
     }
 }
