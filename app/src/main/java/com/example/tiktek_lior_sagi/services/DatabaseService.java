@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
+import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -200,6 +201,9 @@ public class DatabaseService {
     /// @see Answer
     public void getAnswer(@NotNull final String answerId, @NotNull final DatabaseCallback<Answer> callback) {
         getData("answers/" + answerId, Answer.class, callback);
+    }
+    public void getAnswerImage(@NotNull final String bookId,@NotNull final Answer answer, @NotNull final DatabaseCallback<Answer> callback, SendBook sendBook) {
+        getData("books/" + sendBook.getId()+"/pagesList/" + answer.getPage()+"/"+answer.getQuestionNumber()+"/"+answer.getId(), callback)
     }
 
     /// generate a new id for a new book in the database
