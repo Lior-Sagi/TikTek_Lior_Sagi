@@ -40,8 +40,7 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
 
     /// tag for logging
     private static final String TAG = "AddAnswerActivity";
-    ImageView ivBookCover,ivQuestion;
-    TextView tvBookName;
+    ImageView ivQuestion;
     Spinner spPages,spQuestion;
     Button btnCamera,btnGallery,btnAddAnswer;
     Intent takeit;
@@ -188,9 +187,7 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         captureImageLauncher.launch(takePictureIntent);
     }
     private void initViews() {
-        ivBookCover=findViewById(R.id.ivBookCover);
         ivQuestion=findViewById(R.id.ivQuestion);
-        tvBookName=findViewById(R.id.tvBookName);
         spPages=findViewById(R.id.spPages);
         spQuestion=findViewById(R.id.spQuestion);
         btnCamera=findViewById(R.id.btnCamera);

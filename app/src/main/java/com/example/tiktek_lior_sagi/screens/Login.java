@@ -18,6 +18,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tiktek_lior_sagi.R;
+import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,6 +38,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     SharedPreferences sharedpreferences;
+    DatabaseService databaseService;
+
+    public  static  boolean isAdmin=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             return insets;
         });
         initViews();
+        databaseService=DatabaseService.getInstance();
+
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     }
@@ -79,8 +86,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             Log.d("TAG", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             final String userUid = user.getUid();
-                            Intent go = new Intent(getApplicationContext(), AddBook.class);
-                            startActivity(go);
+                            databaseService.getUser(userUid, new DatabaseService.DatabaseCallback<User>() {
+                                @Override
+                                public void onCompleted(User object) {
+                                    if(object.isAdmin()){
+                                        isAdmin=true;
+
+
+                                        Intent go = new Intent(getApplicationContext(), AddBook.class);
+                                        startActivity(go);
+                                    }
+
+
+
+
+                                }
+
+                                @Override
+                                public void onFailed(Exception e) {
+
+                                }
+                            });
+
                         }
                         else {
 

@@ -9,6 +9,7 @@ public class User  implements Serializable {
     String phone;
     String email;
     String password;
+    boolean isAdmin;
 
     public User(String id, String fname, String lname, String phone, String email, String password) {
         this.id = id;
@@ -17,6 +18,17 @@ public class User  implements Serializable {
         this.phone = phone;
         this.email = email;
         this.password = password;
+    }
+
+
+    public User(String id, String fname, String lname, String phone, String email, String password, boolean isAdmin) {
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.isAdmin = isAdmin;
     }
 
     public User() {
@@ -70,17 +82,24 @@ public class User  implements Serializable {
         this.phone = phone;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "email='" + email + '\'' +
-                ", id='" + id + '\'' +
+                "id='" + id + '\'' +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
                 ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }

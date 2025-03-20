@@ -125,7 +125,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "createUserWithEmail:success");
                                 FirebaseUser fireuser = mAuth.getCurrentUser();
-                                User newUser=new User(fireuser.getUid(), fName, lName,phone, email,pass);
+                                User newUser=new User(fireuser.getUid(), fName, lName,phone, email,pass,false);
                                 myRef.child(fireuser.getUid()).setValue(newUser);
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                 editor.putString("email", email);
