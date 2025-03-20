@@ -202,9 +202,7 @@ public class DatabaseService {
     public void getAnswer(@NotNull final String answerId, @NotNull final DatabaseCallback<Answer> callback) {
         getData("answers/" + answerId, Answer.class, callback);
     }
-    public void getAnswerImage(@NotNull final String bookId,@NotNull final Answer answer, @NotNull final DatabaseCallback<Answer> callback, SendBook sendBook) {
-        getData("books/" + sendBook.getId()+"/pagesList/" + answer.getPage()+"/"+answer.getQuestionNumber()+"/"+answer.getId(), callback)
-    }
+
 
     /// generate a new id for a new book in the database
     /// @return a new id for the book

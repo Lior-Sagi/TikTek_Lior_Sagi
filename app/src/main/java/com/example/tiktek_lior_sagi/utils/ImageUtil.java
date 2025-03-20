@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.core.app.ActivityCompat;
@@ -18,6 +19,8 @@ import java.io.ByteArrayOutputStream;
 /// Utility class for image operations
 /// Contains methods for requesting permissions, converting images to base64 and vice versa
 public class ImageUtil {
+
+    private static final String TAG = "ImageUtil";
 
     /// Request permissions for camera and storage
     /// @param activity The activity to request permissions from
@@ -49,7 +52,11 @@ public class ImageUtil {
     /// Convert a base64 string to an image
     /// @param base64Code The base64 string to convert
     /// @return The image represented by the base64 string
-    public static @Nullable Bitmap convertFrom64base(@NotNull final String base64Code) {
+    public static @Nullable Bitmap convertFrom64base(@Nullable final String base64Code) {
+        if (base64Code == null) {
+            Log.e(TAG, "try to convertFrom64base when base64Code is null");
+            return null;
+        }
         if (base64Code.isEmpty()) {
             return null;
         }

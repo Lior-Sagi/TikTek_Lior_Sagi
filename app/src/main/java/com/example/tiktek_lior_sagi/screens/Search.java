@@ -93,10 +93,9 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
                                     Book book = (Book) parent.getItemAtPosition(position);
                                     book2 = book;
 
-                                    String[] bookPages = new String[book.getPagesNumber() + 1];
-                                    for (int i = 0; i <= book.getPagesNumber(); i++) {
+                                    String[] bookPages = new String[book.getPagesList().size()];
+                                    for (int i = 0; i < bookPages.length; i++) {
                                         bookPages[i] = (i + "");
-
                                     }
                                     bookPagesAdapter = new ArrayAdapter<>(Search.this, android.R.layout.simple_spinner_item, bookPages);
                                     spPages.setAdapter(bookPagesAdapter);
@@ -137,7 +136,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        SendBook sendBook= new SendBook(book2.getBookName(), Integer.parseInt(spPages.getSelectedItem().toString()), Integer.parseInt(spQuestion.getSelectedItem().toString()));
+        SendBook sendBook= new SendBook(book2.getId(), book2.getBookName(), Integer.parseInt(spPages.getSelectedItem().toString()), Integer.parseInt(spQuestion.getSelectedItem().toString()));
         Intent go=new Intent(getApplicationContext(), Answers.class);
         go.putExtra("sendBook",sendBook);
         startActivity(go);

@@ -6,52 +6,30 @@ import java.util.List;
 
 public class Book implements Serializable {
 
-  protected   String id;
-  protected   String subject;
-  protected   String bookName;
-  protected   int pagesNumber;
+  protected String id;
+  protected String subject;
+  protected String bookName;
    protected String bookCover;
-  protected  List<ArrayList<Answer>> pagesList;
+  protected  ArrayList<ArrayList<Answer>> pagesList;
     public Book() {
+        this.pagesList = new ArrayList<>();
     }
 
-    public Book(String id, String subject, String bookName, int pagesNumber, String bookCover) {
+    public Book(String id, String subject, String bookName, String bookCover, ArrayList<ArrayList<Answer>> pagesList) {
         this.id = id;
         this.subject = subject;
         this.bookName = bookName;
-        this.pagesNumber = pagesNumber;
-        this.bookCover = bookCover;
-        this.pagesList =setPagesAnswerList(pagesNumber) ;
-    }
-
-    public Book(String id, String subject, String bookName, int pagesNumber, String bookCover, List<ArrayList<Answer>> pagesList) {
-        this.id = id;
-        this.subject = subject;
-        this.bookName = bookName;
-        this.pagesNumber = pagesNumber;
         this.bookCover = bookCover;
         this.pagesList = pagesList;
     }
 
-    public List<ArrayList<Answer>> setPagesAnswerList(int pagesNumber) {
-        ArrayList<ArrayList<Answer>>answersList=new ArrayList<>();
-        for(int i=0;i<=pagesNumber;i++)
-        {
-         ArrayList<Answer>pagesAnswer=new ArrayList<>();
-         pagesAnswer.add(new Answer("oo",0,0,"uiuiui"));
-            answersList.add(pagesAnswer);
-        }
-        return answersList;
+    public String getId() {
+        return id;
     }
 
-    public  List<Answer> getAnswerListByPage(int pageNumber){
-      return this.pagesList.get(pageNumber);
+    public void setId(String id) {
+        this.id = id;
     }
-
-    public  Answer getAnswerByPageAndQuestionNumber(int pageNumber, int numQuestion){
-        return this.pagesList.get(pageNumber).get(numQuestion);
-    }
-
 
     public String getSubject() {
         return subject;
@@ -65,16 +43,8 @@ public class Book implements Serializable {
         return bookName;
     }
 
-    public void setBookName(String book) {
-        this.bookName = book;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     public String getBookCover() {
@@ -89,16 +59,8 @@ public class Book implements Serializable {
         return pagesList;
     }
 
-    public void setPagesList(List<ArrayList<Answer>> pagesList) {
+    public void setPagesList(ArrayList<ArrayList<Answer>> pagesList) {
         this.pagesList = pagesList;
-    }
-
-    public int getPagesNumber() {
-        return pagesNumber;
-    }
-
-    public void setPagesNumber(int pagesNumber) {
-        this.pagesNumber = pagesNumber;
     }
 
     @Override
@@ -107,9 +69,15 @@ public class Book implements Serializable {
                 "id='" + id + '\'' +
                 ", subject='" + subject + '\'' +
                 ", bookName='" + bookName + '\'' +
-                ", pagesNumber=" + pagesNumber +
-                ", bookCover='" + bookCover + '\'' +
+//                ", bookCover='" + bookCover + '\'' +
                 ", pagesList=" + pagesList +
                 '}';
+    }
+
+    public List<Answer> getAnswerListByPage(int pageNumber) {
+        if (pageNumber < 0 || this.pagesList.size() <= pageNumber) {
+            return null;
+        }
+        return this.pagesList.get(pageNumber);
     }
 }

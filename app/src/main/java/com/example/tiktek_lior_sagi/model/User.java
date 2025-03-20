@@ -10,16 +10,16 @@ public class User  implements Serializable {
     String email;
     String password;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", id='" + id + '\'' +
-                ", fname='" + fname + '\'' +
-                ", lname='" + lname + '\'' +
-                ", phone='" + phone + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public User(String id, String fname, String lname, String phone, String email, String password) {
+        this.id = id;
+        this.fname = fname;
+        this.lname = lname;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User() {
     }
 
     public String getEmail() {
@@ -70,16 +70,18 @@ public class User  implements Serializable {
         this.phone = phone;
     }
 
-    public User() {
-    }
 
-    public User(String email, String fname, String id, String lname, String password, String phone) {
-        this.email = email;
-        this.fname = fname;
-        this.id = id;
-        this.lname = lname;
-        this.password = password;
-        this.phone = phone;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", id='" + id + '\'' +
+                ", fname='" + fname + '\'' +
+                ", lname='" + lname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
 

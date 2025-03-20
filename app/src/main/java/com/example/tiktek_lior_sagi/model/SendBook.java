@@ -4,12 +4,14 @@ import java.io.Serializable;
 
 public class SendBook implements Serializable {
     //class to send in Search.java
-    String BookName;
+    String bookId;
+    String bookName;
     int page;
     int questionNumber;
 
-    public SendBook(String bookName, int page, int questionNumber) {
-        BookName = bookName;
+    public SendBook(String bookId, String bookName, int page, int questionNumber) {
+        this.bookId = bookId;
+        this.bookName = bookName;
         this.page = page;
         this.questionNumber = questionNumber;
     }
@@ -17,21 +19,20 @@ public class SendBook implements Serializable {
     public SendBook() {
     }
 
-    @Override
-    public String toString() {
-        return "SendBook{" +
-                "BookName='" + BookName + '\'' +
-                ", page=" + page +
-                ", questionNumber=" + questionNumber +
-                '}';
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getBookName() {
-        return BookName;
+        return bookName;
     }
 
     public void setBookName(String bookName) {
-        BookName = bookName;
+        this.bookName = bookName;
     }
 
     public int getPage() {
@@ -48,5 +49,15 @@ public class SendBook implements Serializable {
 
     public void setQuestionNumber(int questionNumber) {
         this.questionNumber = questionNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "SendBook{" +
+                "bookId='" + bookId + '\'' +
+                ", bookName='" + bookName + '\'' +
+                ", page=" + page +
+                ", questionNumber=" + questionNumber +
+                '}';
     }
 }

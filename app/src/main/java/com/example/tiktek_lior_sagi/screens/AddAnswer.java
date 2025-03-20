@@ -120,10 +120,9 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                        Book book= (Book) parent.getItemAtPosition(position);
                                 book2=book;
 
-                                String[] bookPages = new String[book.getPagesNumber() + 1];
-                                for (int i = 0; i <= book.getPagesNumber(); i++) {
+                                String[] bookPages = new String[book.getPagesList().size()];
+                                for (int i = 0; i < bookPages.length; i++) {
                                     bookPages[i] = (i + "");
-
                                 }
                                 bookPagesAdapter = new ArrayAdapter<>(AddAnswer.this, android.R.layout.simple_spinner_item, bookPages);
                                 spPages.setAdapter(bookPagesAdapter);

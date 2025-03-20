@@ -29,6 +29,8 @@ import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 
+import java.util.ArrayList;
+
 public class AddBook extends AppCompatActivity implements View.OnClickListener {
 
 
@@ -153,9 +155,17 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
         Log.d(TAG, "Image: " + imageBase64);
 
 
+        ArrayList<ArrayList<Answer>> pagesList = new ArrayList<>();
+
+        for (int i = 0; i < numOfPages; i++) {
+            ArrayList<Answer> answers = new ArrayList<>();
+            answers.add(new Answer());
+            pagesList.add(answers);
+        }
+
 
             /// create a new book object
-        Book book = new Book(id, subject, bookName, numOfPages,imageBase64);
+        Book book = new Book(id, subject, bookName,imageBase64, pagesList);
 
         /// save the book to the database and get the result in the callback
         databaseService.createNewBook(book, new DatabaseService.DatabaseCallback<Void>() {
