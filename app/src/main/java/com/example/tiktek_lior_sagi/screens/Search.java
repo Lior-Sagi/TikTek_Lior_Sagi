@@ -93,7 +93,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
 
                                     String[] bookPages = new String[book.getPagesList().size()];
                                     for (int i = 0; i < bookPages.length; i++) {
-                                        bookPages[i] = (i + "");
+                                        bookPages[i] = ((i+1) + "");
                                     }
                                     bookPagesAdapter = new ArrayAdapter<>(Search.this, android.R.layout.simple_spinner_item, bookPages);
                                     spPages.setAdapter(bookPagesAdapter);

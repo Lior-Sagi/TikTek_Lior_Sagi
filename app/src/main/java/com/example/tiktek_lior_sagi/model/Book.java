@@ -1,5 +1,7 @@
 package com.example.tiktek_lior_sagi.model;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,14 +16,14 @@ public class Book implements Serializable {
     protected String bookCover;
 
     // page_number -> (answer_id -> answer)
-    protected Map<Integer, Map<String, Answer>> pagesList;
+    protected Map<String, Map<String, Answer>> pagesList;
     protected int maxPages;
 
     public Book() {
         pagesList = new HashMap<>();
     }
 
-    public Book(String id, String subject, String bookName, String bookCover, Map<Integer, Map<String, Answer>> pagesList, int maxPages) {
+    public Book(String id, String subject, String bookName, String bookCover, Map<String, Map<String, Answer>> pagesList, int maxPages) {
         this.id = id;
         this.subject = subject;
         this.bookName = bookName;
@@ -62,11 +64,11 @@ public class Book implements Serializable {
         this.bookCover = bookCover;
     }
 
-    public Map<Integer, Map<String, Answer>> getPagesList() {
+    public Map<String, Map<String, Answer>> getPagesList() {
         return pagesList;
     }
 
-    public void setPagesList(Map<Integer, Map<String, Answer>> pagesList) {
+    public void setPagesList(Map<String, Map<String, Answer>> pagesList) {
         this.pagesList = pagesList;
     }
 
@@ -91,19 +93,28 @@ public class Book implements Serializable {
     }
 
     public List<Answer> getAnswerListByPage(int pageNumber) {
-        if (pageNumber < 0 || this.pagesList.size() <= pageNumber) {
-            return null;
+        if (pageNumber < 0 || this.maxPages <= pageNumber) {
+            return new ArrayList<>();
         }
-        return new ArrayList<>(this.pagesList.getOrDefault(pageNumber, new HashMap<>()).values());
+        Map<String, Answer> pagesListOrDefault = this.pagesList.getOrDefault("\""+pageNumber+"\"", new HashMap<>());
+        assert pagesListOrDefault != null;
+        System.out.println(pagesList.toString());
+        System.out.println(pagesListOrDefault);
+        Log.d("@@@@@@@@@@@@@@", pagesList.toString());
+        Log.d("@@@@@@@@@@@@@@", pagesListOrDefault.toString());
+        if (pagesListOrDefault.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(pagesListOrDefault.values());
     }
 
 
     public void addNewAnswer(int pageNumber, Answer answer) {
         if (pageNumber < 0 || pageNumber >= maxPages) return;
-        Map<String, Answer> map = this.pagesList.getOrDefault(pageNumber, new HashMap<>());
+        Map<String, Answer> map = this.pagesList.getOrDefault("\""+pageNumber+"\"", new HashMap<>());
         assert map != null;
         map.put(answer.getId(), answer);
-        this.pagesList.put(pageNumber, map);
+        this.pagesList.put("\""+pageNumber+"\"", map);
     }
 
 }

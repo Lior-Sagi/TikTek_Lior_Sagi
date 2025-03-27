@@ -26,7 +26,7 @@ public class Answer  implements Serializable {
                 "id='" + id + '\'' +
                 ", page=" + page +
                 ", questionNumber=" + questionNumber +
-                ", picAnswer='" + picAnswer + '\'' +
+//                ", picAnswer='" + picAnswer + '\'' +
                 '}';
     }
 

@@ -57,11 +57,15 @@ public class Answers extends AppCompatActivity {
             @Override
             public void onCompleted(Book book) {
                 Log.d(TAG, "book: " + book.toString());
+                Log.d(TAG, "sendBook: " + sendBook.toString());
                 List<Answer> answers = book.getAnswerListByPage(sendBook.getPage());
                 List<String> answersPictures = new ArrayList<>();
                 for (Answer answer : answers) {
                     answersPictures.add(answer.getPicAnswer());
                 }
+                Log.d(TAG, "answers: " + answers);
+                Log.d(TAG, "answersPictures: " + answersPictures);
+
                 adapter.setItems(answersPictures);
             }
 
