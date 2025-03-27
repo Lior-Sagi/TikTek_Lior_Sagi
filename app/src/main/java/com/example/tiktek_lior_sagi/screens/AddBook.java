@@ -30,6 +30,8 @@ import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddBook extends AppCompatActivity implements View.OnClickListener {
 
@@ -155,17 +157,13 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
         Log.d(TAG, "Image: " + imageBase64);
 
 
-        ArrayList<ArrayList<Answer>> pagesList = new ArrayList<>();
+        Map<Integer, Map<String, Answer>> pagesList = new HashMap<>();
 
-        for (int i = 0; i < numOfPages; i++) {
-            ArrayList<Answer> answers = new ArrayList<>();
-            answers.add(new Answer());
-            pagesList.add(answers);
-        }
+//        Answer answer = new Answer();
+//        pagesList.getOrDefault(2, new HashMap<>()).put(answer.getId(), answer);
 
-
-            /// create a new book object
-        Book book = new Book(id, subject, bookName,imageBase64, pagesList);
+        /// create a new book object
+        Book book = new Book(id, subject, bookName,imageBase64, new HashMap<>(), numOfPages);
 
         /// save the book to the database and get the result in the callback
         databaseService.createNewBook(book, new DatabaseService.DatabaseCallback<Void>() {

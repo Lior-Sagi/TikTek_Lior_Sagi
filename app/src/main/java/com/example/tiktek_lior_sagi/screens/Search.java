@@ -31,7 +31,6 @@ import java.util.List;
 public class Search extends AppCompatActivity implements View.OnClickListener {
     Spinner spSubject, spBook, spPages, spQuestion;
     String subject;
-    DatabaseService.DatabaseCallback<List<Book>> bookList;
     Button btnSearch;
     /// tag for logging
     private static final String TAG = "SearchBook";
@@ -39,7 +38,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
     private ArrayList<Book> allBooks = new ArrayList<>();
     private ArrayList<Book> selectedBooks = new ArrayList<>();
     BookSpinnerAdapter bookSpinnerAdapter;
-    private Spinner spbookSpinner;
     ArrayAdapter<String> bookPagesAdapter;
     Book book2=null;
 

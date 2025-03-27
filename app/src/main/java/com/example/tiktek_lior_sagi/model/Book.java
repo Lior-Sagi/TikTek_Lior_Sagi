@@ -2,25 +2,32 @@ package com.example.tiktek_lior_sagi.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Book implements Serializable {
 
-  protected String id;
-  protected String subject;
-  protected String bookName;
-   protected String bookCover;
-  protected  ArrayList<ArrayList<Answer>> pagesList;
+    protected String id;
+    protected String subject;
+    protected String bookName;
+    protected String bookCover;
+
+    // page_number -> (answer_id -> answer)
+    protected Map<Integer, Map<String, Answer>> pagesList;
+    protected int maxPages;
+
     public Book() {
-        this.pagesList = new ArrayList<>();
+        pagesList = new HashMap<>();
     }
 
-    public Book(String id, String subject, String bookName, String bookCover, ArrayList<ArrayList<Answer>> pagesList) {
+    public Book(String id, String subject, String bookName, String bookCover, Map<Integer, Map<String, Answer>> pagesList, int maxPages) {
         this.id = id;
         this.subject = subject;
         this.bookName = bookName;
         this.bookCover = bookCover;
         this.pagesList = pagesList;
+        this.maxPages = maxPages;
     }
 
     public String getId() {
@@ -55,12 +62,20 @@ public class Book implements Serializable {
         this.bookCover = bookCover;
     }
 
-    public List<ArrayList<Answer>> getPagesList() {
+    public Map<Integer, Map<String, Answer>> getPagesList() {
         return pagesList;
     }
 
-    public void setPagesList(ArrayList<ArrayList<Answer>> pagesList) {
+    public void setPagesList(Map<Integer, Map<String, Answer>> pagesList) {
         this.pagesList = pagesList;
+    }
+
+    public int getMaxPages() {
+        return maxPages;
+    }
+
+    public void setMaxPages(int maxPages) {
+        this.maxPages = maxPages;
     }
 
     @Override
@@ -71,6 +86,7 @@ public class Book implements Serializable {
                 ", bookName='" + bookName + '\'' +
 //                ", bookCover='" + bookCover + '\'' +
                 ", pagesList=" + pagesList +
+                ", maxPages=" + maxPages +
                 '}';
     }
 
@@ -78,6 +94,16 @@ public class Book implements Serializable {
         if (pageNumber < 0 || this.pagesList.size() <= pageNumber) {
             return null;
         }
-        return this.pagesList.get(pageNumber);
+        return new ArrayList<>(this.pagesList.getOrDefault(pageNumber, new HashMap<>()).values());
     }
+
+
+    public void addNewAnswer(int pageNumber, Answer answer) {
+        if (pageNumber < 0 || pageNumber >= maxPages) return;
+        Map<String, Answer> map = this.pagesList.getOrDefault(pageNumber, new HashMap<>());
+        assert map != null;
+        map.put(answer.getId(), answer);
+        this.pagesList.put(pageNumber, map);
+    }
+
 }

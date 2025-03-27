@@ -34,6 +34,7 @@ import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AddAnswer extends AppCompatActivity implements  View.OnClickListener {
@@ -43,7 +44,6 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
     ImageView ivQuestion;
     Spinner spPages,spQuestion;
     Button btnCamera,btnGallery,btnAddAnswer;
-    Intent takeit;
     Book book2=null;
     /// Activity result launcher for selecting image from gallery
     private ActivityResultLauncher<Intent> selectImageLauncher;
@@ -52,7 +52,6 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
     int SELECT_PICTURE = 200;
     private DatabaseService databaseService;
     BookSpinnerAdapter bookSpinnerAdapter;
-    protected List<ArrayList<Answer>> allpagesListAnswers=new ArrayList<>();
     private ArrayList<Book>allBooks=new ArrayList<>();
     private ArrayList<Book>selectedBooks=new ArrayList<>();
     private Spinner spbookSpinner, spSubject;
@@ -119,10 +118,11 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                        Book book= (Book) parent.getItemAtPosition(position);
                                 book2=book;
 
-                                String[] bookPages = new String[book.getPagesList().size()];
+                                String[] bookPages = new String[book.getMaxPages()];
                                 for (int i = 0; i < bookPages.length; i++) {
-                                    bookPages[i] = (i + "");
+                                    bookPages[i] = ((i + 1) + "");
                                 }
+                                Log.d(TAG, Arrays.toString(bookPages));
                                 bookPagesAdapter = new ArrayAdapter<>(AddAnswer.this, android.R.layout.simple_spinner_item, bookPages);
                                 spPages.setAdapter(bookPagesAdapter);
 
@@ -195,7 +195,7 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         btnGallery=findViewById(R.id.btnGallery);
         btnGallery.setOnClickListener(this);
         btnAddAnswer=findViewById(R.id.btnAddAnswer);
-        btnAddAnswer.setOnClickListener(this::onClick);
+        btnAddAnswer.setOnClickListener(this);
         spbookSpinner = findViewById(R.id.spBooks);
         spSubject=findViewById(R.id.spSubjectAddAnswer);
     }

@@ -1,6 +1,7 @@
 package com.example.tiktek_lior_sagi.screens;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Answers extends AppCompatActivity {
+
+    private static String TAG = "Answers";
 
     ListView lvAnswers;
     private ImageAdapter adapter;
@@ -53,6 +56,7 @@ public class Answers extends AppCompatActivity {
         databaseService.getBook(sendBook.getBookId(), new DatabaseService.DatabaseCallback<Book>() {
             @Override
             public void onCompleted(Book book) {
+                Log.d(TAG, "book: " + book.toString());
                 List<Answer> answers = book.getAnswerListByPage(sendBook.getPage());
                 List<String> answersPictures = new ArrayList<>();
                 for (Answer answer : answers) {
