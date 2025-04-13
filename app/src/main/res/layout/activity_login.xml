@@ -5,59 +5,47 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#588E5A"
     tools:context=".Login">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="67dp"
-        android:layout_marginBottom="48dp"
+        android:layout_width="84dp"
+        android:layout_height="41dp"
         android:text="כניסה"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/etEmailLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="70dp" />
 
     <EditText
         android:id="@+id/etEmailLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:ems="10"
         android:hint="הכנס כתובת מייל"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/etPasswordLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        tools:layout_editor_absoluteX="103dp"
+        tools:layout_editor_absoluteY="188dp" />
 
     <EditText
         android:id="@+id/etPasswordLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="96dp"
         android:ems="10"
         android:hint="הכנס סיסמה"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
-        app:layout_constraintStart_toStartOf="@+id/etEmailLogin"
-        app:layout_constraintTop_toBottomOf="@+id/etEmailLogin" />
+        tools:layout_editor_absoluteX="103dp"
+        tools:layout_editor_absoluteY="250dp" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="135dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="277dp"
+        android:layout_height="62dp"
         android:backgroundTint="#4C9A4F"
         android:text="התחבר"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="392dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
