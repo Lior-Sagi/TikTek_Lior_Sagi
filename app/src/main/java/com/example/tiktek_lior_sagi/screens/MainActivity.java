@@ -29,7 +29,7 @@ import com.example.tiktek_lior_sagi.model.User;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnToRegister,btnToLogin,btnToAddBook,btnToAddAnswer,btnToSearch,btnToAnswers;
+    Button btnToRegister,btnToLogin,btnToAddAnswer,btnToSearch,btnToAnswers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +48,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         btnToRegister=findViewById(R.id.btnToRegister);
         btnToRegister.setOnClickListener(this);
+
         btnToLogin=findViewById(R.id.btnToLogin);
         btnToLogin.setOnClickListener(this);
-        btnToAddBook=findViewById(R.id.btnToAddBook);
-        btnToAddBook.setOnClickListener(this);
+
         btnToAddAnswer=findViewById(R.id.btnToAddAnswer);
         btnToAddAnswer.setOnClickListener(this);
+
         btnToSearch=findViewById(R.id.btnToSearch);
         btnToSearch.setOnClickListener(this);
+
         btnToAnswers=findViewById(R.id.btnToAnswers);
         btnToAnswers.setOnClickListener(this);
     }
@@ -70,11 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(view==btnToLogin)
         {
             Intent go = new Intent(getApplicationContext(), Login.class);
-            startActivity(go);
-        }
-        if(view==btnToAddBook)
-        {
-            Intent go = new Intent(getApplicationContext(), AddBook.class);
             startActivity(go);
         }
         if(view==btnToAddAnswer)

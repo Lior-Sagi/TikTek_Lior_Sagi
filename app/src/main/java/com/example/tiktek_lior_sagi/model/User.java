@@ -85,6 +85,9 @@ public class User  implements Serializable {
     public boolean isAdmin() {
         return isAdmin;
     }
+    public String getisAdmin() {
+        return String.valueOf(isAdmin());
+    }
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;

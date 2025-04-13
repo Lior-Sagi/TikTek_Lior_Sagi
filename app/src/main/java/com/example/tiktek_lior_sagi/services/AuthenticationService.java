@@ -1,7 +1,9 @@
 package com.example.tiktek_lior_sagi.services;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.tiktek_lior_sagi.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -16,6 +18,8 @@ public class AuthenticationService {
     /// tag for logging
     /// @see Log
     private static final String TAG = "AuthenticationService";
+
+
 
     /// callback interface for authentication operations
     /// @param <T> the type of the object to return

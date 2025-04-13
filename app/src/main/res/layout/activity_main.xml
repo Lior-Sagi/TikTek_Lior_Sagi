@@ -5,11 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#588E5A"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".screens.MainActivity"
-    android:background="#588E5A"
-    >
+    tools:context=".screens.MainActivity">
 
     <TextView
         android:id="@+id/textView5"
@@ -40,23 +39,12 @@
         android:id="@+id/btnToLogin"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="14dp"
+        android:layout_marginBottom="76dp"
         android:text="התחברות"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAddBook"
+        app:layout_constraintBottom_toTopOf="@+id/btnToAddAnswer"
         app:layout_constraintEnd_toEndOf="@+id/btnToAddAnswer"
         app:layout_constraintStart_toStartOf="@+id/btnToRegister"
         app:layout_constraintTop_toBottomOf="@+id/btnToRegister" />
-
-    <Button
-        android:id="@+id/btnToAddBook"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="6dp"
-        android:text="הוספת ספר"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAddAnswer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnToLogin" />
 
     <Button
         android:id="@+id/btnToAddAnswer"
@@ -69,7 +57,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnToSearch"
         app:layout_constraintEnd_toEndOf="@+id/btnToSearch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnToAddBook" />
+        app:layout_constraintTop_toBottomOf="@+id/btnToLogin" />
 
     <Button
         android:id="@+id/btnToSearch"
@@ -92,4 +80,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnToSearch" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,17 +91,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 public void onCompleted(User object) {
                                     if(object.isAdmin()){
                                         isAdmin=true;
-
-
-                                        Intent go = new Intent(getApplicationContext(), AddBook.class);
+                                        Intent go = new Intent(getApplicationContext(), AdminPage.class);
                                         startActivity(go);
                                     }
-
-
-
-
+                                    else
+                                    {
+                                        Intent go = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(go);
+                                    }
                                 }
-
                                 @Override
                                 public void onFailed(Exception e) {
 
