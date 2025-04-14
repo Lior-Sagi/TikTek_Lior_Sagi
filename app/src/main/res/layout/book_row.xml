@@ -8,42 +8,55 @@
 
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/tvBookName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="15dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="74dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvSubject"
+        app:layout_constraintEnd_toStartOf="@+id/tvSubject"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/tvSubject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="47dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="101dp"
-        tools:layout_editor_absoluteY="74dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btnDeleteBook"
+        app:layout_constraintEnd_toStartOf="@+id/tvMaxPages"
+        app:layout_constraintStart_toEndOf="@+id/tvBookName" />
 
     <TextView
-        android:id="@+id/textView14"
+        android:id="@+id/tvMaxPages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="53dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="70dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvSubject"
+        app:layout_constraintEnd_toStartOf="@+id/imgVBookCover"
+        app:layout_constraintStart_toEndOf="@+id/tvSubject" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="68dp"
-        tools:layout_editor_absoluteY="129dp"
+        android:id="@+id/imgVBookCover"
+        android:layout_width="0dp"
+        android:layout_height="124dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvMaxPages"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnDeleteBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="27dp"
         android:text="למחוק ספר"
-        tools:layout_editor_absoluteX="251dp"
-        tools:layout_editor_absoluteY="244dp" />
+        app:layout_constraintEnd_toStartOf="@+id/imgVBookCover"
+        app:layout_constraintTop_toBottomOf="@+id/imgVBookCover" />
 </androidx.constraintlayout.widget.ConstraintLayout>

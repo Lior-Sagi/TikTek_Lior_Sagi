@@ -29,8 +29,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView tvFname, tvLname,tvPhone,tvEmail,tvPassword,tvIsAdmin;
-        Button btnDelete;
+        TextView tvFname, tvLname,tvPhone,tvEmail,tvIsAdmin;
+        Button btnDeleteUser;
 
         public UserViewHolder(View itemView) {
             super(itemView);
@@ -38,9 +38,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             tvLname = itemView.findViewById(R.id.tvLname);
             tvPhone = itemView.findViewById(R.id.tvPhone);
             tvEmail = itemView.findViewById(R.id.tvEmail);
-            tvPassword = itemView.findViewById(R.id.tvPassword);
             tvIsAdmin = itemView.findViewById(R.id.tvIsAdmin);
-            btnDelete = itemView.findViewById(R.id.btnDeleteUser);
+            btnDeleteUser = itemView.findViewById(R.id.btnDeleteUser);
         }
     }
 
@@ -60,10 +59,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.tvLname.setText(user.getLname());
         holder.tvPhone.setText(user.getPhone());
         holder.tvEmail.setText(user.getEmail());
-        holder.tvPassword.setText(user.getPassword());
         holder.tvIsAdmin.setText(user.getisAdmin());
 
-        holder.btnDelete.setOnClickListener(v -> {
+        holder.btnDeleteUser.setOnClickListener(v -> {
             FirebaseDatabase.getInstance().getReference("Users").child(uid).removeValue()
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();

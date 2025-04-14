@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,72 +13,69 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktek_lior_sagi.R;
+import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.User;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-public class BookAdapter {
-    private List<User> userList;
-    private List<String> userIds;
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder> {
+    private List<Book> bookList;
+    private List<String> bookIds;
     private Context context;
 
-    public UserAdapter(Context context, List<User> userList, List<String> userIds) {
+    public BookAdapter(List<Book> bookList, List<String> bookIds, Context context) {
         this.context = context;
-        this.userList = userList;
-        this.userIds = userIds;
+        this.bookList = bookList;
+        this.bookIds = bookIds;
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView tvFname, tvLname,tvPhone,tvEmail,tvPassword,tvIsAdmin;
-        Button btnDelete;
+        TextView tvBookName, tvSubject,tvMaxPages;
+        ImageView imgVBookCover;
+        Button btnDeleteBook;
 
         public UserViewHolder(View itemView) {
             super(itemView);
-            tvFname = itemView.findViewById(R.id.tvFname);
-            tvLname = itemView.findViewById(R.id.tvLname);
-            tvPhone = itemView.findViewById(R.id.tvPhone);
-            tvEmail = itemView.findViewById(R.id.tvEmail);
-            tvPassword = itemView.findViewById(R.id.tvPassword);
-            tvIsAdmin = itemView.findViewById(R.id.tvIsAdmin);
-            btnDelete = itemView.findViewById(R.id.btnDeleteUser);
+            tvBookName = itemView.findViewById(R.id.tvBookName);
+            tvSubject = itemView.findViewById(R.id.tvSubject);
+            tvMaxPages = itemView.findViewById(R.id.tvMaxPages);
+            imgVBookCover = itemView.findViewById(R.id.imgVBookCover);
+            btnDeleteBook = itemView.findViewById(R.id.btnDeleteBook);
         }
     }
 
     @NonNull
     @Override
-    public UserAdapter.UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.user_row, parent, false);
-        return new UserAdapter.UserViewHolder(v);
+    public BookAdapter.UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(context).inflate(R.layout.book_row, parent, false);
+        return new BookAdapter.UserViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserAdapter.UserViewHolder holder, int position) {
-        User user = userList.get(position);
-        String uid = userIds.get(position);
+    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
+        Book book = bookList.get(position);
+        String uid = bookIds.get(position);
 
-        holder.tvFname.setText(user.getFname());
-        holder.tvLname.setText(user.getLname());
-        holder.tvPhone.setText(user.getPhone());
-        holder.tvEmail.setText(user.getEmail());
-        holder.tvPassword.setText(user.getPassword());
-        holder.tvIsAdmin.setText(user.getisAdmin());
+        holder.tvBookName.setText(book.getBookName());
+        holder.tvSubject.setText(book.getSubject());
+        holder.tvMaxPages.setText(String.valueOf(book.getMaxPages()));
 
-        holder.btnDelete.setOnClickListener(v -> {
-            FirebaseDatabase.getInstance().getReference("Users").child(uid).removeValue()
+        holder.btnDeleteBook.setOnClickListener(v -> {
+            FirebaseDatabase.getInstance().getReference("books").child(uid).removeValue()
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
-                        userList.remove(position);
-                        userIds.remove(position);
+                        Toast.makeText(context, "Book deleted", Toast.LENGTH_SHORT).show();
+                        bookList.remove(position);
+                        bookIds.remove(position);
                         notifyItemRemoved(position);
                     })
                     .addOnFailureListener(e ->
-                            Toast.makeText(context, "Failed to delete user", Toast.LENGTH_SHORT).show());
+                            Toast.makeText(context, "Failed to delete Book", Toast.LENGTH_SHORT).show());
         });
     }
 
     @Override
     public int getItemCount() {
-        return userList.size();
+        return bookList.size();
     }
 }
