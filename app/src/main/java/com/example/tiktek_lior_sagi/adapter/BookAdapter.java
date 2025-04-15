@@ -1,6 +1,9 @@
 package com.example.tiktek_lior_sagi.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.utils.ImageUtil;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -51,6 +55,26 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
         View v = LayoutInflater.from(context).inflate(R.layout.book_row, parent, false);
         return new BookAdapter.UserViewHolder(v);
     }
+    private void loadImageFromUrl(String urlString, ImageView imageView) {
+        new Thread(() -> {
+            try {
+                java.net.URL url = new java.net.URL(urlString);
+                java.net.HttpURLConnection connection = (java.net.HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                java.io.InputStream input = connection.getInputStream();
+                android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeStream(input);
+
+                // Set the image on the UI thread
+                ((android.app.Activity) context).runOnUiThread(() -> {
+                    imageView.setImageBitmap(bitmap);
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
@@ -60,6 +84,17 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
         holder.tvBookName.setText(book.getBookName());
         holder.tvSubject.setText(book.getSubject());
         holder.tvMaxPages.setText(String.valueOf(book.getMaxPages()));
+        Log.d("BookAdapter", "Cover string: " + book.getBookCover());
+        // Decode Base64 string to byte array
+        byte[] decodedString = android.util.Base64.decode(book.getBookCover(), android.util.Base64.DEFAULT);
+
+// Convert byte array to Bitmap
+        android.graphics.Bitmap decodedByte = android.graphics.BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+// Set the Bitmap to the ImageView
+        holder.imgVBookCover.setImageBitmap(decodedByte);
+
+
 
         holder.btnDeleteBook.setOnClickListener(v -> {
             FirebaseDatabase.getInstance().getReference("books").child(uid).removeValue()
