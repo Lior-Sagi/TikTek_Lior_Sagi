@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,7 +31,7 @@ import com.example.tiktek_lior_sagi.model.User;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnToRegister,btnToLogin,btnToAddAnswer,btnToSearch,btnToAnswers;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnToAnswers=findViewById(R.id.btnToAnswers);
         btnToAnswers.setOnClickListener(this);
+
+
     }
 
     @Override

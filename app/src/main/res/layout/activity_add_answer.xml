@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.AddAnswer"
-    android:background="#588E5A">
+    android:background="#588E5A"
+    tools:context=".screens.AddAnswer">
 
     <TextView
         android:id="@+id/textView4"
@@ -14,33 +14,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="157dp"
+        android:layout_marginBottom="50dp"
         android:text="הוסף תשובה"
+        app:layout_constraintBottom_toTopOf="@+id/spSubjectAddAnswer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spSubjectAddAnswer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="97dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="39dp"
+        android:layout_marginBottom="61dp"
         android:entries="@array/subjectsArr"
         app:layout_constraintBottom_toTopOf="@+id/spBooks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Spinner
         android:id="@+id/spBooks"
-        android:layout_width="402dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="502dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintBottom_toTopOf="@+id/ivQuestion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spSubjectAddAnswer" />
@@ -49,13 +47,12 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="285dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="286dp"
+        android:layout_marginEnd="15dp"
         android:text="מספר עמוד"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAddAnswer"
+        app:layout_constraintBottom_toTopOf="@+id/spQuestion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spSubjectAddAnswer" />
+        app:layout_constraintStart_toEndOf="@+id/spQuestion"
+        app:layout_constraintTop_toBottomOf="@+id/ivQuestion" />
 
     <TextView
         android:id="@+id/textView7"
@@ -69,59 +66,81 @@
 
     <Spinner
         android:id="@+id/spPages"
-        android:layout_width="163dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/spQuestion"
-        app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spQuestion"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Spinner
         android:id="@+id/spQuestion"
         android:layout_width="0dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="42dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="61dp"
+        android:layout_marginEnd="53dp"
+        android:layout_marginBottom="53dp"
         android:entries="@array/questionsArr"
-        app:layout_constraintBottom_toTopOf="@+id/ivQuestion"
-        app:layout_constraintEnd_toStartOf="@+id/textView4" />
+        app:layout_constraintBottom_toTopOf="@+id/btnCamera"
+        app:layout_constraintEnd_toStartOf="@+id/spPages"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <Button
         android:id="@+id/btnCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="54dp"
         android:layout_marginBottom="24dp"
+        android:backgroundTint="#2EB3B3"
         android:text="מצלמה"
-        app:layout_constraintBottom_toTopOf="@+id/btnGallery"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddAnswer"
+        app:layout_constraintStart_toStartOf="@+id/btnGallery"
+        app:layout_constraintTop_toBottomOf="@+id/spQuestion" />
 
     <Button
         android:id="@+id/btnGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="2dp"
+        android:backgroundTint="#2EB3B3"
         android:text="גלריה"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddAnswer"
-        app:layout_constraintStart_toStartOf="@+id/btnCamera" />
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAddAnswer"
+        app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
 
     <ImageView
         android:id="@+id/ivQuestion"
-        android:layout_width="149dp"
-        android:layout_height="131dp"
-        android:layout_marginStart="29dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnAddAnswer"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="176dp"
+        android:layout_height="114dp"
+        android:layout_marginStart="121dp"
+        android:layout_marginEnd="121dp"
+        android:layout_marginBottom="31dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintStart_toStartOf="@+id/spBooks"
+        app:layout_constraintTop_toBottomOf="@+id/spBooks"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
         android:id="@+id/btnAddAnswer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="54dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#2EB3B3"
         android:text="הוסף תשובה"
+        android:textSize="15dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnGallery" />
+        app:layout_constraintEnd_toStartOf="@+id/btnGallery"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCamera" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
