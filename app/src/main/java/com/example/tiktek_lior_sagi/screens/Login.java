@@ -64,8 +64,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         etPassword= findViewById(R.id.etPasswordLogin);
         btnLog = findViewById(R.id.btnLogin);
         btnLog.setOnClickListener(this);
-
-
         mAuth = FirebaseAuth.getInstance();
         database=FirebaseDatabase.getInstance();
         myRef=database.getReference("Users");
@@ -89,7 +87,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             databaseService.getUser(userUid, new DatabaseService.DatabaseCallback<User>() {
                                 @Override
                                 public void onCompleted(User object) {
-                                    if(object.isAdmin()){
+                                    if(object.getAdmin()){
                                         isAdmin=true;
                                         Intent go = new Intent(getApplicationContext(), AdminPage.class);
                                         startActivity(go);

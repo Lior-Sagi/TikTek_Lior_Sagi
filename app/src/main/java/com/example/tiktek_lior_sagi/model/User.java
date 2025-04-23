@@ -9,7 +9,7 @@ public class User  implements Serializable {
     String phone;
     String email;
     String password;
-    boolean isAdmin;
+    boolean admin;
 
     public User(String id, String fname, String lname, String phone, String email, String password) {
         this.id = id;
@@ -28,7 +28,7 @@ public class User  implements Serializable {
         this.phone = phone;
         this.email = email;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.admin = isAdmin;
     }
 
     public User() {
@@ -82,15 +82,13 @@ public class User  implements Serializable {
         this.phone = phone;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-    public String getisAdmin() {
-        return String.valueOf(isAdmin());
+
+    public boolean getAdmin() {
+        return admin;
     }
 
     public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.admin = admin;
     }
 
     @Override
@@ -102,7 +100,7 @@ public class User  implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", isAdmin=" + isAdmin +
+                ", admin=" + admin +
                 '}';
     }
 }

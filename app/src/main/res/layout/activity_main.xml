@@ -17,9 +17,9 @@
         android:layout_marginTop="64dp"
         android:layout_marginBottom="37dp"
         android:text="דף בית"
+        android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/btnToRegister"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
     <Button
         android:id="@+id/btnToRegister"
         android:layout_width="119dp"
-        android:layout_height="71dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="13dp"
         android:backgroundTint="#2EB3B3"
         android:text="הרשמה"
@@ -40,59 +40,40 @@
 
     <Button
         android:id="@+id/btnToLogin"
-        android:layout_width="0dp"
+        android:layout_width="117dp"
         android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
         android:layout_marginBottom="15dp"
         android:backgroundTint="#2EB3B3"
         android:text="התחברות"
         android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@+id/btnToAddAnswer"
-        app:layout_constraintEnd_toEndOf="@+id/btnToAnswers"
-        app:layout_constraintStart_toStartOf="@+id/btnToRegister"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnToRegister" />
 
     <Button
         android:id="@+id/btnToAddAnswer"
-        android:layout_width="0dp"
+        android:layout_width="113dp"
         android:layout_height="0dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
         android:layout_marginBottom="18dp"
         android:backgroundTint="#2EB3B3"
         android:text="הוספת תשובה"
         android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@+id/btnToSearch"
-        app:layout_constraintEnd_toEndOf="@+id/btnToSearch"
-        app:layout_constraintStart_toStartOf="@+id/btnToSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnToLogin" />
 
     <Button
         android:id="@+id/btnToSearch"
         android:layout_width="115dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="248dp"
         android:backgroundTint="#2EB3B3"
         android:text="חיפוש תשובה"
         android:textSize="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAnswers"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnToAddAnswer" />
-
-    <Button
-        android:id="@+id/btnToAnswers"
-        android:layout_width="120dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="166dp"
-        android:text="הצגת תשובות"
-        android:backgroundTint="#2EB3B3"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnToAddAnswer"
-        app:layout_constraintStart_toStartOf="@+id/btnToSearch"
-        app:layout_constraintTop_toBottomOf="@+id/btnToSearch" />
 </androidx.constraintlayout.widget.ConstraintLayout>

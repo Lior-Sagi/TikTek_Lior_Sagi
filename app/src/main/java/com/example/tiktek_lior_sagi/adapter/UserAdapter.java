@@ -59,7 +59,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.tvLname.setText(user.getLname());
         holder.tvPhone.setText(user.getPhone());
         holder.tvEmail.setText(user.getEmail());
-        holder.tvIsAdmin.setText(user.getisAdmin());
+        holder.tvIsAdmin.setText(user.getAdmin()+"");
 
         holder.btnDeleteUser.setOnClickListener(v -> {
             FirebaseDatabase.getInstance().getReference("Users").child(uid).removeValue()
