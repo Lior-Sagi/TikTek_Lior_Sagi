@@ -1,28 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.Search"
-    android:orientation="vertical"
-    android:background="#588E5A"
-    >
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="141dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="118dp"
-        android:layout_marginTop="51dp"
-        android:layout_marginBottom="87dp"
-        android:text="חיפוש שאלה"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".screens.AnswersManage">
 
     <Spinner
         android:id="@+id/spSubject"
@@ -85,5 +68,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner4" />
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="15dp">
-
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvBookName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="14dp"
         android:layout_marginEnd="15dp"
         android:text="TextView"
         app:layout_constraintBaseline_toBaselineOf="@+id/tvSubject"
@@ -20,45 +18,51 @@
 
     <TextView
         android:id="@+id/tvSubject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="87dp"
-        android:layout_marginEnd="15dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="14dp"
         android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/btnMarkAsFavoured"
         app:layout_constraintEnd_toStartOf="@+id/tvMaxPages"
         app:layout_constraintStart_toEndOf="@+id/tvBookName"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvMaxPages"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="14dp"
         android:text="TextView"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvSubject"
+        app:layout_constraintBottom_toTopOf="@+id/btnMarkAsFavoured"
         app:layout_constraintEnd_toStartOf="@+id/imgVBookCover"
-        app:layout_constraintStart_toEndOf="@+id/tvSubject" />
+        app:layout_constraintStart_toEndOf="@+id/tvSubject"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imgVBookCover"
         android:layout_width="0dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="42dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="51dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnDeleteBook"
+        android:layout_height="99dp"
+        android:layout_marginTop="39dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvMaxPages"
+        app:layout_constraintStart_toEndOf="@+id/btnMarkAsFavoured"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/btnDeleteBook"
+        android:id="@+id/btnMarkAsFavoured"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="63dp"
-        android:layout_marginEnd="18dp"
-        android:text="למחוק ספר"
+        android:layout_marginStart="107dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="577dp"
+        android:text="הוסף למועדפים"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/imgVBookCover"
-        app:layout_constraintTop_toBottomOf="@+id/tvSubject" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMaxPages" />
 </androidx.constraintlayout.widget.ConstraintLayout>

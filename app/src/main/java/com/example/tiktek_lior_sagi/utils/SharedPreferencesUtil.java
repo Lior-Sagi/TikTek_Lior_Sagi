@@ -13,7 +13,7 @@ public class SharedPreferencesUtil {
 
     /// The name of the shared preferences file
     /// @see Context#getSharedPreferences(String, int)
-    private static final String PREF_NAME = "com.example.testapp.PREFERENCE_FILE_KEY";
+    private static final String PREF_NAME = "com.example.tiktek.PREFERENCE_FILE_KEY";
 
     /// Save a string to shared preferences
     /// @param context The context to use
@@ -110,6 +110,7 @@ public class SharedPreferencesUtil {
         editor.putString("fName", user.getFname());
         editor.putString("lName", user.getLname());
         editor.putString("phone", user.getPhone());
+       editor.putBoolean("admin", user.getAdmin());
         editor.apply();
     }
 
@@ -130,7 +131,10 @@ public class SharedPreferencesUtil {
         String fName = sharedPreferences.getString("fName", "");
         String lName = sharedPreferences.getString("lName", "");
         String phone = sharedPreferences.getString("phone", "");
-        return new User(uid, email, password, fName, lName, phone);
+
+        boolean isAdmin = sharedPreferences.getBoolean("admin", false);
+        return new User(uid,  fName, lName, phone, email,password,isAdmin);
+
     }
 
     /// Sign out the user by removing user data from shared preferences
@@ -144,7 +148,7 @@ public class SharedPreferencesUtil {
         editor.remove("fName");
         editor.remove("lName");
         editor.remove("phone");
-
+        editor.remove("admin");
         editor.apply();
     }
 

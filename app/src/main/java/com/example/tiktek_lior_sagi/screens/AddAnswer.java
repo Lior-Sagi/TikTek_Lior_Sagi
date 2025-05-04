@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -34,6 +35,7 @@ import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,6 +62,7 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
     String subject="";
 
     ArrayAdapter<String> bookPagesAdapter;
+    private FirebaseAuth mAuth;
 
 
 
@@ -78,8 +81,13 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
         databaseService = DatabaseService.getInstance();
         /// request permission for the camera and storage
         ImageUtil.requestPermission(this);
-
-
+        mAuth=FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() == null)
+        {
+            Toast.makeText(getApplicationContext(), "התחבר למשתמש בשביל לגשת לדף", Toast.LENGTH_SHORT).show();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
         initViews();
 
 
@@ -288,7 +296,34 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 return;
             }
         }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+
+
+        int id = item.getItemId();
+        if (id == R.id.menuMain) {
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAddAnswer) {
+            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLogOut) {
+            mAuth.signOut();
+        }
+        else if (id == R.id.menuSearchAnswer) {
+            Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        return true;
+    }
 
 
 

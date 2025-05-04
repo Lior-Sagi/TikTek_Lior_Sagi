@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,8 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,7 +25,10 @@ import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.adapter.BookSpinnerAdapter;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.SendBook;
+import com.example.tiktek_lior_sagi.model.User;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
+import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -40,6 +46,9 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
     BookSpinnerAdapter bookSpinnerAdapter;
     ArrayAdapter<String> bookPagesAdapter;
     Book book2=null;
+    private FirebaseAuth mAuth;
+    private User user=null;
+    boolean isLoggedin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +60,17 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        mAuth=FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() == null)
+        {
+            Toast.makeText(getApplicationContext(), "התחבר למשתמש בשביל לגשת לדף", Toast.LENGTH_SHORT).show();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
         initViews();
         /// get the instance of the database service
         databaseService = DatabaseService.getInstance();
         allBooks = new ArrayList<>();
-
 
         spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -138,5 +153,31 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
         Intent go=new Intent(getApplicationContext(), Answers.class);
         go.putExtra("sendBook",sendBook);
         startActivity(go);
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menuMain) {
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAddAnswer) {
+            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLogOut) {
+            mAuth.signOut();
+        }
+        else if (id == R.id.menuSearchAnswer) {
+            Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        return true;
     }
 }

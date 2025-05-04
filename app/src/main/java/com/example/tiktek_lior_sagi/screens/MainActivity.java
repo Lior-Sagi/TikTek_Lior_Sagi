@@ -30,12 +30,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.tiktek_lior_sagi.model.User;
 import android.view.Menu;
-import android.view.MenuItem;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnToRegister,btnToLogin,btnToAddAnswer,btnToSearch;
-    
+    Button btnToRegister,btnToLogin,btnToAddAnswer,btnToSearch,btnToFavouredBooks;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return insets;
         });
         initviews();
+        mAuth=FirebaseAuth.getInstance();
     }
 
     private void initviews()
@@ -63,7 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnToSearch=findViewById(R.id.btnToSearch);
         btnToSearch.setOnClickListener(this);
 
-
+        btnToFavouredBooks=findViewById(R.id.btnToFavouredBooks);
+        btnToFavouredBooks.setOnClickListener(this);
 
 
     }
@@ -90,6 +92,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent go = new Intent(getApplicationContext(), Search.class);
             startActivity(go);
         }
+        if(view==btnToFavouredBooks)
+        {
+            Intent go = new Intent(getApplicationContext(), FavouredBooks.class);
+            startActivity(go);
+        }
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,8 +104,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+
+
         int id = item.getItemId();
         if (id == R.id.menuMain) {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
@@ -109,8 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
-            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
-            startActivity(go);
+            mAuth.signOut();
         }
         else if (id == R.id.menuSearchAnswer) {
             Intent go = new Intent(getApplicationContext(), Search.class);
@@ -119,5 +128,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
+
 }
+
+
+
 

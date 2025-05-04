@@ -29,7 +29,7 @@
         android:id="@+id/btnToRegister"
         android:layout_width="119dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="14dp"
         android:backgroundTint="#2EB3B3"
         android:text="הרשמה"
         android:textSize="15dp"
@@ -68,12 +68,25 @@
         android:id="@+id/btnToSearch"
         android:layout_width="115dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="248dp"
+        android:layout_marginBottom="19dp"
         android:backgroundTint="#2EB3B3"
         android:text="חיפוש תשובה"
         android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnToFavouredBooks"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnToAddAnswer" />
+
+    <Button
+        android:id="@+id/btnToFavouredBooks"
+        android:layout_width="188dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="174dp"
+        android:backgroundTint="#2EB3B3"
+        android:text="ניהול ספרים מועדפים"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnToSearch" />
 </androidx.constraintlayout.widget.ConstraintLayout>

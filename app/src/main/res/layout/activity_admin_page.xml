@@ -32,8 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginBottom="15dp"
-        android:text="דף משתמש"
         android:backgroundTint="#2EB3B3"
+        android:text="דף משתמש"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnToAddBook"
@@ -46,8 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="7dp"
         android:layout_marginBottom="24dp"
-        android:text="הוספת ספר"
         android:backgroundTint="#2EB3B3"
+        android:text="הוספת ספר"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/btnToUsersManage"
@@ -56,9 +56,9 @@
 
     <Button
         android:id="@+id/btnToUsersManage"
-        android:layout_width="170dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="25dp"
+        android:layout_width="161dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="21dp"
         android:backgroundTint="#2EB3B3"
         android:text="הצגת משתמשים"
         android:textSize="15dp"
@@ -72,13 +72,25 @@
         android:id="@+id/btnToBooksManage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginBottom="276dp"
-        android:text="הצגת ספרים"
+        android:layout_marginBottom="21dp"
         android:backgroundTint="#2EB3B3"
+        android:text="הצגת ספרים"
         android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/btnAnswersManage"
+        app:layout_constraintEnd_toEndOf="@+id/btnAnswersManage"
+        app:layout_constraintTop_toBottomOf="@+id/btnToUsersManage" />
+
+    <Button
+        android:id="@+id/btnAnswersManage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="207dp"
+        android:backgroundTint="#2EB3B3"
+        android:text="הצגת תשובות"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/btnToUsersManage"
-        app:layout_constraintTop_toBottomOf="@+id/btnToUsersManage" />
+        app:layout_constraintTop_toBottomOf="@+id/btnToBooksManage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

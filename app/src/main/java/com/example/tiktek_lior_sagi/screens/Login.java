@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.User;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
+import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -35,12 +37,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database;
     DatabaseReference myRef;
     private FirebaseAuth mAuth;
-
-    public static final String MyPREFERENCES = "MyPrefs" ;
-    SharedPreferences sharedpreferences;
     DatabaseService databaseService;
 
     public  static  boolean isAdmin=false;
+    private User user=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         initViews();
         databaseService=DatabaseService.getInstance();
 
+        user= SharedPreferencesUtil.getUser(this);
+        if(user!=null){
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            etEmail.setText( user.getEmail());
+           etPassword.setText(user.getPassword());
+        }
+
+
+
     }
     private void initViews() {
 
@@ -109,13 +116,40 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
 //                                // If sign in fails, display a message to the user.
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
 //
                         }
 
                         // ...
                     }
                 });
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+
+
+        int id = item.getItemId();
+        if (id == R.id.menuMain) {
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAddAnswer) {
+            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLogOut) {
+            mAuth.signOut();
+        }
+        else if (id == R.id.menuSearchAnswer) {
+            Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        return true;
     }
 }

@@ -1,11 +1,14 @@
 package com.example.tiktek_lior_sagi.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,6 +20,7 @@ import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,8 @@ public class Answers extends AppCompatActivity {
     private ImageAdapter adapter;
     private DatabaseService databaseService;
     SendBook sendBook;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +46,7 @@ public class Answers extends AppCompatActivity {
             return insets;
         });
         databaseService = DatabaseService.getInstance();
-
+        mAuth=FirebaseAuth.getInstance();
         this.sendBook = getIntent().getSerializableExtra("sendBook", SendBook.class);
         if (this.sendBook == null) {
             Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
@@ -74,6 +80,33 @@ public class Answers extends AppCompatActivity {
 
             }
         });
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+
+
+        int id = item.getItemId();
+        if (id == R.id.menuMain) {
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAddAnswer) {
+            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLogOut) {
+            mAuth.signOut();
+        }
+        else if (id == R.id.menuSearchAnswer) {
+            Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        return true;
     }
 }
