@@ -13,8 +13,32 @@
         android:id="@+id/menuAddAnswer"
         android:title="הוספת תשובה"
         app:showAsAction="never" />
+
+    <group android:id="@+id/adminMenu">
+        <item
+            android:id="@+id/menuAdminAdminPage"
+            android:title="דף מנהל"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/menuAdminAddBook"
+            android:title="הוספת ספר"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/menuAdminManageUsers"
+            android:title="הצגת משתמשים"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/menuAdminManageBooks"
+            android:title="הצגת ספרים"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/menuAdminManageAnswers"
+            android:title="הצגת תשובות"
+            app:showAsAction="never" />
+    </group>
     <item
         android:id="@+id/menuLogOut"
-        android:title="LogOut"
+        android:title="התנתק"
         app:showAsAction="never" />
+
 </menu>

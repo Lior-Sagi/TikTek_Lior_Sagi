@@ -21,6 +21,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.android.car.ui.toolbar.MenuItem;
 import com.example.tiktek_lior_sagi.R;
+import com.example.tiktek_lior_sagi.services.AuthenticationService;
+import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button btnToRegister,btnToLogin,btnToAddAnswer,btnToSearch,btnToFavouredBooks;
     private FirebaseAuth mAuth;
+    User user=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +67,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnToSearch=findViewById(R.id.btnToSearch);
         btnToSearch.setOnClickListener(this);
 
-        btnToFavouredBooks=findViewById(R.id.btnToFavouredBooks);
-        btnToFavouredBooks.setOnClickListener(this);
+        //btnToFavouredBooks=findViewById(R.id.btnToFavouredBooks);
+       //btnToFavouredBooks.setOnClickListener(this);
 
 
     }
@@ -92,23 +95,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent go = new Intent(getApplicationContext(), Search.class);
             startActivity(go);
         }
-        if(view==btnToFavouredBooks)
+        /*if(view==btnToFavouredBooks)
         {
             Intent go = new Intent(getApplicationContext(), FavouredBooks.class);
             startActivity(go);
-        }
+        }*/
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        user= SharedPreferencesUtil.getUser(this);
+        if(!user.getAdmin()){
+            menu.removeGroup(R.id.adminMenu);
+        }
         return true;
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
-
-
         int id = item.getItemId();
         if (id == R.id.menuMain) {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
@@ -119,16 +124,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
-            mAuth.signOut();
+            AuthenticationService.getInstance().signOut();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {
             Intent go = new Intent(getApplicationContext(), Search.class);
             startActivity(go);
         }
+        else if (id == R.id.menuAdminAdminPage) {
+            Intent go = new Intent(getApplicationContext(), AdminPage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAddBook) {
+            Intent go = new Intent(getApplicationContext(), AddBook.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageUsers) {
+            Intent go = new Intent(getApplicationContext(), UsersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageBooks) {
+            Intent go = new Intent(getApplicationContext(), BooksManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageAnswers) {
+            Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
         return true;
     }
-
-
 }
 
 

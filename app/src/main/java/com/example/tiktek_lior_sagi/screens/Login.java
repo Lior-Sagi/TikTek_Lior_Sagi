@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,12 +35,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     EditText etEmail, etPassword;
     Button btnLog;
     String email, pass;
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-    private FirebaseAuth mAuth;
     DatabaseService databaseService;
-
-    public  static  boolean isAdmin=false;
     private User user=null;
 
     @Override
@@ -61,9 +57,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             etEmail.setText( user.getEmail());
            etPassword.setText(user.getPassword());
         }
-
-
-
     }
     private void initViews() {
 
@@ -71,9 +64,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         etPassword= findViewById(R.id.etPasswordLogin);
         btnLog = findViewById(R.id.btnLogin);
         btnLog.setOnClickListener(this);
-        mAuth = FirebaseAuth.getInstance();
-        database=FirebaseDatabase.getInstance();
-        myRef=database.getReference("Users");
 
     }
 
@@ -82,47 +72,39 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         email = etEmail.getText().toString();
         pass = etPassword.getText().toString();
-        mAuth.signInWithEmailAndPassword(email,pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        AuthenticationService.getInstance().signIn(email, pass,
+                new AuthenticationService.AuthCallback<String>() {
+            @Override
+            public void onCompleted(String userId) {
+                databaseService.getUser(userId, new DatabaseService.DatabaseCallback<User>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            final String userUid = user.getUid();
-                            databaseService.getUser(userUid, new DatabaseService.DatabaseCallback<User>() {
-                                @Override
-                                public void onCompleted(User object) {
-                                    if(object.getAdmin()){
-                                        isAdmin=true;
-                                        Intent go = new Intent(getApplicationContext(), AdminPage.class);
-                                        startActivity(go);
-                                    }
-                                    else
-                                    {
-                                        Intent go = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(go);
-                                    }
-                                }
-                                @Override
-                                public void onFailed(Exception e) {
-
-                                }
-                            });
-
+                    public void onCompleted(User user) {
+                        SharedPreferencesUtil.saveUser(Login.this, user);
+                        if (user.getAdmin()){
+                            Intent go = new Intent(getApplicationContext(), AdminPage.class);
+                            startActivity(go);
                         }
-                        else {
-
-//                                // If sign in fails, display a message to the user.
-                            Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-//
+                        else
+                        {
+                            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(go);
                         }
+                    }
 
-                        // ...
+                    @Override
+                    public void onFailed(Exception e) {
+                        Log.w("TAG", "signInWithEmail:failure", e);
+                        Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                Log.w("TAG", "signInWithEmail:failure", e);
+                Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -132,8 +114,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
-
-
         int id = item.getItemId();
         if (id == R.id.menuMain) {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
@@ -144,10 +124,32 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
-            mAuth.signOut();
+            AuthenticationService.getInstance().signOut();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {
             Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAdminPage) {
+            Intent go = new Intent(getApplicationContext(), AdminPage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAddBook) {
+            Intent go = new Intent(getApplicationContext(), AddBook.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageUsers) {
+            Intent go = new Intent(getApplicationContext(), UsersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageBooks) {
+            Intent go = new Intent(getApplicationContext(), BooksManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageAnswers) {
+            Intent go = new Intent(getApplicationContext(), AnswersManage.class);
             startActivity(go);
         }
         return true;

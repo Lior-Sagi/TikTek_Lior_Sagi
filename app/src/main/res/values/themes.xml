@@ -4,6 +4,13 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">#000022</item>
+        <item name="colorPrimaryDark">#000022</item>
+        <item name="colorAccent">#4361EE</item>
+        <item name="android:textColorPrimary">#B1B695</item>
+        <item name="android:itemBackground">#000022</item>
+        <item name="android:textColor">#B1B695</item>
+    </style>
     <style name="Theme.TikTek_Lior_Sagi" parent="Base.Theme.TikTek_Lior_Sagi" />
 </resources>

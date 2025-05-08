@@ -26,6 +26,7 @@ import com.example.tiktek_lior_sagi.adapter.BookSpinnerAdapter;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.auth.FirebaseAuth;
@@ -156,6 +157,10 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        user= SharedPreferencesUtil.getUser(this);
+        if(!user.getAdmin()){
+            menu.removeGroup(R.id.adminMenu);
+        }
         return true;
     }
 
@@ -172,10 +177,32 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
-            mAuth.signOut();
+            AuthenticationService.getInstance().signOut();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {
             Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAdminPage) {
+            Intent go = new Intent(getApplicationContext(), AdminPage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAddBook) {
+            Intent go = new Intent(getApplicationContext(), AddBook.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageUsers) {
+            Intent go = new Intent(getApplicationContext(), UsersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageBooks) {
+            Intent go = new Intent(getApplicationContext(), BooksManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageAnswers) {
+            Intent go = new Intent(getApplicationContext(), AnswersManage.class);
             startActivity(go);
         }
         return true;

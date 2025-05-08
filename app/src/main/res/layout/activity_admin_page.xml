@@ -5,92 +5,146 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#588E5A"
+    android:background="#000022"
     tools:context=".screens.AdminPage">
-
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="94dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginBottom="62dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="דף מנהל"
-        android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textColor="#B1B695"
+        android:textSize="32dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnToMainActivity"
-        app:layout_constraintEnd_toEndOf="@+id/btnToMainActivity"
-        app:layout_constraintStart_toStartOf="@+id/btnToAddBook"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnToMainActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="#2EB3B3"
-        android:text="דף משתמש"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnToAddBook"
-        app:layout_constraintStart_toStartOf="@+id/btnToAddBook"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <Button
-        android:id="@+id/btnToAddBook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="7dp"
-        android:layout_marginBottom="24dp"
-        android:backgroundTint="#2EB3B3"
-        android:text="הוספת ספר"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnToUsersManage"
-        app:layout_constraintStart_toStartOf="@+id/btnToUsersManage"
-        app:layout_constraintTop_toBottomOf="@+id/btnToMainActivity" />
-
-    <Button
-        android:id="@+id/btnToUsersManage"
-        android:layout_width="161dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="21dp"
-        android:backgroundTint="#2EB3B3"
-        android:text="הצגת משתמשים"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnToBooksManage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnToAddBook" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnToBooksManage"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/adminMenuCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="24dp"
+        app:cardBackgroundColor="#61707D"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <Button
+                android:id="@+id/btnToMainActivity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#C08497"
+                android:padding="12dp"
+                android:text="דף משתמש"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/btnToAddBook"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnToAddBook"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#4361EE"
+                android:padding="12dp"
+                android:text="הוספת ספר"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/btnToUsersManage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnToMainActivity" />
+
+            <Button
+                android:id="@+id/btnToUsersManage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#4361EE"
+                android:padding="12dp"
+                android:text="הצגת משתמשים"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/btnToBooksManage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnToAddBook" />
+
+            <Button
+                android:id="@+id/btnToBooksManage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#4361EE"
+                android:padding="12dp"
+                android:text="הצגת ספרים"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/btnAnswersManage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnToUsersManage" />
+
+            <Button
+                android:id="@+id/btnAnswersManage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#4361EE"
+                android:padding="12dp"
+                android:text="הצגת תשובות"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnToBooksManage" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/adminIconImage"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="32dp"
+        android:background="#B1B695"
+        android:padding="8dp"
+        android:src="@android:drawable/ic_menu_manage"
+        android:tint="#000022"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adminMenuCard" />
+
+    <TextView
+        android:id="@+id/adminFooterText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
-        android:backgroundTint="#2EB3B3"
-        android:text="הצגת ספרים"
-        android:textSize="15dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btnAnswersManage"
-        app:layout_constraintEnd_toEndOf="@+id/btnAnswersManage"
-        app:layout_constraintTop_toBottomOf="@+id/btnToUsersManage" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="פאנל ניהול"
+        android:textColor="#B1B695"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adminIconImage" />
 
-    <Button
-        android:id="@+id/btnAnswersManage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginBottom="207dp"
-        android:backgroundTint="#2EB3B3"
-        android:text="הצגת תשובות"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnToUsersManage"
-        app:layout_constraintTop_toBottomOf="@+id/btnToBooksManage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

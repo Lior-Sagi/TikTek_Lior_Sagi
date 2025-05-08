@@ -33,8 +33,11 @@ import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.adapter.BookSpinnerAdapter;
 import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
+import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
+import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -63,7 +66,7 @@ public class AddAnswer extends AppCompatActivity implements  View.OnClickListene
 
     ArrayAdapter<String> bookPagesAdapter;
     private FirebaseAuth mAuth;
-
+    private User user;
 
 
     @Override
@@ -187,8 +190,7 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
     }
     /// select image from gallery
     private void selectImageFromGallery() {
-           Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-           selectImageLauncher.launch(intent);
+
         imageChooser();
     }
     /// capture image from camera
@@ -288,24 +290,29 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 // capture image from camera
                 Log.d(TAG, "Capture image button clicked");
                 captureImageFromCamera();
-                return;
+
             }
             if (v.getId() == btnAddAnswer.getId()) {
+                if(ivQuestion.getDrawable() == null) {
+                Toast.makeText(AddAnswer.this, "need to add a picture", Toast.LENGTH_SHORT).show();
+                return;
+            }
                 Log.d(TAG, "Add answer button clicked");
                 addAnswerToDatabase();
-                return;
             }
         }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        user= SharedPreferencesUtil.getUser(this);
+        if(!user.getAdmin()){
+            menu.removeGroup(R.id.adminMenu);
+        }
         return true;
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
-
-
         int id = item.getItemId();
         if (id == R.id.menuMain) {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
@@ -316,19 +323,34 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
-            mAuth.signOut();
+            AuthenticationService.getInstance().signOut();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {
             Intent go = new Intent(getApplicationContext(), Search.class);
             startActivity(go);
         }
+        else if (id == R.id.menuAdminAdminPage) {
+            Intent go = new Intent(getApplicationContext(), AdminPage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAddBook) {
+            Intent go = new Intent(getApplicationContext(), AddBook.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageUsers) {
+            Intent go = new Intent(getApplicationContext(), UsersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageBooks) {
+            Intent go = new Intent(getApplicationContext(), BooksManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageAnswers) {
+            Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
         return true;
     }
-
-
-
-
-
-
-
 }

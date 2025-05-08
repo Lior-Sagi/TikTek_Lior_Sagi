@@ -1,7 +1,9 @@
 package com.example.tiktek_lior_sagi.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +20,8 @@ import com.example.tiktek_lior_sagi.adapter.BookAdapter;
 import com.example.tiktek_lior_sagi.adapter.UserAdapter;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.services.AuthenticationService;
+import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +36,7 @@ public class BooksManage extends AppCompatActivity {
     List<Book> bookList = new ArrayList<>();
     List<String> bookIds = new ArrayList<>();
     BookAdapter adapter;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,5 +81,57 @@ public class BooksManage extends AppCompatActivity {
                 Toast.makeText(BooksManage.this, "Failed to load books", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        user= SharedPreferencesUtil.getUser(this);
+        if(!user.getAdmin()){
+            menu.removeGroup(R.id.adminMenu);
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menuMain) {
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAddAnswer) {
+            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLogOut) {
+            AuthenticationService.getInstance().signOut();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuSearchAnswer) {
+            Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAdminPage) {
+            Intent go = new Intent(getApplicationContext(), AdminPage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAddBook) {
+            Intent go = new Intent(getApplicationContext(), AddBook.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageUsers) {
+            Intent go = new Intent(getApplicationContext(), UsersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageBooks) {
+            Intent go = new Intent(getApplicationContext(), BooksManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageAnswers) {
+            Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
+        return true;
     }
 }

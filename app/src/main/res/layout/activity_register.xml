@@ -5,120 +5,124 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="20"
-    android:background="#588E5A"
-    android:gravity="center"
     android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#000022"
+    android:padding="24dp"
     tools:context=".screens.Register">
-
 
     <TextView
         android:id="@+id/tvSignIn"
-        android:layout_width="202dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="83dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="32dp"
         android:text="הרשמה"
-        android:textColor="@color/black"
-        android:textSize="50dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/etFname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#B1B695"
+        android:textSize="36sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etFname"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
-        android:ems="10"
         android:hint="הכנס שם פרטי"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/etLname"
-        app:layout_constraintEnd_toEndOf="@+id/tvSignIn"
-        app:layout_constraintTop_toBottomOf="@+id/tvSignIn" />
+        android:textDirection="rtl"
+        android:padding="12dp"
+        android:backgroundTint="#C08497"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B1B695"
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/etLname"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:ems="10"
         android:hint="הכנס שם משפחה"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/etPhone"
-        app:layout_constraintStart_toStartOf="@+id/etFname"
-        app:layout_constraintTop_toBottomOf="@+id/etFname" />
+        android:textDirection="rtl"
+        android:padding="12dp"
+        android:backgroundTint="#C08497"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B1B695"
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/etPhone"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="21dp"
-        android:ems="10"
         android:hint="הכנס מספר טלפון"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/etEmail"
-        app:layout_constraintStart_toStartOf="@+id/etLname"
-        app:layout_constraintTop_toBottomOf="@+id/etLname" />
+        android:gravity="end"
+        android:textDirection="rtl"
+        android:padding="12dp"
+        android:backgroundTint="#C08497"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B1B695"
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
-        android:ems="10"
         android:hint="הכנס כתובת מייל"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/etPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPhone" />
+        android:textDirection="rtl"
+        android:padding="12dp"
+        android:backgroundTint="#C08497"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B1B695"
+        android:layout_marginBottom="12dp" />
 
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="44dp"
-        android:ems="10"
         android:hint="הכנס סיסמה"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        android:gravity="end"
+        android:textDirection="rtl"
+        android:padding="12dp"
+        android:backgroundTint="#C08497"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#B1B695"
+        android:layout_marginBottom="32dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
-        android:layout_height="171dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
 
         <Button
             android:id="@+id/btnRegister"
-            android:layout_width="116dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="3dp"
-            android:backgroundTint="#2EB3B3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="הירשם"
-            android:textSize="15dp"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="#4361EE"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/btnToLogin"
-            android:layout_width="115dp"
-            android:layout_height="66dp"
-            android:layout_marginTop="60dp"
-            android:backgroundTint="#2EB3B3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="התחבר"
-            android:textSize="15dp"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:backgroundTint="#61707D"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/btnRegister"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintEnd_toEndOf="parent" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -58,7 +58,7 @@ public class FavouredBookAdapter extends RecyclerView.Adapter<FavouredBookAdapte
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.book_row, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.book_row_favoured, parent, false);
         return new UserViewHolder(v);
     }
 

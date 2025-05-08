@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,23 +28,20 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
+import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
+import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddBook extends AppCompatActivity implements View.OnClickListener {
-
-
-    EditText etBookName;
-    EditText etPagesNumber;
+    EditText etBookName,etPagesNumber;
     Spinner spSubject;
-    Button btnCamera;
-    Button btnGallery;
-    Button btnAddBook;
-    Button btnToSearch;
+    Button btnCamera,btnGallery,btnAddBook;
     /// Activity result launcher for selecting image from gallery
     private ActivityResultLauncher<Intent> selectImageLauncher;
     /// Activity result launcher for capturing image from camera
@@ -53,6 +52,7 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
     // constant to compare
     // the activity result code
     int SELECT_PICTURE = 200;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,22 +100,17 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
         etBookName=findViewById(R.id.etBookName);
         etPagesNumber=findViewById(R.id.etPagesNumber);
         spSubject=findViewById(R.id.spSubject);
-        btnToSearch=findViewById(R.id.btnToSearch);
-        btnToSearch.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        //quick access to search page
-        if(v==btnToSearch)
-        {
-            Intent goLog=new Intent(getApplicationContext(), Search.class);
-            startActivity(goLog);
-        }
         if (v.getId() == btnAddBook.getId()) {
+            if(IVPreviewImage.getDrawable() == null) {
+                Toast.makeText(AddBook.this, "need to add a picture", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Log.d(TAG, "Add book button clicked");
             addBookToDatabase();
-            return;
         }
         if (v.getId() == btnGallery.getId()) {
             // select image from gallery
@@ -178,12 +173,8 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
                 IVPreviewImage.setImageBitmap(null);
                 Intent go=new Intent(getApplicationContext(), AddAnswer.class);
                 go.putExtra("book",book);
-
                 startActivity(go);
-
-
             }
-
             @Override
             public void onFailed(Exception e) {
                 Log.e(TAG, "Failed to add book", e);
@@ -264,5 +255,57 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
                 }
             }
         }
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        user= SharedPreferencesUtil.getUser(this);
+        if(!user.getAdmin()){
+            menu.removeGroup(R.id.adminMenu);
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menuMain) {
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAddAnswer) {
+            Intent go = new Intent(getApplicationContext(), AddAnswer.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLogOut) {
+            AuthenticationService.getInstance().signOut();
+            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuSearchAnswer) {
+            Intent go = new Intent(getApplicationContext(), Search.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAdminPage) {
+            Intent go = new Intent(getApplicationContext(), AdminPage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminAddBook) {
+            Intent go = new Intent(getApplicationContext(), AddBook.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageUsers) {
+            Intent go = new Intent(getApplicationContext(), UsersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageBooks) {
+            Intent go = new Intent(getApplicationContext(), BooksManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuAdminManageAnswers) {
+            Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
+        return true;
     }
 }

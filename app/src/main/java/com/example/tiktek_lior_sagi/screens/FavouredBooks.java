@@ -55,8 +55,8 @@ public class FavouredBooks extends AppCompatActivity {
         favouredBooksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 // Initialize adapter and attach to RecyclerView BEFORE loading books
-        adapter = new FavouredBooks(bookList, bookIds, this);
-        favouredBooksRecyclerView.setAdapter(adapter);
+       // adapter = new FavouredBooks(bookList, bookIds, this);
+       // favouredBooksRecyclerView.setAdapter(adapter);
         loadBooks();
     }
 
@@ -76,7 +76,7 @@ public class FavouredBooks extends AppCompatActivity {
                     bookList.add(book);
                     bookIds.add(uid);
                 }
-                adapter.notifyDataSetChanged();
+               // adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
