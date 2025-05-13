@@ -167,7 +167,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
         else if (id == R.id.menuLogOut) {
             AuthenticationService.getInstance().signOut();
-            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {

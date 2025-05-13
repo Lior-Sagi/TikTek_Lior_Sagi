@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.AnswersManage">
+    tools:context=".screens.AnswersManage"
+    android:background="#000022">
 
     <Spinner
         android:id="@+id/spSubject"

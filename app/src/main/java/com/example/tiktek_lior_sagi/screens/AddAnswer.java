@@ -128,9 +128,8 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                       Book book= (Book) parent.getItemAtPosition(position);
+                                Book book= (Book) parent.getItemAtPosition(position);
                                 book2=book;
-
                                 String[] bookPages = new String[book.getMaxPages()];
                                 for (int i = 0; i < bookPages.length; i++) {
                                     bookPages[i] = ((i + 1) + "");
@@ -324,7 +323,7 @@ spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
         }
         else if (id == R.id.menuLogOut) {
             AuthenticationService.getInstance().signOut();
-            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {

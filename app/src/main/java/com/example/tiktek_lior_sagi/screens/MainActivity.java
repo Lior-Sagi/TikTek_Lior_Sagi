@@ -36,9 +36,10 @@ import android.view.Menu;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnToRegister,btnToLogin,btnToAddAnswer,btnToSearch,btnToFavouredBooks;
-    private FirebaseAuth mAuth;
+    Button btnToAddAnswer,btnToSearch;
     User user=null;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initviews()
     {
-        btnToRegister=findViewById(R.id.btnToRegister);
-        btnToRegister.setOnClickListener(this);
-
-        btnToLogin=findViewById(R.id.btnToLogin);
-        btnToLogin.setOnClickListener(this);
 
         btnToAddAnswer=findViewById(R.id.btnToAddAnswer);
         btnToAddAnswer.setOnClickListener(this);
@@ -75,16 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view==btnToRegister)
-        {
-            Intent go = new Intent(getApplicationContext(), Register.class);
-            startActivity(go);
-        }
-        if(view==btnToLogin)
-        {
-            Intent go = new Intent(getApplicationContext(), Login.class);
-            startActivity(go);
-        }
         if(view==btnToAddAnswer)
         {
             Intent go = new Intent(getApplicationContext(), AddAnswer.class);
@@ -95,11 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent go = new Intent(getApplicationContext(), Search.class);
             startActivity(go);
         }
-        /*if(view==btnToFavouredBooks)
-        {
-            Intent go = new Intent(getApplicationContext(), FavouredBooks.class);
-            startActivity(go);
-        }*/
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -110,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return true;
     }
-
-
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
         int id = item.getItemId();
@@ -125,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if (id == R.id.menuLogOut) {
             AuthenticationService.getInstance().signOut();
-            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {

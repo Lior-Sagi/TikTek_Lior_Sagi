@@ -171,9 +171,6 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
                 etBookName.setText("");
                 etPagesNumber.setText("");
                 IVPreviewImage.setImageBitmap(null);
-                Intent go=new Intent(getApplicationContext(), AddAnswer.class);
-                go.putExtra("book",book);
-                startActivity(go);
             }
             @Override
             public void onFailed(Exception e) {
@@ -279,7 +276,7 @@ public class AddBook extends AppCompatActivity implements View.OnClickListener {
         }
         else if (id == R.id.menuLogOut) {
             AuthenticationService.getInstance().signOut();
-            Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
         }
         else if (id == R.id.menuSearchAnswer) {

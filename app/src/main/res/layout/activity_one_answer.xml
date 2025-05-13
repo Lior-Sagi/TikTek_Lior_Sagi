@@ -5,18 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.FavouredBooks">
+    tools:context=".screens.OneAnswer">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/favouredBooksRecyclerView"
-        android:layout_width="413dp"
-        android:layout_height="535dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+    <ImageView
+        android:id="@+id/ivAnswerPic"
+        android:layout_width="0dp"
+        android:layout_height="574dp"
+        android:layout_marginBottom="55dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>
