@@ -2,8 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menuUserGuide"
+        android:title="מדריך ואודות למשתמש"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menuMain"
         android:title="דף ראשי"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menuLandingPage"
+        android:title="דף כניסה"
         app:showAsAction="never" />
     <item
         android:id="@+id/menuSearchAnswer"

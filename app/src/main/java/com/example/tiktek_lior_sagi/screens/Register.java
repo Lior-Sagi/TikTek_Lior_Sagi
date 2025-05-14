@@ -161,6 +161,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(go);
         }
+        else if (id == R.id.menuUserGuide) {
+            Intent go = new Intent(getApplicationContext(), UserGuide.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLandingPage) {
+            Intent go = new Intent(getApplicationContext(), LandingPage.class);
+            startActivity(go);
+        }
         else if (id == R.id.menuAddAnswer) {
             Intent go = new Intent(getApplicationContext(), AddAnswer.class);
             startActivity(go);

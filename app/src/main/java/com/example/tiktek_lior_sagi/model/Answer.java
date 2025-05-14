@@ -51,7 +51,7 @@ public class Answer  implements Serializable {
     }
 
     public void setQuestionNumber(int questionNumber) {
-        questionNumber = questionNumber;
+        this.questionNumber = questionNumber;
     }
 
     public String getPicAnswer() {

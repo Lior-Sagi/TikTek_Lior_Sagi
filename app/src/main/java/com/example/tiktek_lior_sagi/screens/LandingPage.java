@@ -20,7 +20,7 @@ import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LandingPage extends AppCompatActivity implements View.OnClickListener {
-    Button btnToRegister,btnToLogin;
+    Button btnToRegister,btnToLogin,btnToUserGuide;
     User user=null;
     private FirebaseAuth mAuth;
     @Override
@@ -41,6 +41,9 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
 
         btnToLogin=findViewById(R.id.btnToLogin);
         btnToLogin.setOnClickListener(this);
+
+        btnToUserGuide=findViewById(R.id.btnToUserGuide);
+        btnToUserGuide.setOnClickListener(this);
     }
 
     @Override
@@ -53,6 +56,11 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
         if(v==btnToLogin)
         {
             Intent go = new Intent(getApplicationContext(), Login.class);
+            startActivity(go);
+        }
+        if(v==btnToUserGuide)
+        {
+            Intent go = new Intent(getApplicationContext(), UserGuide.class);
             startActivity(go);
         }
     }
@@ -71,6 +79,14 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
         int id = item.getItemId();
         if (id == R.id.menuMain) {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuUserGuide) {
+            Intent go = new Intent(getApplicationContext(), UserGuide.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLandingPage) {
+            Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
         }
         else if (id == R.id.menuAddAnswer) {

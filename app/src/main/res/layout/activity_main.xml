@@ -20,22 +20,22 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/homeIconImage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/homeIconImage"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
+        android:layout_width="253dp"
+        android:layout_height="144dp"
         android:layout_marginBottom="36dp"
         android:background="#61707D"
-        android:padding="16dp"
-        android:src="@android:drawable/ic_menu_compass"
-        android:tint="#B1B695"
         app:layout_constraintBottom_toTopOf="@+id/actionCard"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:srcCompat="@drawable/logo" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/actionCard"

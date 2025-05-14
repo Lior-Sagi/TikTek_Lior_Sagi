@@ -108,13 +108,51 @@ public class Book implements Serializable {
         return new ArrayList<>(pagesListOrDefault.values());
     }
 
+    public List<Answer> getAnswerListByQuestionNumber(int pageNumber, int questionNumber) {
+        if (pageNumber < 0 || this.maxPages <= pageNumber) {
+            return new ArrayList<>();
+        }
 
+        // First, get the map for the page using the correctly formatted key
+        String pageKey = "\"" + pageNumber + "\"";
+        Map<String, Answer> pageAnswers = this.pagesList.getOrDefault(pageKey, new HashMap<>());
+
+        Log.d("PAGE_DATA", "All pages: " + pagesList.toString());
+        Log.d("PAGE_DATA", "Current page: " + pageAnswers.toString());
+
+        if (pageAnswers.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        // Now filter answers by question number
+        List<Answer> answersForQuestion = new ArrayList<>();
+        for (Answer answer : pageAnswers.values()) {
+            // The getQuestionNumber() should now work correctly with our fixed Answer class
+            if (answer.getQuestionNumber() == questionNumber) {
+                answersForQuestion.add(answer);
+            }
+        }
+
+        Log.d("ANSWERS_FOUND", "Answers found for page " + pageNumber +
+                ", question " + questionNumber + ": " + answersForQuestion.size());
+
+        return answersForQuestion;
+    }
     public void addNewAnswer(int pageNumber, Answer answer) {
         if (pageNumber < 0 || pageNumber >= maxPages) return;
-        Map<String, Answer> map = this.pagesList.getOrDefault("\""+pageNumber+"\"", new HashMap<>());
-        assert map != null;
-        map.put(answer.getId(), answer);
-        this.pagesList.put("\""+pageNumber+"\"", map);
-    }
 
+        // The key format in the map appears to be a JSON string with quotes: "1", "40", etc.
+        String pageKey = "\"" + pageNumber + "\"";
+
+        Log.d("Book", "Adding answer to page key: " + pageKey + ", questionNumber: " + answer.getQuestionNumber());
+        Map<String, Answer> map = this.pagesList.getOrDefault(pageKey, new HashMap<>());
+        if (map == null) {
+            map = new HashMap<>();
+        }
+        map.put(answer.getId(), answer);
+        this.pagesList.put(pageKey, map);
+
+        // Debug log to verify the answer was added
+        Log.d("Book", "After adding, pagesList contains keys: " + pagesList.keySet());
+    }
 }

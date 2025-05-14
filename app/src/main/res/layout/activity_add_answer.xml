@@ -123,14 +123,14 @@
 
     <ImageView
         android:id="@+id/ivQuestion"
-        android:layout_width="272dp"
-        android:layout_height="205dp"
+        android:layout_width="273dp"
+        android:layout_height="187dp"
         android:layout_marginBottom="37dp"
         android:background="#61707D"
         app:layout_constraintBottom_toTopOf="@+id/btnGallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/add_new_picture" />
 
     <Button
         android:id="@+id/btnCamera"

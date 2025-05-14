@@ -68,17 +68,15 @@ public class Answers extends AppCompatActivity {
             public void onCompleted(Book book) {
                 Log.d(TAG, "book: " + book.toString());
                 Log.d(TAG, "sendBook: " + sendBook.toString());
-                List<Answer> answers = book.getAnswerListByPage(sendBook.getPage());
+                List<Answer> answers = book.getAnswerListByQuestionNumber( sendBook.getPage(),sendBook.getQuestionNumber());
                 List<String> answersPictures = new ArrayList<>();
                 for (Answer answer : answers) {
                     answersPictures.add(answer.getPicAnswer());
                 }
                 Log.d(TAG, "answers: " + answers);
                 Log.d(TAG, "answersPictures: " + answersPictures);
-
                 adapter.setItems(answersPictures);
             }
-
             @Override
             public void onFailed(Exception e) {
 
@@ -100,6 +98,14 @@ public class Answers extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.menuMain) {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuUserGuide) {
+            Intent go = new Intent(getApplicationContext(), UserGuide.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuLandingPage) {
+            Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
         }
         else if (id == R.id.menuAddAnswer) {

@@ -5,16 +5,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.UsersManage"
-    android:background="#000022">
+    android:background="#000022"
+    tools:context=".screens.UsersManage">
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginBottom="86dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="26dp"
         android:text="דף משתמשים"
+        android:textColor="#B1B695"
+        android:textSize="38dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/userRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +27,7 @@
         android:id="@+id/userRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="322dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
