@@ -23,6 +23,7 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
     Button btnToRegister,btnToLogin,btnToUserGuide;
     User user=null;
     private FirebaseAuth mAuth;
+    AuthenticationService authenticationService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +35,8 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
             return insets;
         });
         initviews();
+        mAuth=FirebaseAuth.getInstance();
+        authenticationService = AuthenticationService.getInstance();
     }
     private void initviews() {
         btnToRegister=findViewById(R.id.btnToRegister);
@@ -67,9 +70,12 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        user= SharedPreferencesUtil.getUser(this);
-        if(!user.getAdmin()){
-            menu.removeGroup(R.id.adminMenu);
+        if(authenticationService.isUserSignedIn()&& user != null)
+        {
+            user= SharedPreferencesUtil.getUser(this);
+            if(!user.getAdmin()){
+                menu.removeGroup(R.id.adminMenu);
+            }
         }
         return true;
     }

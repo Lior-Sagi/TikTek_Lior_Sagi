@@ -91,6 +91,23 @@ public class Book implements Serializable {
                 ", maxPages=" + maxPages +
                 '}';
     }
+    public List<Answer> getAnswerListByPage(int pageNumber) {
+        if (pageNumber < 0 || this.maxPages <= pageNumber) {
+            return new ArrayList<>();
+        }
+
+        String key = String.valueOf(pageNumber);
+        Map<String, Answer> pagesListOrDefault = this.pagesList.getOrDefault(key, new HashMap<>());
+
+        Log.d("@@@@@@@@@@@@@@", pagesList.toString());
+        Log.d("@@@@@@@@@@@@@@", pagesListOrDefault.toString());
+
+        if (pagesListOrDefault.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return new ArrayList<>(pagesListOrDefault.values());
+    }
     public List<Answer> getAnswerListByQuestionNumber(int pageNumber, int questionNumber) {
         if (pageNumber < 0 || this.maxPages <= pageNumber) {
             return new ArrayList<>();

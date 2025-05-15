@@ -4,19 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
+    android:layout_marginBottom="8dp"
     android:background="#FFFFFF"
     android:layoutDirection="rtl"
-    android:textDirection="rtl"
-    android:layout_marginBottom="8dp">
+    android:padding="12dp"
+    android:textDirection="rtl">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewImage"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="13dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="2dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnEditAnswer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvQuestionLabel"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -28,93 +32,87 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/tvBookName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="Book Name"
-        android:textColor="#000022"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardViewImage"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvBookLabel"
+        android:id="@+id/tvPageLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginBottom="13dp"
         android:text="ספר:"
         android:textColor="#61707D"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/cardViewImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvBookName" />
+        app:layout_constraintBottom_toTopOf="@+id/divider"
+        app:layout_constraintStart_toEndOf="@+id/tvPage" />
 
     <TextView
         android:id="@+id/tvPage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:text="Page 42"
         android:textColor="#4361EE"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvBookLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvBookLabel"
-        app:layout_constraintTop_toTopOf="@+id/tvBookLabel" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvPageLabel"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuestionNumber"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="76dp"
         android:background="#B1B695"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardViewImage"
-        app:layout_constraintTop_toBottomOf="@+id/tvBookLabel" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnDeleteAnswer"
+        app:layout_constraintEnd_toEndOf="@+id/tvQuestionLabel"
+        app:layout_constraintStart_toStartOf="@+id/tvQuestionNumber"
+        app:layout_constraintTop_toTopOf="@+id/cardViewImage" />
 
     <TextView
         android:id="@+id/tvQuestionLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
         android:text="שאלה:"
         android:textColor="#61707D"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/cardViewImage"
+        app:layout_constraintEnd_toStartOf="@+id/cardViewImage"
+        app:layout_constraintStart_toEndOf="@+id/tvQuestionNumber"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     <TextView
         android:id="@+id/tvQuestionNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Question #14"
         android:textColor="#C08497"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tvQuestionLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvQuestionLabel"
-        app:layout_constraintTop_toTopOf="@+id/tvQuestionLabel" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvQuestionLabel"
+        app:layout_constraintEnd_toStartOf="@+id/tvQuestionLabel"
+        app:layout_constraintStart_toEndOf="@+id/tvPage" />
 
     <Button
-        android:id="@+id/btndeleteAnswer"
+        android:id="@+id/btnDeleteAnswer"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginTop="12dp"
-        android:text="View Answer"
+        android:layout_marginBottom="40dp"
+        android:text="למחוק תשובה"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvQuestionLabel" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvQuestionNumber" />
+
+    <Button
+        android:id="@+id/btnEditAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="97dp"
+        android:layout_marginBottom="12dp"
+        android:text="ערוך"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

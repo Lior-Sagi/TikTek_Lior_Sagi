@@ -2,10 +2,15 @@ package com.example.tiktek_lior_sagi.screens;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -13,17 +18,44 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktek_lior_sagi.R;
+import com.example.tiktek_lior_sagi.adapter.AnswerAdapter;
+import com.example.tiktek_lior_sagi.adapter.BookAdapter;
+import com.example.tiktek_lior_sagi.adapter.BookSpinnerAdapter;
+import com.example.tiktek_lior_sagi.model.Answer;
+import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.User;
 import com.example.tiktek_lior_sagi.services.AuthenticationService;
+import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnswersManage extends AppCompatActivity {
     Spinner spSubject,spBook,spPages,spQuestion;
+    String subject;
     Button btnSearch;
     ListView lvAnswers;
     private User user;
+    private DatabaseService databaseService;
+    private ArrayList<Book> allBooks = new ArrayList<>();
+    private ArrayList<Book> selectedBooks = new ArrayList<>();
+    BookSpinnerAdapter bookSpinnerAdapter;
+    ArrayAdapter<String> bookPagesAdapter;
+    RecyclerView answerRecyclerView;
+    Book book=null;
+    Book book2=null;
+    List<Answer> answerList = new ArrayList<>();
+    List<String> answerIds = new ArrayList<>();
+    AnswerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +67,103 @@ public class AnswersManage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initViews();
+        book2= (Book) spBook.getSelectedItem();
+        // Initialize adapter and attach to RecyclerView BEFORE loading users
+        adapter = new AnswerAdapter(book2.getId(),answerList, answerIds, this);
+        answerRecyclerView.setAdapter(adapter);
+        loadAnswers();
+        /// get the instance of the database service
+        databaseService = DatabaseService.getInstance();
+        allBooks = new ArrayList<>();
+
+        spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                subject = (String) parent.getItemAtPosition(position);
+                databaseService.getBooks(new DatabaseService.DatabaseCallback<List<Book>>() {
+                    @Override
+                    public void onCompleted(List<Book> object) {
+                        allBooks.clear();
+                        allBooks.addAll(object);
+
+                        // Initially filter books based on the first selected subject
+                        selectedBooks.clear();
+                        for (Book book : allBooks) {
+                            if (book.getSubject().contains(subject)) {
+                                selectedBooks.add(book);
+                            }
+                            bookSpinnerAdapter = new BookSpinnerAdapter(AnswersManage.this, android.R.layout.simple_spinner_item, selectedBooks);
+
+                            // Notify adapter instead of creating a new one
+                            spBook.setAdapter(bookSpinnerAdapter);
+                            bookSpinnerAdapter.notifyDataSetChanged();
+                            spBook.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                    Book book = (Book) parent.getItemAtPosition(position);
+                                    book = book;
+                                    String[] bookPages = new String[book.getMaxPages()];
+                                    for (int i = 0; i < bookPages.length; i++) {
+                                        bookPages[i] = ((i+1) + "");
+                                    }
+                                    bookPagesAdapter = new ArrayAdapter<>(AnswersManage.this, android.R.layout.simple_spinner_item, bookPages);
+                                    spPages.setAdapter(bookPagesAdapter);
+                                }
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+                                }
+                            });
+                        }
+                    }
+                    @Override
+                    public void onFailed(Exception e) {
+
+                    }
+                });
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
+    private void loadAnswers() {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("books");
+        usersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("BooksManage", "DataSnapshot: " + snapshot.toString());
+                answerList.clear();
+                answerIds.clear();
 
+                for (DataSnapshot answerSnap : snapshot.getChildren()) {
+                    Answer answer = answerSnap.getValue(Answer.class);
+                    Log.d("BooksManage", "Loaded Books: " + answer.getPage() +""+answer.getQuestionNumber()+ " (" + answer.getId() + ")");
+                    String uid = answerSnap.getKey();
+                    answerList.add(answer);
+                    answerIds.add(uid);
+                }
 
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AnswersManage.this, "Failed to load answers", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
-
-
-
-
-
-
-
+    private void initViews() {
+        spSubject=findViewById(R.id.spSubject);
+        spBook=findViewById(R.id.spBook);
+        spPages=findViewById(R.id.spPages);
+        spQuestion=findViewById(R.id.spQuestion);
+        btnSearch=findViewById(R.id.btnSearch);
+        lvAnswers=findViewById(R.id.lvAnswers);
+    }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {

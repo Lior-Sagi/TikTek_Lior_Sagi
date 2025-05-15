@@ -99,13 +99,13 @@
                 android:textColor="#FFFFFF"
                 android:textSize="16dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/btnAnswersManage"
+                app:layout_constraintBottom_toTopOf="@+id/btnToAnswersManage"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnToUsersManage" />
 
             <Button
-                android:id="@+id/btnAnswersManage"
+                android:id="@+id/btnToAnswersManage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#4361EE"

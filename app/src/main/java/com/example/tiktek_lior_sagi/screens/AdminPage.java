@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class AdminPage extends AppCompatActivity implements View.OnClickListener {
 
-    Button btnToMainActivity,btnToAddBook,btnToUsersManage,btnToBooksManage;
+    Button btnToMainActivity,btnToAddBook,btnToUsersManage,btnToBooksManage,btnToAnswersManage;
     private User user=null;
     private FirebaseAuth mAuth;
     @Override
@@ -57,6 +57,9 @@ public class AdminPage extends AppCompatActivity implements View.OnClickListener
 
         btnToBooksManage=findViewById(R.id.btnToBooksManage);
         btnToBooksManage.setOnClickListener(this);
+
+        btnToAnswersManage=findViewById(R.id.btnToAnswersManage);
+        btnToAnswersManage.setOnClickListener(this);
     }
 
     @Override
@@ -79,6 +82,11 @@ public class AdminPage extends AppCompatActivity implements View.OnClickListener
         if(view==btnToBooksManage)
         {
             Intent go = new Intent(getApplicationContext(), BooksManage.class);
+            startActivity(go);
+        }
+        if(view==btnToAnswersManage)
+        {
+            Intent go = new Intent(getApplicationContext(), AnswersManage.class);
             startActivity(go);
         }
     }
