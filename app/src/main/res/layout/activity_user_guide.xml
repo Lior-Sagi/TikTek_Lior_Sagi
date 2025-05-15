@@ -30,7 +30,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="13dp"
-        android:text="ברוך הבא לTikTek! מאגר התשובות לשאלות מספרי לימוד. באפליקציה זאת תוכל לחפש תשובות לשאלות ממגוון רחב של ספרי לימוד ואפילו להעלות אותם בעצמך!"
+        android:text="ברוך הבא לAnswerfy! מאגר התשובות לשאלות מספרי לימוד. באפליקציה זאת תוכל לחפש תשובות לשאלות ממגוון רחב של ספרי לימוד ואפילו להעלות אותם בעצמך!"
         android:textColor="#61707D"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textView14"

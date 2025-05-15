@@ -91,23 +91,6 @@ public class Book implements Serializable {
                 ", maxPages=" + maxPages +
                 '}';
     }
-
-    public List<Answer> getAnswerListByPage(int pageNumber) {
-        if (pageNumber < 0 || this.maxPages <= pageNumber) {
-            return new ArrayList<>();
-        }
-        Map<String, Answer> pagesListOrDefault = this.pagesList.getOrDefault("\""+pageNumber+"\"", new HashMap<>());
-        assert pagesListOrDefault != null;
-        System.out.println(pagesList.toString());
-        System.out.println(pagesListOrDefault);
-        Log.d("@@@@@@@@@@@@@@", pagesList.toString());
-        Log.d("@@@@@@@@@@@@@@", pagesListOrDefault.toString());
-        if (pagesListOrDefault.isEmpty()) {
-            return new ArrayList<>();
-        }
-        return new ArrayList<>(pagesListOrDefault.values());
-    }
-
     public List<Answer> getAnswerListByQuestionNumber(int pageNumber, int questionNumber) {
         if (pageNumber < 0 || this.maxPages <= pageNumber) {
             return new ArrayList<>();
@@ -137,22 +120,5 @@ public class Book implements Serializable {
                 ", question " + questionNumber + ": " + answersForQuestion.size());
 
         return answersForQuestion;
-    }
-    public void addNewAnswer(int pageNumber, Answer answer) {
-        if (pageNumber < 0 || pageNumber >= maxPages) return;
-
-        // The key format in the map appears to be a JSON string with quotes: "1", "40", etc.
-        String pageKey = "\"" + pageNumber + "\"";
-
-        Log.d("Book", "Adding answer to page key: " + pageKey + ", questionNumber: " + answer.getQuestionNumber());
-        Map<String, Answer> map = this.pagesList.getOrDefault(pageKey, new HashMap<>());
-        if (map == null) {
-            map = new HashMap<>();
-        }
-        map.put(answer.getId(), answer);
-        this.pagesList.put(pageKey, map);
-
-        // Debug log to verify the answer was added
-        Log.d("Book", "After adding, pagesList contains keys: " + pagesList.keySet());
     }
 }
