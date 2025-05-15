@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Answers extends AppCompatActivity {
+public class Answers extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static String TAG = "Answers";
 
@@ -61,6 +63,7 @@ public class Answers extends AppCompatActivity {
         adapter = new ImageAdapter(this);
 
         lvAnswers=findViewById(R.id.lvAnswers);
+        lvAnswers.setOnItemClickListener(this);
         lvAnswers.setAdapter(adapter);
 
         databaseService.getBook(sendBook.getBookId(), new DatabaseService.DatabaseCallback<Book>() {
@@ -68,14 +71,26 @@ public class Answers extends AppCompatActivity {
             public void onCompleted(Book book) {
                 Log.d(TAG, "book: " + book.toString());
                 Log.d(TAG, "sendBook: " + sendBook.toString());
-                List<Answer> answers = book.getAnswerListByQuestionNumber( sendBook.getPage(),sendBook.getQuestionNumber());
-                List<String> answersPictures = new ArrayList<>();
-                for (Answer answer : answers) {
-                    answersPictures.add(answer.getPicAnswer());
+                if (!sendBook.getQuestionNumber().equals("כל העמוד")){
+                    List<Answer> answers = book.getAnswerListByQuestionNumber( sendBook.getPage(), Integer.parseInt(sendBook.getQuestionNumber()));
+                    List<String> answersPictures = new ArrayList<>();
+                    for (Answer answer : answers) {
+                        answersPictures.add(answer.getPicAnswer());
+                    }
+                    Log.d(TAG, "answers: " + answers);
+                    Log.d(TAG, "answersPictures: " + answersPictures);
+                    adapter.setItems(answersPictures);
                 }
-                Log.d(TAG, "answers: " + answers);
-                Log.d(TAG, "answersPictures: " + answersPictures);
-                adapter.setItems(answersPictures);
+                else {
+                    List<Answer> answers = book.getAnswerListByPage( sendBook.getPage());
+                    List<String> answersPictures = new ArrayList<>();
+                    for (Answer answer : answers) {
+                        answersPictures.add(answer.getPicAnswer());
+                    }
+                    Log.d(TAG, "answers: " + answers);
+                    Log.d(TAG, "answersPictures: " + answersPictures);
+                    adapter.setItems(answersPictures);
+                }
             }
             @Override
             public void onFailed(Exception e) {
@@ -142,5 +157,13 @@ public class Answers extends AppCompatActivity {
             startActivity(go);
         }
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String base64Image = (String) adapter.getItem(position);
+        Intent go = new Intent(getApplicationContext(), OneAnswer.class);
+        go.putExtra("Answer", base64Image);
+        startActivity(go);
     }
 }

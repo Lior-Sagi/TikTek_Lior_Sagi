@@ -7,9 +7,9 @@ public class SendBook implements Serializable {
     String bookId;
     String bookName;
     int page;
-    int questionNumber;
+    String questionNumber;
 
-    public SendBook(String bookId, String bookName, int page, int questionNumber) {
+    public SendBook(String bookId, String bookName, int page, String questionNumber) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.page = page;
@@ -43,11 +43,11 @@ public class SendBook implements Serializable {
         this.page = page;
     }
 
-    public int getQuestionNumber() {
+    public String getQuestionNumber() {
         return questionNumber;
     }
 
-    public void setQuestionNumber(int questionNumber) {
+    public void setQuestionNumber(String questionNumber) {
         this.questionNumber = questionNumber;
     }
 

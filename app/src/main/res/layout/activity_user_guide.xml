@@ -131,7 +131,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="21dp"
-        android:text="הכנס את פרטי התשובה ולסיום בחר להעלות את התשובה דרך הגלריה או על ידי מצלמת הטלפון ולבסוף לחץ הוסף תשובה "
+        android:text="הכנס את פרטי התשובה ולסיום בחר להעלות את התשובה דרך הגלריה או על ידי מצלמת הטלפון ולבסוף לחץ הוסף תשובה"
         android:textColor="#61707D"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/textView22"

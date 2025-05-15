@@ -5,15 +5,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.OneAnswer">
+    tools:context=".screens.OneAnswer"
+    android:background="#000022">
 
     <ImageView
         android:id="@+id/ivAnswerPic"
         android:layout_width="0dp"
-        android:layout_height="574dp"
-        android:layout_marginBottom="55dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/add_new_picture" />
 </androidx.constraintlayout.widget.ConstraintLayout>

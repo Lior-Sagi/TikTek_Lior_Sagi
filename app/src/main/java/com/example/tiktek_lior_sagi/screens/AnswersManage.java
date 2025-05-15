@@ -3,6 +3,9 @@ package com.example.tiktek_lior_sagi.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -17,7 +20,9 @@ import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 
 public class AnswersManage extends AppCompatActivity {
-
+    Spinner spSubject,spBook,spPages,spQuestion;
+    Button btnSearch;
+    ListView lvAnswers;
     private User user;
 
     @Override

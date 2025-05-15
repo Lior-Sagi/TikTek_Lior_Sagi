@@ -5,68 +5,83 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".screens.AnswersManage"
-    android:background="#000022">
+    android:background="#000022"
+    tools:context=".screens.AnswersManage">
 
     <Spinner
         android:id="@+id/spSubject"
-        android:layout_width="332dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="19dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="12dp"
         android:entries="@array/subjectsArr"
-        app:layout_constraintBottom_toTopOf="@+id/spinner2"
+        app:layout_constraintBottom_toTopOf="@+id/spBook"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spBook"
-        android:layout_width="333dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="36dp"
-        app:layout_constraintBottom_toTopOf="@+id/spinner3"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/spPages"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/spSubject" />
 
     <Spinner
         android:id="@+id/spPages"
-        android:layout_width="332dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="46dp"
-        app:layout_constraintBottom_toTopOf="@+id/spinner4"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="27dp"
+        app:layout_constraintBottom_toTopOf="@+id/spQuestion"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner2" />
+        app:layout_constraintTop_toBottomOf="@+id/spBook" />
 
     <Spinner
         android:id="@+id/spQuestion"
-        android:layout_width="327dp"
-        android:layout_height="36dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="29dp"
         android:entries="@array/questionsArr"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="99dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/btnSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner3" />
+        app:layout_constraintTop_toBottomOf="@+id/spPages" />
 
     <Button
         android:id="@+id/btnSearch"
-        android:layout_width="119dp"
-        android:layout_height="59dp"
-        android:layout_marginBottom="230dp"
-        android:text="חפש"
+        android:layout_width="146dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginBottom="32dp"
         android:backgroundTint="#2EB3B3"
+        android:text="חפש"
         android:textSize="15dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/lvAnswers"
+        app:layout_constraintStart_toStartOf="@+id/spQuestion"
+        app:layout_constraintTop_toBottomOf="@+id/spQuestion" />
+
+    <ListView
+        android:id="@+id/lvAnswers"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner4" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSearch">
+
+    </ListView>
 </androidx.constraintlayout.widget.ConstraintLayout>
