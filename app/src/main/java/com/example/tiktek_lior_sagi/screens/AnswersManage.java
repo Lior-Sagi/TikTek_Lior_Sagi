@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktek_lior_sagi.R;
@@ -39,7 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnswersManage extends AppCompatActivity {
+public class AnswersManage extends AppCompatActivity implements View.OnClickListener {
     Spinner spSubject,spBook,spPages,spQuestion;
     String subject;
     Button btnSearch;
@@ -68,11 +69,7 @@ public class AnswersManage extends AppCompatActivity {
             return insets;
         });
         initViews();
-        book2= (Book) spBook.getSelectedItem();
-        // Initialize adapter and attach to RecyclerView BEFORE loading users
-        adapter = new AnswerAdapter(book2.getId(),answerList, answerIds, this);
-        answerRecyclerView.setAdapter(adapter);
-        loadAnswers();
+        answerRecyclerView.setAdapter(null);
         /// get the instance of the database service
         databaseService = DatabaseService.getInstance();
         allBooks = new ArrayList<>();
@@ -130,28 +127,49 @@ public class AnswersManage extends AppCompatActivity {
         });
     }
 
-    private void loadAnswers() {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("books");
-        usersRef.addValueEventListener(new ValueEventListener() {
+    private void loadAnswers(String bookId) {
+        DatabaseReference pagesRef = FirebaseDatabase.getInstance()
+                .getReference("books")
+                .child(bookId)
+                .child("pagesList");
+
+        pagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("BooksManage", "DataSnapshot: " + snapshot.toString());
+                Log.d("AnswersManage", "DataSnapshot for book " + bookId + ": " + snapshot.toString());
                 answerList.clear();
                 answerIds.clear();
 
-                for (DataSnapshot answerSnap : snapshot.getChildren()) {
-                    Answer answer = answerSnap.getValue(Answer.class);
-                    Log.d("BooksManage", "Loaded Books: " + answer.getPage() +""+answer.getQuestionNumber()+ " (" + answer.getId() + ")");
-                    String uid = answerSnap.getKey();
-                    answerList.add(answer);
-                    answerIds.add(uid);
-                }
+                for (DataSnapshot pageSnap : snapshot.getChildren()) { // page keys like "1", possibly with quotes
+                    for (DataSnapshot answerSnap : pageSnap.getChildren()) {
+                        Answer answer = answerSnap.getValue(Answer.class);
+                        if (answer != null) {
+                            String pageKey = pageSnap.getKey();
+                            if (pageKey != null) {
+                                // Remove surrounding quotes if any
+                                pageKey = pageKey.replaceAll("^\"|\"$", "");
+                                try {
+                                    int pageNumber = Integer.parseInt(pageKey);
+                                    answer.setPage(pageNumber);
+                                } catch (NumberFormatException e) {
+                                    Log.e("AnswersManage", "Invalid page number: " + pageKey, e);
+                                    answer.setPage(0); // or any default/error value
+                                }
+                            }
 
+                            Log.d("AnswersManage", "Loaded Answer: " + answer.getPage() + " " +
+                                    answer.getQuestionNumber() + " (" + answer.getId() + ")");
+                            answerList.add(answer);
+                            answerIds.add(answerSnap.getKey());
+                        }
+                    }
+                }
                 adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(AnswersManage.this, "Failed to load answers", Toast.LENGTH_SHORT).show();
+                Log.e("AnswersManage", "Firebase error: " + error.getMessage(), error.toException());
             }
         });
     }
@@ -162,7 +180,9 @@ public class AnswersManage extends AppCompatActivity {
         spPages=findViewById(R.id.spPages);
         spQuestion=findViewById(R.id.spQuestion);
         btnSearch=findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(this);
         lvAnswers=findViewById(R.id.lvAnswers);
+        answerRecyclerView=findViewById(R.id.answerRecyclerView);
     }
 
 
@@ -224,4 +244,19 @@ public class AnswersManage extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    public void onClick(View view) {
+        Book selectedBook = (Book) spBook.getSelectedItem();
+        if (selectedBook == null) {
+            Toast.makeText(this, "Please select a book", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AnswerAdapter(selectedBook.getId(), answerList, answerIds, this);
+        answerRecyclerView.setAdapter(adapter);
+        loadAnswers(selectedBook.getId());
+    }
+
+
 }

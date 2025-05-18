@@ -4,115 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:background="#FFFFFF"
-    android:layoutDirection="rtl"
-    android:padding="12dp"
-    android:textDirection="rtl">
+    android:padding="16dp"
+    android:background="#61707D">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardViewImage"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="13dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnEditAnswer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvQuestionLabel"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivAnswerPic"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/add_new_picture" />
-    </androidx.cardview.widget.CardView>
+    <ImageView
+        android:id="@+id/ivAnswerPic"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="#61707D"
+        android:padding="4dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/add_new_picture" />
 
     <TextView
         android:id="@+id/tvPageLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginBottom="13dp"
-        android:text="ספר:"
-        android:textColor="#61707D"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
-        app:layout_constraintStart_toEndOf="@+id/tvPage" />
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="20dp"
+        android:text="מספר עמוד"
+        android:textColor="#C08497"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/ivAnswerPic"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvPage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="Page 42"
-        android:textColor="#4361EE"
-        android:textSize="14sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvPageLabel"
-        app:layout_constraintEnd_toStartOf="@+id/tvQuestionNumber"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginBottom="76dp"
-        android:background="#B1B695"
-        app:layout_constraintBottom_toBottomOf="@+id/btnDeleteAnswer"
-        app:layout_constraintEnd_toEndOf="@+id/tvQuestionLabel"
-        app:layout_constraintStart_toStartOf="@+id/tvQuestionNumber"
-        app:layout_constraintTop_toTopOf="@+id/cardViewImage" />
-
-    <TextView
-        android:id="@+id/tvQuestionLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
-        android:text="שאלה:"
-        android:textColor="#61707D"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@+id/cardViewImage"
-        app:layout_constraintStart_toEndOf="@+id/tvQuestionNumber"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        android:layout_marginEnd="8dp"
+        android:text="1"
+        android:textColor="#C08497"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/tvPageLabel"
+        app:layout_constraintTop_toTopOf="@+id/tvPageLabel" />
+
+    <TextView
+        android:id="@+id/tvQuestionNumberLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="16dp"
+        android:text="מספר שאלה"
+        android:textColor="#B1B695"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/ivAnswerPic"
+        app:layout_constraintTop_toBottomOf="@+id/tvPageLabel" />
 
     <TextView
         android:id="@+id/tvQuestionNumber"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Question #14"
-        android:textColor="#C08497"
-        android:textSize="14sp"
+        android:text="1"
+        android:textColor="#B1B695"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvQuestionLabel"
-        app:layout_constraintEnd_toStartOf="@+id/tvQuestionLabel"
-        app:layout_constraintStart_toEndOf="@+id/tvPage" />
+        app:layout_constraintEnd_toStartOf="@+id/tvQuestionNumberLabel"
+        app:layout_constraintTop_toTopOf="@+id/tvQuestionNumberLabel" />
 
     <Button
         android:id="@+id/btnDeleteAnswer"
         android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginBottom="40dp"
-        android:text="למחוק תשובה"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvQuestionNumber" />
-
-    <Button
-        android:id="@+id/btnEditAnswer"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="97dp"
-        android:layout_marginBottom="12dp"
-        android:text="ערוך"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#C08497"
+        android:text="מחק תשובה"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivAnswerPic"
+        app:layout_constraintTop_toBottomOf="@+id/tvQuestionNumberLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

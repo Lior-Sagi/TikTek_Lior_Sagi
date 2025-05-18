@@ -82,7 +82,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
         String bookId= answerAdapter.bookId;
         String uid = answerIds.get(position);
 
-        holder.tvPage.setText(answer.getPage());
+        holder.tvPage.setText(String.valueOf(answer.getPage()));
         holder.tvQuestionNumber.setText(String.valueOf(answer.getQuestionNumber()));
         Log.d("answerAdapter", "Cover string: " + answer.getPicAnswer());
         // Decode Base64 string to byte array
@@ -93,9 +93,6 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
 
 // Set the Bitmap to the ImageView
         holder.ivAnswerPic.setImageBitmap(decodedByte);
-
-
-
         holder.btnDeleteAnswer.setOnClickListener(v -> {
             FirebaseDatabase.getInstance().getReference("books/"+bookId+"pagesList").child(uid).removeValue()
                     .addOnSuccessListener(aVoid -> {
