@@ -53,10 +53,14 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
     ArrayAdapter<String> bookPagesAdapter;
     RecyclerView answerRecyclerView;
     Book book=null;
-    Book book2=null;
+
     List<Answer> answerList = new ArrayList<>();
     List<String> answerIds = new ArrayList<>();
     AnswerAdapter adapter;
+
+    private String quNumber;
+    private int intQuNumber;
+    private int pageNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +104,7 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                                     Book book = (Book) parent.getItemAtPosition(position);
-                                    book = book;
+
                                     String[] bookPages = new String[book.getMaxPages()];
                                     for (int i = 0; i < bookPages.length; i++) {
                                         bookPages[i] = ((i+1) + "");
@@ -133,6 +137,10 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
                 .child(bookId)
                 .child("pagesList");
 
+
+
+       // https://tiktek-lior-sagi-default-rtdb.firebaseio.com/books/-ONu1QRPSrSOd1LtzrQp/pagesList/%221%22/-OPieBUSKFT0Rpl5_9R8
+
         pagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -149,7 +157,8 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
                                 // Remove surrounding quotes if any
                                 pageKey = pageKey.replaceAll("^\"|\"$", "");
                                 try {
-                                    int pageNumber = Integer.parseInt(pageKey);
+                                     pageNumber = Integer.parseInt(pageKey);
+
                                     answer.setPage(pageNumber);
                                 } catch (NumberFormatException e) {
                                     Log.e("AnswersManage", "Invalid page number: " + pageKey, e);
@@ -159,8 +168,21 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
 
                             Log.d("AnswersManage", "Loaded Answer: " + answer.getPage() + " " +
                                     answer.getQuestionNumber() + " (" + answer.getId() + ")");
-                            answerList.add(answer);
-                            answerIds.add(answerSnap.getKey());
+
+                            if (intQuNumber == 0) {
+                                if(answer.getPage()==pageNumber) {
+                                    answerList.add(answer);
+                                    answerIds.add(answerSnap.getKey());
+                                }
+
+                            } else {
+                                if (answer.getQuestionNumber() == intQuNumber) {
+                                    if(answer.getPage()==pageNumber) {
+                                        answerList.add(answer);
+                                        answerIds.add(answerSnap.getKey());
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -255,6 +277,17 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AnswerAdapter(selectedBook.getId(), answerList, answerIds, this);
         answerRecyclerView.setAdapter(adapter);
+
+        quNumber = spQuestion.getSelectedItem().toString();
+        if (quNumber.equals("כל העמוד"))
+        {
+            intQuNumber = 0;
+
+
+        }
+
+
+      else    intQuNumber = Integer.parseInt(quNumber);
         loadAnswers(selectedBook.getId());
     }
 

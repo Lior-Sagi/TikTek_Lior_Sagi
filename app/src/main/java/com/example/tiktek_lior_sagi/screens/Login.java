@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     Button btnLog;
     String email, pass;
     DatabaseService databaseService;
-    private User user=null;
+    private User user2=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +51,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         initViews();
         databaseService=DatabaseService.getInstance();
 
-        user= SharedPreferencesUtil.getUser(this);
-        if(user!=null){
+        user2= SharedPreferencesUtil.getUser(this);
+        if(user2!=null){
 
-            etEmail.setText( user.getEmail());
-           etPassword.setText(user.getPassword());
+            etEmail.setText( user2.getEmail());
+           etPassword.setText(user2.getPassword());
         }
     }
     private void initViews() {
@@ -79,15 +79,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 databaseService.getUser(userId, new DatabaseService.DatabaseCallback<User>() {
                     @Override
                     public void onCompleted(User user) {
-                        SharedPreferencesUtil.saveUser(Login.this, user);
-                        if (user.getAdmin()){
-                            Intent go = new Intent(getApplicationContext(), AdminPage.class);
-                            startActivity(go);
-                        }
-                        else
-                        {
-                            Intent go = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(go);
+                        if(user!=null) {
+                            SharedPreferencesUtil.saveUser(Login.this, user);
+                            if (user.getAdmin()) {
+                                Intent go = new Intent(getApplicationContext(), AdminPage.class);
+                                startActivity(go);
+                            } else {
+                                Intent go = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(go);
+                            }
                         }
                     }
 

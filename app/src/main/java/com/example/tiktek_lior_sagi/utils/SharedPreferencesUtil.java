@@ -13,7 +13,7 @@ public class SharedPreferencesUtil {
 
     /// The name of the shared preferences file
     /// @see Context#getSharedPreferences(String, int)
-    private static final String PREF_NAME = "com.example.tiktek.PREFERENCE_FILE_KEY";
+    private static final String PREF_NAME = "com.example.tiktek.PREFERENCE";
 
     /// Save a string to shared preferences
     /// @param context The context to use
@@ -133,7 +133,8 @@ public class SharedPreferencesUtil {
         String phone = sharedPreferences.getString("phone", "");
 
         boolean isAdmin = sharedPreferences.getBoolean("admin", false);
-        return new User(uid,  fName, lName, phone, email,password,isAdmin);
+
+            return new User(uid,  fName, lName, phone, email,password,isAdmin);
 
     }
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -49,6 +50,13 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
     Book book2=null;
     private FirebaseAuth mAuth;
     private User user=null;
+    private String uid;
+
+    ListView lvUserSearch;
+    ArrayList<Book> userBooks =new ArrayList<>();
+    ArrayAdapter<String> adapter;
+    ArrayList<String> userBooksString =new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +76,30 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             startActivity(go);
         }
         initViews();
+        uid=mAuth.getCurrentUser().getUid();
+
+        adapter=new ArrayAdapter<>(Search.this,android.R.layout.simple_list_item_1,userBooksString);
+
         /// get the instance of the database service
         databaseService = DatabaseService.getInstance();
         allBooks = new ArrayList<>();
+        databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
+
+            @Override
+            public void onCompleted(List<Book> object) {
+
+                userBooks.addAll(object);
+
+
+            }
+
+            @Override
+           public void onFailed(Exception e) {
+
+            }
+        });
+
+
 
         spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -105,6 +134,8 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
                                     }
                                     bookPagesAdapter = new ArrayAdapter<>(Search.this, android.R.layout.simple_spinner_item, bookPages);
                                     spPages.setAdapter(bookPagesAdapter);
+                                    saveUserSearches(book2);
+
                                 }
                                 @Override
                                 public void onNothingSelected(AdapterView<?> parent) {
@@ -124,13 +155,35 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
-        private void initViews () {
+
+    private void saveUserSearches(Book book) {
+
+        databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
+            @Override
+            public void onCompleted(List<Book> object) {
+
+                userBooks.addAll(object);
+                lvUserSearch.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
+
+    }
+
+    private void initViews () {
             spSubject = findViewById(R.id.spSubject);
             spBook = findViewById(R.id.spBook);
             spPages = findViewById(R.id.spPages);
             spQuestion = findViewById(R.id.spQuestion);
             btnSearch = findViewById(R.id.btnSearch);
             btnSearch.setOnClickListener(this);
+            lvUserSearch=findViewById(R.id.lvUserBooks);
         }
     @Override
     public void onClick(View v) {

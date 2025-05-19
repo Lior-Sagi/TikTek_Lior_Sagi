@@ -204,39 +204,12 @@
             android:orientation="vertical"
             android:padding="12dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:text="אלגברה - ספר 2 - שאלה 15"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#B1B695" />
+            <ListView
+                android:id="@+id/lvUserBooks"
 
-            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:text="גיאומטריה - ספר 1 - שאלה 7"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#B1B695" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingVertical="8dp"
-                android:text="פיזיקה - ספר 3 - שאלה 22"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+                android:layout_height="150dp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

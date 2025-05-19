@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 
 import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
-import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -191,17 +190,6 @@ public class DatabaseService {
         getData("books/" + bookId, Book.class, callback);
     }
 
-    /// get a answer from the database
-    /// @param answerId the id of the answer to get
-    /// @param callback the callback to call when the operation is completed
-    ///                the callback will receive the answer object
-    ///               if the operation fails, the callback will receive an exception
-    /// @return void
-    /// @see DatabaseCallback
-    /// @see Answer
-    public void getAnswer(@NotNull final String answerId, @NotNull final DatabaseCallback<Answer> callback) {
-        getData("answers/" + answerId, Answer.class, callback);
-    }
 
 
     /// generate a new id for a new book in the database
@@ -276,6 +264,67 @@ public class DatabaseService {
             callback.onCompleted(users);
         });
     }
+
+
+    /// get all the books from the database
+    /// @param callback the callback to call when the operation is completed
+    ///              the callback will receive a list of book objects
+    ///            if the operation fails, the callback will receive an exception
+    /// @return void
+    /// @see DatabaseCallback
+    /// @see List
+    /// @see Book
+    /// @see #getData(String, Class, DatabaseCallback)
+    public void getAnswer(  @NotNull final String path,    @NotNull final DatabaseCallback<List<Answer>> callback) {
+        readData(path).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "Error getting data", task.getException());
+                callback.onFailed(task.getException());
+                return;
+            }
+            List<Answer> answerList = new ArrayList<>();
+            task.getResult().getChildren().forEach(dataSnapshot -> {
+                Answer answer = dataSnapshot.getValue(Answer.class);
+                Log.d(TAG, "Got book: " + answer);
+                answerList.add(answer);
+            });
+
+            callback.onCompleted(answerList);
+        });
+    }
+
+
+    /// create a new user in the database
+    /// @param user the user object to create
+    /// @param callback the callback to call when the operation is completed
+    ///              the callback will receive void
+    ///            if the operation fails, the callback will receive an exception
+    /// @return void
+    /// @see DatabaseCallback
+    /// @see User
+    public void userSearches(@NotNull final String id, @Nullable final Book book,  @Nullable final DatabaseCallback<Void> callback) {
+        writeData("usersBooks/" + id +"/" + book.getId(), book, callback);
+    }
+
+    public void getUserSearches(  @NotNull final String uid,    @NotNull final DatabaseCallback<List<Book>> callback) {
+        readData("usersBooks/"+uid).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "Error getting data", task.getException());
+                callback.onFailed(task.getException());
+                return;
+            }
+            List<Book> bookList = new ArrayList<>();
+            task.getResult().getChildren().forEach(dataSnapshot -> {
+                Book book = dataSnapshot.getValue(Book.class);
+                Log.d(TAG, "Got book: " + book);
+                bookList.add(book);
+            });
+
+            callback.onCompleted(bookList);
+        });
+    }
+
+
 
 
 }

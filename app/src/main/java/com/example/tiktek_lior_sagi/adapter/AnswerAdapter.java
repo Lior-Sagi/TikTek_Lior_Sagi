@@ -81,6 +81,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
         Answer answer = answerList.get(position);
         String bookId= answerAdapter.bookId;
         String uid = answerIds.get(position);
+        String stPageNumber=answer.getPage()+"";
 
         holder.tvPage.setText(String.valueOf(answer.getPage()));
         holder.tvQuestionNumber.setText(String.valueOf(answer.getQuestionNumber()));
@@ -93,13 +94,17 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
 
 // Set the Bitmap to the ImageView
         holder.ivAnswerPic.setImageBitmap(decodedByte);
+
         holder.btnDeleteAnswer.setOnClickListener(v -> {
-            FirebaseDatabase.getInstance().getReference("books/"+bookId+"pagesList").child(uid).removeValue()
+            FirebaseDatabase.getInstance().getReference("books/" + bookId + "/pagesList")
+                    .child("\"" + stPageNumber + "\"") // page number with quotes, e.g., "1"
+                    .child(uid)
+                    .removeValue()
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "answer deleted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Answer deleted", Toast.LENGTH_SHORT).show();
                         answerList.remove(position);
                         answerIds.remove(position);
-                        notifyItemRemoved(position);
+                        notifyDataSetChanged();
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(context, "Failed to delete answer", Toast.LENGTH_SHORT).show());

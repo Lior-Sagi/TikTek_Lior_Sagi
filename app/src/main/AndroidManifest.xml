@@ -15,6 +15,9 @@
         android:theme="@style/Theme.TikTek_Lior_Sagi"
         tools:targetApi="31">
         <activity
+            android:name=".screens.ui.theme.UserSearches"
+            android:exported="false" />
+        <activity
             android:name=".screens.UserGuide"
             android:exported="false" />
         <activity
@@ -74,7 +77,7 @@
             android:exported="false" />
         <activity
             android:name=".screens.MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

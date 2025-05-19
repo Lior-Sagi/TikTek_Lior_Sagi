@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,7 +21,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tiktek_lior_sagi.R;
+import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.services.AuthenticationService;
+import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,12 +35,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.example.tiktek_lior_sagi.model.User;
 import android.view.Menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnToAddAnswer,btnToSearch;
+    TextView tvAnswerCounter,tvBookCounter;
     User user=null;
     private FirebaseAuth mAuth;
+
+    private DatabaseService databaseService;
+
+    ArrayList<Book> books=new ArrayList<>();
+    private int numBooks=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         initviews();
         mAuth=FirebaseAuth.getInstance();
+        databaseService=DatabaseService.getInstance();
+
+
+        databaseService.getBooks(new DatabaseService.DatabaseCallback<List<Book>>() {
+
+            @Override
+            public void onCompleted(List<Book> object) {
+                numBooks=object.size();
+                tvBookCounter.setText(numBooks+"");
+
+
+
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
     }
 
     private void initviews()
@@ -62,9 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnToSearch=findViewById(R.id.btnToSearch);
         btnToSearch.setOnClickListener(this);
 
-        //btnToFavouredBooks=findViewById(R.id.btnToFavouredBooks);
-       //btnToFavouredBooks.setOnClickListener(this);
-
+        tvAnswerCounter=findViewById(R.id.tvAnswerCounter);
+        tvBookCounter=findViewById(R.id.tvBookCounter);
 
     }
 
