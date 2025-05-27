@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.example.tiktek_lior_sagi.model.User;
@@ -72,14 +73,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onCompleted(List<Book> object) {
                 numBooks=object.size();
                 tvBookCounter.setText(numBooks+"");
-
-
-
             }
-
             @Override
             public void onFailed(Exception e) {
 
+            }
+        });
+        countTotalAnswers();
+    }
+
+    private void countTotalAnswers() {
+        DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference("books");
+
+        booksRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (task.isSuccessful()) {
+                    int totalAnswers = 0;
+                    DataSnapshot booksSnapshot = task.getResult();
+
+                    // Iterate through all books
+                    for (DataSnapshot bookSnapshot : booksSnapshot.getChildren()) {
+                        // Check if this book has a pagesList
+                        DataSnapshot pagesListSnapshot = bookSnapshot.child("pagesList");
+
+                        if (pagesListSnapshot.exists()) {
+                            // Iterate through all pages in this book
+                            for (DataSnapshot pageSnapshot : pagesListSnapshot.getChildren()) {
+                                // Count answers in this page
+                                totalAnswers += (int) pageSnapshot.getChildrenCount();
+                            }
+                        }
+                    }
+                    // Update the UI with the total count
+                    tvAnswerCounter.setText(String.valueOf(totalAnswers));
+                } else {
+                    Log.e("MainActivity", "Error getting answers count", task.getException());
+                    Toast.makeText(MainActivity.this, "Error loading answers count", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

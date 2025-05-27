@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
+import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -302,11 +303,27 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see User
-    public void userSearches(@NotNull final String id, @Nullable final Book book,  @Nullable final DatabaseCallback<Void> callback) {
-        writeData("usersBooks/" + id +"/" + book.getId(), book, callback);
+    public void userSearches(@NotNull final String id, @Nullable final SendBook sendBook,  @Nullable final DatabaseCallback<Void> callback) {
+        writeData("usersBooks/" + id +"/" + sendBook.getBookId(), sendBook, callback);
     }
 
-    public void getUserSearches(  @NotNull final String uid,    @NotNull final DatabaseCallback<List<Book>> callback) {
+    public void getUserSearches(  @NotNull final String uid,    @NotNull final DatabaseCallback<List<SendBook>> callback) {
+        readData("usersBooks/"+uid).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e(TAG, "Error getting data", task.getException());
+                callback.onFailed(task.getException());
+                return;
+            }
+            List<SendBook> sendBookList = new ArrayList<>();
+            task.getResult().getChildren().forEach(dataSnapshot -> {
+                SendBook sendBook = dataSnapshot.getValue(SendBook.class);
+                Log.d(TAG, "Got book: " + sendBook);
+                sendBookList.add(sendBook);
+            });
+            callback.onCompleted(sendBookList);
+        });
+    }
+    /*public void getUserSearches(  @NotNull final String uid,    @NotNull final DatabaseCallback<List<Book>> callback) {
         readData("usersBooks/"+uid).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting data", task.getException());
@@ -319,12 +336,7 @@ public class DatabaseService {
                 Log.d(TAG, "Got book: " + book);
                 bookList.add(book);
             });
-
             callback.onCompleted(bookList);
         });
-    }
-
-
-
-
+    }*/
 }

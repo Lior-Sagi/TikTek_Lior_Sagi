@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.screens.BooksManage;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,7 +36,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView tvBookName, tvSubject,tvMaxPages;
+        TextView tvBookName, tvSubject, tvMaxPages;
         ImageView imgVBookCover;
         Button btnDeleteBook;
 
@@ -55,6 +56,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
         View v = LayoutInflater.from(context).inflate(R.layout.book_row, parent, false);
         return new BookAdapter.UserViewHolder(v);
     }
+
     private void loadImageFromUrl(String urlString, ImageView imageView) {
         new Thread(() -> {
             try {
@@ -85,30 +87,56 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
         holder.tvSubject.setText(book.getSubject());
         holder.tvMaxPages.setText(String.valueOf(book.getMaxPages()));
         Log.d("BookAdapter", "Cover string: " + book.getBookCover());
-        // Decode Base64 string to byte array
-        byte[] decodedString = android.util.Base64.decode(book.getBookCover(), android.util.Base64.DEFAULT);
 
-// Convert byte array to Bitmap
-        android.graphics.Bitmap decodedByte = android.graphics.BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-// Set the Bitmap to the ImageView
-        holder.imgVBookCover.setImageBitmap(decodedByte);
-
-
+        // Safely decode Base64 string to bitmap
+        try {
+            if (book.getBookCover() != null && !book.getBookCover().isEmpty()) {
+                byte[] decodedString = android.util.Base64.decode(book.getBookCover(), android.util.Base64.DEFAULT);
+                android.graphics.Bitmap decodedByte = android.graphics.BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                holder.imgVBookCover.setImageBitmap(decodedByte);
+            } else {
+                // Set a default image or placeholder
+                holder.imgVBookCover.setImageResource(R.drawable.ic_launcher_background); // Replace with your default image
+            }
+        } catch (Exception e) {
+            Log.e("BookAdapter", "Error decoding book cover: " + e.getMessage());
+            holder.imgVBookCover.setImageResource(R.drawable.ic_launcher_background); // Replace with your default image
+        }
 
         holder.btnDeleteBook.setOnClickListener(v -> {
-            FirebaseDatabase.getInstance().getReference("books").child(uid).removeValue()
+            // Store the current position and book data to avoid index issues
+            final int currentPosition = holder.getAdapterPosition();
+            final String bookId = uid;
+
+            // Validate position before proceeding
+            if (currentPosition == RecyclerView.NO_POSITION || currentPosition >= bookList.size()) {
+                Toast.makeText(context, "Error: Invalid position", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            FirebaseDatabase.getInstance().getReference("books").child(bookId).removeValue()
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "Book deleted", Toast.LENGTH_SHORT).show();
-                        bookList.remove(position);
-                        bookIds.remove(position);
-                        notifyItemRemoved(position);
+
+                        // Use the BooksManage method for safe removal
+                        if (context instanceof BooksManage) {
+                            ((BooksManage) context).removeBook(currentPosition);
+                        } else {
+                            // Fallback: manual removal with bounds checking
+                            if (currentPosition >= 0 && currentPosition < bookList.size() && currentPosition < bookIds.size()) {
+                                bookList.remove(currentPosition);
+                                bookIds.remove(currentPosition);
+                                notifyItemRemoved(currentPosition);
+                                notifyItemRangeChanged(currentPosition, bookList.size());
+                            }
+                        }
                     })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(context, "Failed to delete Book", Toast.LENGTH_SHORT).show());
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Failed to delete Book", Toast.LENGTH_SHORT).show();
+                        Log.e("BookAdapter", "Failed to delete book: " + e.getMessage());
+                    });
         });
     }
-
     @Override
     public int getItemCount() {
         return bookList.size();

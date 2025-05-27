@@ -15,14 +15,8 @@
         android:theme="@style/Theme.TikTek_Lior_Sagi"
         tools:targetApi="31">
         <activity
-            android:name=".screens.ui.theme.UserSearches"
-            android:exported="false" />
-        <activity
-            android:name=".screens.UserGuide"
-            android:exported="false" />
-        <activity
-            android:name=".screens.LandingPage"
-            android:exported="true">
+            android:name=".screens.Splash"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,10 +24,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.OneAnswer"
+            android:name=".screens.ui.theme.UserSearches"
             android:exported="false" />
         <activity
-            android:name=".screens.FavouredBooks"
+            android:name=".screens.UserGuide"
+            android:exported="false" />
+        <activity
+            android:name=".screens.LandingPage"
+            android:exported="false"/>
+        <activity
+            android:name=".screens.OneAnswer"
             android:exported="false" />
         <activity
             android:name=".screens.AnswersManage"

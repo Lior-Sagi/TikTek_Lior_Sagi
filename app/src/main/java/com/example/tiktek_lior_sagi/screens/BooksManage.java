@@ -51,15 +51,15 @@ public class BooksManage extends AppCompatActivity {
         bookRecyclerView=findViewById(R.id.bookRecyclerView);
         bookRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-// Initialize adapter and attach to RecyclerView BEFORE loading users
+        // Initialize adapter and attach to RecyclerView BEFORE loading books
         adapter = new BookAdapter(bookList, bookIds, this);
         bookRecyclerView.setAdapter(adapter);
         loadBooks();
     }
 
     private void loadBooks() {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("books");
-        usersRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference("books");
+        booksRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("BooksManage", "DataSnapshot: " + snapshot.toString());
@@ -68,29 +68,46 @@ public class BooksManage extends AppCompatActivity {
 
                 for (DataSnapshot bookSnap : snapshot.getChildren()) {
                     Book book = bookSnap.getValue(Book.class);
-                    Log.d("BooksManage", "Loaded Books: " + book.getBookName() + " (" + book.getId() + ")");
-                    String uid = bookSnap.getKey();
-                    bookList.add(book);
-                    bookIds.add(uid);
+                    if (book != null) {
+                        Log.d("BooksManage", "Loaded Book: " + book.getBookName() + " (" + book.getId() + ")");
+                        String uid = bookSnap.getKey();
+                        bookList.add(book);
+                        bookIds.add(uid);
+                    }
                 }
 
                 adapter.notifyDataSetChanged();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(BooksManage.this, "Failed to load books", Toast.LENGTH_SHORT).show();
+                Log.e("BooksManage", "Database error: " + error.getMessage());
             }
         });
     }
+
+    // Method to safely remove book from lists (call this from your adapter)
+    public void removeBook(int position) {
+        if (position >= 0 && position < bookList.size() && position < bookIds.size()) {
+            bookList.remove(position);
+            bookIds.remove(position);
+            adapter.notifyItemRemoved(position);
+            adapter.notifyItemRangeChanged(position, bookList.size());
+        } else {
+            Log.e("BooksManage", "Invalid position for removal: " + position + ", list size: " + bookList.size());
+            Toast.makeText(this, "Error removing book", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        user= SharedPreferencesUtil.getUser(this);
-        if(!user.getAdmin()){
+        user = SharedPreferencesUtil.getUser(this);
+        if (user != null && !user.getAdmin()) {
             menu.removeGroup(R.id.adminMenu);
         }
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {

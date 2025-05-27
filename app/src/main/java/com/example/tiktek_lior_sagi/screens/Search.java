@@ -1,29 +1,30 @@
 package com.example.tiktek_lior_sagi.screens;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktek_lior_sagi.R;
+import com.example.tiktek_lior_sagi.adapter.BookAdapter;
 import com.example.tiktek_lior_sagi.adapter.BookSpinnerAdapter;
+import com.example.tiktek_lior_sagi.adapter.SendBookAdapter;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
@@ -31,9 +32,13 @@ import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class Search extends AppCompatActivity implements View.OnClickListener {
@@ -51,10 +56,13 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private User user=null;
     private String uid;
-
+    RecyclerView recentSearchesRecyclerView;
     ListView lvUserSearch;
-    ArrayList<Book> userBooks =new ArrayList<>();
+    ArrayList<SendBook> sendBooks;
+    ArrayList<String> sendBooksIds;
+    ArrayList<Book> userBooks =new ArrayList<Book>();
     ArrayAdapter<String> adapter;
+    SendBookAdapter sendBookAdapter;
     ArrayList<String> userBooksString =new ArrayList<>();
 
 
@@ -68,6 +76,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initViews();
         mAuth=FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() == null)
         {
@@ -75,29 +84,25 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(go);
         }
-        initViews();
         uid=mAuth.getCurrentUser().getUid();
-
         adapter=new ArrayAdapter<>(Search.this,android.R.layout.simple_list_item_1,userBooksString);
-
+        sendBookAdapter = new SendBookAdapter(sendBooks,sendBooksIds,this);
+        recentSearchesRecyclerView.setAdapter(sendBookAdapter);
         /// get the instance of the database service
         databaseService = DatabaseService.getInstance();
         allBooks = new ArrayList<>();
-        databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
+        loadUserSearches(uid);
+        /*databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
 
             @Override
             public void onCompleted(List<Book> object) {
-
                 userBooks.addAll(object);
-
-
             }
-
             @Override
            public void onFailed(Exception e) {
 
             }
-        });
+        });*/
 
 
 
@@ -134,8 +139,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
                                     }
                                     bookPagesAdapter = new ArrayAdapter<>(Search.this, android.R.layout.simple_spinner_item, bookPages);
                                     spPages.setAdapter(bookPagesAdapter);
-                                    saveUserSearches(book2);
-
                                 }
                                 @Override
                                 public void onNothingSelected(AdapterView<?> parent) {
@@ -155,26 +158,62 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
+    private void loadUserSearches(String userId) {
+        DatabaseReference userSearchesRef = FirebaseDatabase.getInstance().getReference("userBooks").child(userId);
+        userSearchesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("Search", "DataSnapshot: " + snapshot.toString());
 
-    private void saveUserSearches(Book book) {
+                for (DataSnapshot bookSnap : snapshot.getChildren()) {
+                    SendBook sendBook = bookSnap.getValue(SendBook.class);
+                    if (sendBook != null) {
+                        Log.d("Search", "Loaded User Search: " + sendBook.getBookId() + " (" + sendBook.getBookName() + ")"+ " (" + sendBook.getQuestionNumber() + ")"+ " (" + sendBook.getPage() + ")");
+                        String uid = bookSnap.getKey();
+                        sendBooks.add(sendBook);
+                        sendBooksIds.add(uid);
+                    }
+                }
+                sendBookAdapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Search.this, "Failed to load userSearches", Toast.LENGTH_SHORT).show();
+                Log.e("Search", "Database error: " + error.getMessage());
+            }
+        });
+    }
+    private void saveUserSearches(SendBook sendBook) {
+        databaseService.userSearches(uid, sendBook, new DatabaseService.DatabaseCallback<Void>() {
+            @Override
+            public void onCompleted(Void object) {
+
+                Log.d("saveUserSearches", "User search saved successfully.");
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+                Log.e("saveUserSearches", "Failed to save user search", e);
+            }
+        });
+    }
+
+    /*private void saveUserSearches(Book book) {
         databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
             @Override
             public void onCompleted(List<Book> object) {
-
                 userBooks.addAll(object);
-                lvUserSearch.setAdapter(adapter);
-
-
+                //lvUserSearch.setAdapter(adapter);
             }
-
             @Override
             public void onFailed(Exception e) {
 
             }
         });
 
-    }
+    }*/
 
     private void initViews () {
             spSubject = findViewById(R.id.spSubject);
@@ -183,11 +222,13 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             spQuestion = findViewById(R.id.spQuestion);
             btnSearch = findViewById(R.id.btnSearch);
             btnSearch.setOnClickListener(this);
-            lvUserSearch=findViewById(R.id.lvUserBooks);
+            recentSearchesRecyclerView = findViewById(R.id.recentSearchesRecyclerView);
+            //lvUserSearch=findViewById(R.id.lvUserBooks);
         }
     @Override
     public void onClick(View v) {
         SendBook sendBook= new SendBook(book2.getId(), book2.getBookName(), Integer.parseInt(spPages.getSelectedItem().toString()), spQuestion.getSelectedItem().toString());
+        saveUserSearches(sendBook);
         Intent go=new Intent(getApplicationContext(), Answers.class);
         go.putExtra("sendBook",sendBook);
         startActivity(go);
