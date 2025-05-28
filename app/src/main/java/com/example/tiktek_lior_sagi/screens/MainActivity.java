@@ -199,6 +199,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent go = new Intent(getApplicationContext(), AnswersManage.class);
             startActivity(go);
         }
+        else if (id == R.id.menuUserProfile) {
+            Intent go = new Intent(getApplicationContext(), UserProfile.class);
+            startActivity(go);
+        }
         return true;
     }
 }

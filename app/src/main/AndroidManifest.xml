@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.ui.theme.UserSearches"
+            android:name=".screens.UserSearches"
             android:exported="false" />
         <activity
             android:name=".screens.UserGuide"
@@ -50,10 +50,14 @@
             android:label="@string/title_activity_admin_page"
             android:theme="@style/Theme.TikTek_Lior_Sagi" />
         <activity
-            android:name=".MainActivity"
+            android:name=".screens.MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".screens.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".admin_page"
+            android:name=".screens.ChangeUser"
             android:exported="false"
             android:label="@string/title_activity_admin_page"
             android:theme="@style/Theme.TikTek_Lior_Sagi" />
@@ -75,9 +79,7 @@
         <activity
             android:name=".screens.Register"
             android:exported="false" />
-        <activity
-            android:name=".screens.MainActivity"
-            android:exported="false" />
+
     </application>
 
 </manifest>

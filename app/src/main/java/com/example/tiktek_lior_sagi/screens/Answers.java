@@ -24,6 +24,7 @@ import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
 import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
+import com.example.tiktek_lior_sagi.utils.DataHolder;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -158,12 +159,11 @@ public class Answers extends AppCompatActivity implements AdapterView.OnItemClic
         }
         return true;
     }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String base64Image = (String) adapter.getItem(position);
+        DataHolder.base64Image = base64Image;
         Intent go = new Intent(getApplicationContext(), OneAnswer.class);
-        go.putExtra("Answer", base64Image);
         startActivity(go);
     }
 }

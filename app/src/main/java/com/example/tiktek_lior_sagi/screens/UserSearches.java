@@ -1,4 +1,4 @@
-package com.example.tiktek_lior_sagi.screens.ui.theme;
+package com.example.tiktek_lior_sagi.screens;
 
 import android.os.Bundle;
 

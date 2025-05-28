@@ -1,6 +1,9 @@
 package com.example.tiktek_lior_sagi.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.SendBook;
+import com.example.tiktek_lior_sagi.screens.Answers;
 
 import java.util.List;
 
@@ -21,20 +25,30 @@ public class SendBookAdapter extends RecyclerView.Adapter<SendBookAdapter.UserVi
 
     private List<SendBook> sendBookList;
     private List<String> sendBookIds;
-    private Context context;
+    public Context context;
 
     public SendBookAdapter(List<SendBook> bookList,List<String> sendBookIds, Context context) {
         this.context = context;
         this.sendBookList = bookList;
         this.sendBookIds = sendBookIds;
     }
-    public static class UserViewHolder extends RecyclerView.ViewHolder {
+
+    public  class UserViewHolder extends RecyclerView.ViewHolder {
         TextView tvBookName, tvQuestionNumber, tvPageNumber;
         public UserViewHolder(View itemView) {
             super(itemView);
             tvBookName = itemView.findViewById(R.id.tvBookName);
             tvQuestionNumber = itemView.findViewById(R.id.tvQuestionNumber);
             tvPageNumber = itemView.findViewById(R.id.tvPageNumber);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent go=new Intent(context, Answers.class);
+                    go.putExtra("sendBook",sendBookList.get(getAdapterPosition()));
+                   context.startActivity(go);
+                }
+            });
         }
     }
     @NonNull

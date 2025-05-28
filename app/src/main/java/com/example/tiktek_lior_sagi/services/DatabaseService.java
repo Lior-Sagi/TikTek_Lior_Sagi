@@ -141,6 +141,13 @@ public class DatabaseService {
         writeData("Users/" + user.getId(), user, callback);
     }
 
+
+
+    public void updateUser(@NotNull final User user, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("Users/" + user.getId(), user, callback);
+    }
+
+
     /// create a new book in the database
     /// @param book the book object to create
     /// @param callback the callback to call when the operation is completed

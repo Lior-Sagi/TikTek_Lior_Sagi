@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -58,8 +59,8 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
     private String uid;
     RecyclerView recentSearchesRecyclerView;
     ListView lvUserSearch;
-    ArrayList<SendBook> sendBooks;
-    ArrayList<String> sendBooksIds;
+    ArrayList<SendBook> sendBooks= new ArrayList<>();;
+    ArrayList<String> sendBooksIds= new ArrayList<>();;
     ArrayList<Book> userBooks =new ArrayList<Book>();
     ArrayAdapter<String> adapter;
     SendBookAdapter sendBookAdapter;
@@ -159,19 +160,23 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
         });
     }
     private void loadUserSearches(String userId) {
-        DatabaseReference userSearchesRef = FirebaseDatabase.getInstance().getReference("userBooks").child(userId);
+        DatabaseReference userSearchesRef = FirebaseDatabase.getInstance().getReference("usersBooks").child(userId);
         userSearchesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("Search", "DataSnapshot: " + snapshot.toString());
+                sendBooks.clear();
+                sendBooksIds.clear();
+                Log.d(TAG, "DataSnapshot: " + snapshot.toString());
 
-                for (DataSnapshot bookSnap : snapshot.getChildren()) {
-                    SendBook sendBook = bookSnap.getValue(SendBook.class);
+                for (DataSnapshot bookIdSnap : snapshot.getChildren()) {
+                    // bookIdSnap is under: usersBooks > userId > bookId
+                    SendBook sendBook = bookIdSnap.getValue(SendBook.class);
                     if (sendBook != null) {
-                        Log.d("Search", "Loaded User Search: " + sendBook.getBookId() + " (" + sendBook.getBookName() + ")"+ " (" + sendBook.getQuestionNumber() + ")"+ " (" + sendBook.getPage() + ")");
-                        String uid = bookSnap.getKey();
+                        Log.d(TAG, "Loaded User Search: " + sendBook.getBookId() + " (" + sendBook.getBookName() + ") Page: " + sendBook.getPage() + " Question: " + sendBook.getQuestionNumber());
                         sendBooks.add(sendBook);
-                        sendBooksIds.add(uid);
+                        sendBooksIds.add(bookIdSnap.getKey()); // or sendBook.getBookId() if needed
+                    } else {
+                        Log.w(TAG, "SendBook is null at bookId: " + bookIdSnap.getKey());
                     }
                 }
                 sendBookAdapter.notifyDataSetChanged();
@@ -179,8 +184,8 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Search.this, "Failed to load userSearches", Toast.LENGTH_SHORT).show();
-                Log.e("Search", "Database error: " + error.getMessage());
+                Toast.makeText(Search.this, "Failed to load user searches", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Database error: " + error.getMessage());
             }
         });
     }
@@ -199,7 +204,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
-
     /*private void saveUserSearches(Book book) {
         databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
             @Override
@@ -223,11 +227,13 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             btnSearch = findViewById(R.id.btnSearch);
             btnSearch.setOnClickListener(this);
             recentSearchesRecyclerView = findViewById(R.id.recentSearchesRecyclerView);
-            //lvUserSearch=findViewById(R.id.lvUserBooks);
+            recentSearchesRecyclerView.setOnClickListener(this);
+            recentSearchesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //lvUserSearch=findViewById(R.id.lvUserBooks);
         }
     @Override
     public void onClick(View v) {
-        SendBook sendBook= new SendBook(book2.getId(), book2.getBookName(), Integer.parseInt(spPages.getSelectedItem().toString()), spQuestion.getSelectedItem().toString());
+        SendBook sendBook= new SendBook(book2.getId(), book2.getBookName(), Integer.parseInt(spPages.getSelectedItem().toString()), (String) spQuestion.getSelectedItem());
         saveUserSearches(sendBook);
         Intent go=new Intent(getApplicationContext(), Answers.class);
         go.putExtra("sendBook",sendBook);

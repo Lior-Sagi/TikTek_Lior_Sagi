@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tiktek_lior_sagi.R;
+import com.example.tiktek_lior_sagi.utils.DataHolder;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 
 public class OneAnswer extends AppCompatActivity {
@@ -29,8 +30,7 @@ public class OneAnswer extends AppCompatActivity {
         });
 
         ivAnswerPic = findViewById(R.id.ivAnswerPic);
-
-        String imageBase64 = (String) getIntent().getSerializableExtra("Answer");
+        String imageBase64 = DataHolder.base64Image;
         Bitmap bitmap = ImageUtil.convertFrom64base(imageBase64);
         if (bitmap != null) {
             ivAnswerPic.setImageBitmap(bitmap);

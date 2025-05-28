@@ -21,6 +21,10 @@
         android:id="@+id/menuAddAnswer"
         android:title="הוספת תשובה"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menuUserProfile"
+        android:title="פרטי משתמש"
+        app:showAsAction="never"/>
 
     <group android:id="@+id/adminMenu">
         <item
