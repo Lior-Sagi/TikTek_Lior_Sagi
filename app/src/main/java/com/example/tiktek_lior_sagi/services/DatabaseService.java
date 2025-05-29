@@ -50,7 +50,7 @@ public class DatabaseService {
 
     /// use getInstance() to get an instance of this class
     /// @see DatabaseService#getInstance()
-    private DatabaseService() {
+    public DatabaseService() {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
@@ -149,8 +149,8 @@ public class DatabaseService {
     public void updateBook(@NotNull final Book book, @Nullable final DatabaseCallback<Void> callback) {
         writeData("books/" + book.getId(), book, callback);
     }
-    public void updateAnswer(@NotNull final Book book, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("books/" + book.getId(), book, callback);
+    public void updateAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("books/" + answer.getBookId()+"/pagesList/\"" + answer.getPage()+"\"/"+answer.getId(),answer,callback);
     }
 
 
@@ -204,8 +204,9 @@ public class DatabaseService {
     public void getBook(@NotNull final String bookId, @NotNull final DatabaseCallback<Book> callback) {
         getData("books/" + bookId, Book.class, callback);
     }
-
-
+    public void getAnswer(@NotNull final Answer answer, @NotNull final DatabaseCallback<Answer> callback) {
+        getData("books/" + answer.getBookId()+"/pagesList/\"" + answer.getPage()+"\"/"+answer.getId(), Answer.class, callback);
+    }
 
     /// generate a new id for a new book in the database
     /// @return a new id for the book
@@ -337,20 +338,4 @@ public class DatabaseService {
             callback.onCompleted(sendBookList);
         });
     }
-    /*public void getUserSearches(  @NotNull final String uid,    @NotNull final DatabaseCallback<List<Book>> callback) {
-        readData("usersBooks/"+uid).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e(TAG, "Error getting data", task.getException());
-                callback.onFailed(task.getException());
-                return;
-            }
-            List<Book> bookList = new ArrayList<>();
-            task.getResult().getChildren().forEach(dataSnapshot -> {
-                Book book = dataSnapshot.getValue(Book.class);
-                Log.d(TAG, "Got book: " + book);
-                bookList.add(book);
-            });
-            callback.onCompleted(bookList);
-        });
-    }*/
 }

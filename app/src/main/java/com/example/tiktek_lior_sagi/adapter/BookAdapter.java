@@ -21,6 +21,7 @@ import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.User;
 import com.example.tiktek_lior_sagi.screens.Answers;
 import com.example.tiktek_lior_sagi.screens.BooksManage;
+import com.example.tiktek_lior_sagi.screens.ChangeBook;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -142,7 +143,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
         holder.btnEditBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent go=new Intent(context, Answers.class);
+                Intent go=new Intent(context, ChangeBook.class);
                 go.putExtra("Book",bookList.get(position));
                 context.startActivity(go);
             }

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
  <string-array name="subjectsArr">
-
      <item>מתמטיקה</item>
      <item>אנגלית</item>
      <item>עברית</item>
@@ -19,11 +17,5 @@
      <item>מדעי המחשב</item>
      <item>כלכלה</item>
      <item>פילוסופיה</item>
-
  </string-array>
-
-
-
-
-
 </resources>

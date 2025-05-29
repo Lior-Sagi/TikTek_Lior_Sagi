@@ -58,15 +58,11 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
     private User user=null;
     private String uid;
     RecyclerView recentSearchesRecyclerView;
-    ListView lvUserSearch;
     ArrayList<SendBook> sendBooks= new ArrayList<>();;
     ArrayList<String> sendBooksIds= new ArrayList<>();;
-    ArrayList<Book> userBooks =new ArrayList<Book>();
     ArrayAdapter<String> adapter;
     SendBookAdapter sendBookAdapter;
     ArrayList<String> userBooksString =new ArrayList<>();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,20 +89,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
         databaseService = DatabaseService.getInstance();
         allBooks = new ArrayList<>();
         loadUserSearches(uid);
-        /*databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
-
-            @Override
-            public void onCompleted(List<Book> object) {
-                userBooks.addAll(object);
-            }
-            @Override
-           public void onFailed(Exception e) {
-
-            }
-        });*/
-
-
-
         spSubject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -204,21 +186,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
-    /*private void saveUserSearches(Book book) {
-        databaseService.getUserSearches(uid, new DatabaseService.DatabaseCallback<List<Book>>() {
-            @Override
-            public void onCompleted(List<Book> object) {
-                userBooks.addAll(object);
-                //lvUserSearch.setAdapter(adapter);
-            }
-            @Override
-            public void onFailed(Exception e) {
-
-            }
-        });
-
-    }*/
-
     private void initViews () {
             spSubject = findViewById(R.id.spSubject);
             spBook = findViewById(R.id.spBook);
@@ -229,7 +196,6 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             recentSearchesRecyclerView = findViewById(R.id.recentSearchesRecyclerView);
             recentSearchesRecyclerView.setOnClickListener(this);
             recentSearchesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //lvUserSearch=findViewById(R.id.lvUserBooks);
         }
     @Override
     public void onClick(View v) {

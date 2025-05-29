@@ -1,6 +1,9 @@
 package com.example.tiktek_lior_sagi.adapter;
 
+
+
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Answer;
+import com.example.tiktek_lior_sagi.screens.AnswersManage;
+import com.example.tiktek_lior_sagi.screens.ChangeAnswer;
+import com.example.tiktek_lior_sagi.screens.ChangeBook;
+import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -34,7 +41,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView  tvPage,tvQuestionNumber;
         ImageView ivAnswerPic;
-        Button btnDeleteAnswer;
+        Button btnDeleteAnswer,btnEditAnswer;
 
         public UserViewHolder(View itemView) {
             super(itemView);
@@ -42,6 +49,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
             tvQuestionNumber = itemView.findViewById(R.id.tvQuestionNumber);
             ivAnswerPic = itemView.findViewById(R.id.ivAnswerPic);
             btnDeleteAnswer = itemView.findViewById(R.id.btnDeleteAnswer);
+            btnEditAnswer = itemView.findViewById(R.id.btnEditAnswer);
         }
     }
 
@@ -108,6 +116,18 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(context, "Failed to delete answer", Toast.LENGTH_SHORT).show());
+        });
+        holder.btnEditAnswer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String bookId = AnswersManage.bookIdForChangeAnswer;
+                Answer answer =answerList.get(position);
+                Answer answer1 = new Answer(answer.getId(),bookId,answer.getPage(),answer.getQuestionNumber(),answer.getPicAnswer());
+                Intent go=new Intent(context, ChangeAnswer.class);
+                go.putExtra("Answer",answer1);
+                context.startActivity(go);
+            }
         });
     }
 

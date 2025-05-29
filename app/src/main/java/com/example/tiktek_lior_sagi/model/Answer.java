@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Answer  implements Serializable {
     String id;
+    String bookId;
     int page;
     int questionNumber;
     String picAnswer;
@@ -13,23 +14,30 @@ public class Answer  implements Serializable {
     }
 
 
+    public Answer(String id, String bookId, int page, int questionNumber, String picAnswer) {
+        this.id = id;
+        this.bookId = bookId;
+        this.page = page;
+        this.questionNumber = questionNumber;
+        this.picAnswer = picAnswer;
+    }
+
     public Answer(String id, int page, int questionNumber, String picAnswer) {
         this.id = id;
         this.page = page;
         this.questionNumber = questionNumber;
         this.picAnswer = picAnswer;
     }
-
     @Override
     public String toString() {
         return "Answer{" +
                 "id='" + id + '\'' +
+                ", bookId='" + bookId + '\'' +
                 ", page=" + page +
                 ", questionNumber=" + questionNumber +
-//                ", picAnswer='" + picAnswer + '\'' +
+                ", picAnswer='" + picAnswer + '\'' +
                 '}';
     }
-
     public String getId() {
         return id;
     }
@@ -61,5 +69,11 @@ public class Answer  implements Serializable {
     public void setPicAnswer(String picAnswer) {
         this.picAnswer = picAnswer;
     }
+    public String getBookId() {
+        return bookId;
+    }
 
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
 }

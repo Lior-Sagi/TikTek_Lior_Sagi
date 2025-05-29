@@ -1,6 +1,8 @@
 package com.example.tiktek_lior_sagi.screens;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -41,7 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnswersManage extends AppCompatActivity implements View.OnClickListener {
-    Spinner spSubject,spBook,spPages,spQuestion;
+    Spinner spSubject;
+    static Spinner spBook;
+    Spinner spPages;
+    Spinner spQuestion;
     String subject;
     Button btnSearch;
     ListView lvAnswers;
@@ -61,6 +66,8 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
     private String quNumber;
     private int intQuNumber;
     private int pageNumber;
+
+    public  static  String bookIdForChangeAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +111,7 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                                     Book book = (Book) parent.getItemAtPosition(position);
+                                    bookIdForChangeAnswer=book.getId();
 
                                     String[] bookPages = new String[book.getMaxPages()];
                                     for (int i = 0; i < bookPages.length; i++) {
@@ -130,17 +138,12 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
             }
         });
     }
-
     private void loadAnswers(String bookId) {
+
         DatabaseReference pagesRef = FirebaseDatabase.getInstance()
                 .getReference("books")
                 .child(bookId)
                 .child("pagesList");
-
-
-
-       // https://tiktek-lior-sagi-default-rtdb.firebaseio.com/books/-ONu1QRPSrSOd1LtzrQp/pagesList/%221%22/-OPieBUSKFT0Rpl5_9R8
-
         pagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -206,8 +209,6 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
         lvAnswers=findViewById(R.id.lvAnswers);
         answerRecyclerView=findViewById(R.id.answerRecyclerView);
     }
-
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         user= SharedPreferencesUtil.getUser(this);
@@ -282,13 +283,10 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
         if (quNumber.equals("כל העמוד"))
         {
             intQuNumber = 0;
-
-
         }
-
-
-      else    intQuNumber = Integer.parseInt(quNumber);
-        loadAnswers(selectedBook.getId());
+        else
+            intQuNumber = Integer.parseInt(quNumber);
+        loadAnswers(bookIdForChangeAnswer);
     }
 
 
