@@ -27,90 +27,47 @@ import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 public class ChangeUser extends AppCompatActivity implements View.OnClickListener {
 
     EditText etUserFnamec, etUserLnamec, etUserPhonec;
-
-    String fname, lname,phone;
+    String fname, lname,phone,uid;
     TextView tvUserMailc;
     Button btnSave;
-
-
-
-
-
-
-    String uid;
-
     User userMenu;
-    com.example.tiktek_lior_sagi.model.User user=null;
-
+    User user=null;
     DatabaseService databaseService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_user);
-
-
-
-
-
+        initViews();
+        this.retrieveData();
+    }
+    private void initViews() {
         databaseService= DatabaseService.getInstance();
-
-
-
         etUserFnamec = findViewById(R.id.etUserFnamec);
         etUserLnamec = findViewById(R.id.etUserLnamec);
         tvUserMailc = findViewById(R.id.tvUserMailc);
         etUserPhonec = findViewById(R.id.etUserPhonec);
-
-
-
         btnSave = findViewById(R.id.btnSave);
-
         btnSave.setOnClickListener(this);
-
-
-
-        this.retrieveData();
-
     }
 
     public void retrieveData() {
-
         uid= AuthenticationService.getInstance().getCurrentUserId();
         databaseService.getUser(uid, new DatabaseService.DatabaseCallback<com.example.tiktek_lior_sagi.model.User>() {
             @Override
             public void onCompleted(User object) {
-
                 user=object;
                 if(user!=null) {
-
-
                     etUserFnamec.setText(user.getFname());
                     etUserLnamec.setText(user.getLname());
                     etUserPhonec.setText(user.getPhone());
-
                     tvUserMailc.setText(user.getEmail());
-
-
                 }
-
             }
-
             @Override
             public void onFailed(Exception e) {
-
             }
         });
-
-
-
-
-
-
-            }
-
-
-
+    }
     @Override
     public void onClick(View v) {
         if (v == btnSave) {
@@ -121,28 +78,18 @@ public class ChangeUser extends AppCompatActivity implements View.OnClickListene
             user.setFname(fname);
             user.setLname(lname);
             user.setPhone(phone);
-
-
-
-
-
             databaseService.updateUser(user, new DatabaseService.DatabaseCallback<Void>() {
                 @Override
                 public void onCompleted(Void object) {
-
-
+                    Toast.makeText(getApplicationContext(), "פרטי המשתמש עודכנו בהצלחה", Toast.LENGTH_SHORT).show();
                 }
-
                 @Override
                 public void onFailed(Exception e) {
-
+                    Toast.makeText(getApplicationContext(), "חלה שגיאה,פרטי המשתמש לא עודכנו", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
-
-             Intent intent = new Intent(ChangeUser.this, MainActivity.class);
-          startActivity(intent);
+            Intent intent = new Intent(ChangeUser.this, MainActivity.class);
+            startActivity(intent);
         }
     }
     public boolean onCreateOptionsMenu(Menu menu) {

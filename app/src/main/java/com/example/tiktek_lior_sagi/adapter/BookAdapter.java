@@ -1,6 +1,7 @@
 package com.example.tiktek_lior_sagi.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.User;
+import com.example.tiktek_lior_sagi.screens.Answers;
 import com.example.tiktek_lior_sagi.screens.BooksManage;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,7 +40,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView tvBookName, tvSubject, tvMaxPages;
         ImageView imgVBookCover;
-        Button btnDeleteBook;
+        Button btnDeleteBook,btnEditBook;
 
         public UserViewHolder(View itemView) {
             super(itemView);
@@ -47,6 +49,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
             tvMaxPages = itemView.findViewById(R.id.tvMaxPages);
             imgVBookCover = itemView.findViewById(R.id.imgVBookCover);
             btnDeleteBook = itemView.findViewById(R.id.btnDeleteBook);
+            btnEditBook = itemView.findViewById(R.id.btnEditBook);
         }
     }
 
@@ -135,6 +138,14 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
                         Toast.makeText(context, "Failed to delete Book", Toast.LENGTH_SHORT).show();
                         Log.e("BookAdapter", "Failed to delete book: " + e.getMessage());
                     });
+        });
+        holder.btnEditBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent go=new Intent(context, Answers.class);
+                go.putExtra("Book",bookList.get(position));
+                context.startActivity(go);
+            }
         });
     }
     @Override

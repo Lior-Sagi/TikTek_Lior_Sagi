@@ -4,16 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
-    android:background="#61707D">
+    android:background="#61707D"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/ivAnswerPic"
         android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="9dp"
         android:background="#61707D"
         android:padding="4dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/btnEditAnswer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/add_new_picture" />
@@ -77,5 +80,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivAnswerPic"
         app:layout_constraintTop_toBottomOf="@+id/tvQuestionNumberLabel" />
+
+    <Button
+        android:id="@+id/btnEditAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="16dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/btnDeleteAnswer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivAnswerPic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

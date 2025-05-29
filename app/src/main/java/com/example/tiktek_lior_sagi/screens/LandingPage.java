@@ -69,8 +69,11 @@ public class LandingPage extends AppCompatActivity implements View.OnClickListen
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        if(authenticationService.isUserSignedIn()&& user != null)
+        if(authenticationService.isUserSignedIn())
+        {
+            getMenuInflater().inflate(R.menu.menu, menu);
+        }
+        if(user != null)
         {
             user= SharedPreferencesUtil.getUser(this);
             if(!user.getAdmin()){

@@ -17,117 +17,63 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.User;
 import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class UserProfile extends AppCompatActivity implements View.OnClickListener {
-
     TextView tvFname, tvLname, tvphone,  tvEmail;
-
     Button btnChange;
     String mail, fname, lname, phone;
-
-
-
-
-
-    private com.example.tiktek_lior_sagi.model.User theUser=null;
-
-String uid;
-DatabaseService databaseService;
+    private User theUser=null;
+    String uid;
+    DatabaseService databaseService;
     private User user=null;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-
         uid= AuthenticationService.getInstance().getCurrentUserId();
         databaseService=DatabaseService.getInstance();
-
         databaseService.getUser(uid, new DatabaseService.DatabaseCallback<User>() {
             @Override
             public void onCompleted(User object) {
-
                 theUser=object;
-
                 if (theUser != null) {
                     fname = theUser.getFname() + "";
                     lname = theUser.getLname() + "";
                     mail = theUser.getEmail() + "";
                     phone = theUser.getPhone() + "";
-
-
                     tvFname.setText("" + fname);
                     tvLname.setText("" + lname);
                     tvEmail.setText("" + mail);
                     tvphone.setText("" + phone);
-
                 }
-
             }
-
             @Override
             public void onFailed(Exception e) {
-
             }
         });
-
-
-
-
+        initViews();
+    }
+    private void initViews() {
         tvFname = findViewById(R.id.tvUserFname);
         tvLname = findViewById(R.id.tvUserLname);
         tvphone = findViewById(R.id.tvUserPhone);
         tvEmail = findViewById(R.id.tvUserMail);
-
         btnChange = findViewById(R.id.btnChange);
-
-
         btnChange.setOnClickListener(this);
-
-
-
-
-
-
-
-                }
-
-
-
-
-
-
-
-
+    }
 
     @Override
     public void onClick(View view) {
         if (btnChange == view) {
-         Intent   goToChange = new Intent(UserProfile.this, ChangeUser.class);
-
+            Intent goToChange = new Intent(UserProfile.this, ChangeUser.class);
             startActivity(goToChange);
         }
-
-
     }
-
-
-
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         user= SharedPreferencesUtil.getUser(this);

@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="24dp"
-            android:text="שינוי פרטי משתמש:"
+            android:text="שינוי פרטי ספר:"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="32sp"
