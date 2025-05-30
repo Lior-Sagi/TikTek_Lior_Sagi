@@ -3,6 +3,7 @@ package com.example.tiktek_lior_sagi.screens;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +25,7 @@ import com.example.tiktek_lior_sagi.utils.ImageUtil;
 public class ChangeAnswer extends AppCompatActivity implements View.OnClickListener {
 
     Intent takeit;
-    Answer answer=null;
+    Answer answer;
     EditText etPageNumber,etQuestionNumber;
     String pageNumber,questionNumber;
     Button btnSave;
@@ -41,22 +42,13 @@ public class ChangeAnswer extends AppCompatActivity implements View.OnClickListe
         this.retrieveData();
     }
     private void retrieveData() {
-        databaseService.getAnswer(answer, new DatabaseService.DatabaseCallback<Answer>() {
-            @Override
-            public void onCompleted(Answer object) {
-                answer=object;
-                if(answer!=null) {
-                    etPageNumber.setText(String.valueOf(answer.getPage()));
-                    etQuestionNumber.setText(String.valueOf(answer.getQuestionNumber()));
-                    String base64Image = answer.getPicAnswer();
-                    Bitmap bitmap = ImageUtil.convertFrom64base(base64Image);
-                    ivAnswerPic.setImageBitmap(bitmap);
-                }
-            }
-            @Override
-            public void onFailed(Exception e) {
-            }
-        });
+
+        etPageNumber.setText(String.valueOf(answer.getPage()));
+        etQuestionNumber.setText(String.valueOf(answer.getQuestionNumber()));
+        String base64Image = answer.getPicAnswer();
+        Bitmap bitmap = ImageUtil.convertFrom64base(base64Image);
+        ivAnswerPic.setImageBitmap(bitmap);
+
     }
     private void initViews() {
         etPageNumber=findViewById(R.id.etPageNumber);
@@ -74,6 +66,7 @@ public class ChangeAnswer extends AppCompatActivity implements View.OnClickListe
             pageNumber=etPageNumber.getText().toString();
             answer.setPage(Integer.parseInt(pageNumber));
             answer.setQuestionNumber(Integer.parseInt(questionNumber));
+            Log.d("updateAnswer","answer to update:"+answer.toString());
             databaseService.updateAnswer(answer, new DatabaseService.DatabaseCallback<Void>() {
                 @Override
                 public void onCompleted(Void object) {

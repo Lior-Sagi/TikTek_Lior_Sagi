@@ -2,19 +2,27 @@ package com.example.tiktek_lior_sagi.services;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.tiktek_lior_sagi.model.Answer;
 import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 
 /// a service to interact with the Firebase Realtime Database.
@@ -125,6 +133,30 @@ public class DatabaseService {
         return databaseReference.child(path).push().getKey();
     }
 
+
+    private <T> void runTransaction(@NotNull final String path, @NotNull final Class<T> clazz, @NotNull final Function<T, T> function, @NotNull final DatabaseCallback<T> callback) {
+        readData(path).runTransaction(new Transaction.Handler() {
+            @NonNull
+            @Override
+            public Transaction.Result doTransaction(@NonNull MutableData currentData) {
+                T t = currentData.getValue(clazz);
+                t = function.apply(t);
+                currentData.setValue(t);
+                return Transaction.success(currentData);
+            }
+
+            @Override
+            public void onComplete(@Nullable DatabaseError error, boolean committed, @Nullable DataSnapshot currentData) {
+                if (error != null) {
+                    callback.onFailed(error.toException());
+                    return;
+                }
+                T t = currentData.getValue(clazz);
+                callback.onCompleted(t);
+            }
+        });
+    }
+
     // end of private methods for reading and writing data
 
     // public methods to interact with the database
@@ -142,18 +174,49 @@ public class DatabaseService {
     }
 
 
-
     public void updateUser(@NotNull final User user, @Nullable final DatabaseCallback<Void> callback) {
         writeData("Users/" + user.getId(), user, callback);
     }
+
     public void updateBook(@NotNull final Book book, @Nullable final DatabaseCallback<Void> callback) {
         writeData("books/" + book.getId(), book, callback);
     }
+
     public void updateAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
-        writeData("books/" + answer.getBookId()+"/pagesList/\"" + answer.getPage()+"\"/"+answer.getId(),answer,callback);
+        runTransaction("books/" + answer.getBookId(), Book.class, new Function<Book, Book>() {
+            @Override
+            public Book apply(Book book) {
+                if (book == null) return null; // Safety check
+
+                Map<String, Map<String, Answer>> pagesList = book.getPagesList();
+                if (pagesList == null) {
+                    pagesList = new HashMap<>();
+                }
+
+                String pageKey = String.valueOf(answer.getPage());
+
+                Map<String, Answer> stringAnswerMap = pagesList.get(pageKey);
+                if (stringAnswerMap == null) {
+                    stringAnswerMap = new HashMap<>();
+                }
+
+                stringAnswerMap.put(answer.getId(), answer);
+                pagesList.put(pageKey, stringAnswerMap);
+                book.setPagesList(pagesList);
+                return book;
+            }
+        }, new DatabaseCallback<Book>() {
+            @Override
+            public void onCompleted(Book book) {
+                callback.onCompleted(null);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                callback.onFailed(e);
+            }
+        });
     }
-
-
 
     /// create a new book in the database
     /// @param book the book object to create
@@ -175,9 +238,9 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see Answer
-   public void createNewAnswer(@NotNull final Answer answer, @NotNull final Book book,  @Nullable final DatabaseCallback<Void> callback ) {
-     writeData("books/" + book.getId()+"/pagesList/\"" + answer.getPage()+"\"/"+answer.getId(), answer, callback);
-     }
+    public void createNewAnswer(@NotNull final Answer answer, @NotNull final Book book, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("books/" + book.getId() + "/pagesList/\"" + answer.getPage() + "\"/" + answer.getId(), answer, callback);
+    }
 
     /// get a user from the database
     /// @param uid the id of the user to get
@@ -192,7 +255,6 @@ public class DatabaseService {
     }
 
 
-
     /// get a book from the database
     /// @param bookId the id of the book to get
     /// @param callback the callback to call when the operation is completed
@@ -203,9 +265,6 @@ public class DatabaseService {
     /// @see Book
     public void getBook(@NotNull final String bookId, @NotNull final DatabaseCallback<Book> callback) {
         getData("books/" + bookId, Book.class, callback);
-    }
-    public void getAnswer(@NotNull final Answer answer, @NotNull final DatabaseCallback<Answer> callback) {
-        getData("books/" + answer.getBookId()+"/pagesList/\"" + answer.getPage()+"\"/"+answer.getId(), Answer.class, callback);
     }
 
     /// generate a new id for a new book in the database
@@ -223,8 +282,6 @@ public class DatabaseService {
     public String generateAnswerId() {
         return generateNewId("answers");
     }
-
-
 
 
     /// get all the books from the database
@@ -282,34 +339,6 @@ public class DatabaseService {
     }
 
 
-    /// get all the books from the database
-    /// @param callback the callback to call when the operation is completed
-    ///              the callback will receive a list of book objects
-    ///            if the operation fails, the callback will receive an exception
-    /// @return void
-    /// @see DatabaseCallback
-    /// @see List
-    /// @see Book
-    /// @see #getData(String, Class, DatabaseCallback)
-    public void getAnswer(  @NotNull final String path,    @NotNull final DatabaseCallback<List<Answer>> callback) {
-        readData(path).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                Log.e(TAG, "Error getting data", task.getException());
-                callback.onFailed(task.getException());
-                return;
-            }
-            List<Answer> answerList = new ArrayList<>();
-            task.getResult().getChildren().forEach(dataSnapshot -> {
-                Answer answer = dataSnapshot.getValue(Answer.class);
-                Log.d(TAG, "Got book: " + answer);
-                answerList.add(answer);
-            });
-
-            callback.onCompleted(answerList);
-        });
-    }
-
-
     /// create a new user in the database
     /// @param user the user object to create
     /// @param callback the callback to call when the operation is completed
@@ -318,12 +347,12 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see User
-    public void userSearches(@NotNull final String id, @Nullable final SendBook sendBook,  @Nullable final DatabaseCallback<Void> callback) {
-        writeData("usersBooks/" + id +"/" + sendBook.getBookId(), sendBook, callback);
+    public void userSearches(@NotNull final String id, @Nullable final SendBook sendBook, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("usersBooks/" + id + "/" + sendBook.getBookId(), sendBook, callback);
     }
 
-    public void getUserSearches(  @NotNull final String uid,    @NotNull final DatabaseCallback<List<SendBook>> callback) {
-        readData("usersBooks/"+uid).get().addOnCompleteListener(task -> {
+    public void getUserSearches(@NotNull final String uid, @NotNull final DatabaseCallback<List<SendBook>> callback) {
+        readData("usersBooks/" + uid).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {
                 Log.e(TAG, "Error getting data", task.getException());
                 callback.onFailed(task.getException());

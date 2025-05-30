@@ -1,7 +1,6 @@
 package com.example.tiktek_lior_sagi.adapter;
 
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -18,10 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Answer;
-import com.example.tiktek_lior_sagi.screens.AnswersManage;
 import com.example.tiktek_lior_sagi.screens.ChangeAnswer;
-import com.example.tiktek_lior_sagi.screens.ChangeBook;
-import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -38,10 +34,11 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
         this.answerIds = answerIds;
         this.context = context;
     }
+
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        TextView  tvPage,tvQuestionNumber;
+        TextView tvPage, tvQuestionNumber;
         ImageView ivAnswerPic;
-        Button btnDeleteAnswer,btnEditAnswer;
+        Button btnDeleteAnswer;
 
         public UserViewHolder(View itemView) {
             super(itemView);
@@ -49,7 +46,6 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
             tvQuestionNumber = itemView.findViewById(R.id.tvQuestionNumber);
             ivAnswerPic = itemView.findViewById(R.id.ivAnswerPic);
             btnDeleteAnswer = itemView.findViewById(R.id.btnDeleteAnswer);
-            btnEditAnswer = itemView.findViewById(R.id.btnEditAnswer);
         }
     }
 
@@ -80,16 +76,18 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
             }
         }).start();
     }
+
     // Required method that RecyclerView calls
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         onBindViewHolder(holder, position, this); // delegate to your custom version
     }
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position,AnswerAdapter answerAdapter) {
+
+    public void onBindViewHolder(@NonNull UserViewHolder holder, int position, AnswerAdapter answerAdapter) {
         Answer answer = answerList.get(position);
-        String bookId= answerAdapter.bookId;
+        String bookId = answerAdapter.bookId;
         String uid = answerIds.get(position);
-        String stPageNumber=answer.getPage()+"";
+        String stPageNumber = answer.getPage() + "";
 
         holder.tvPage.setText(String.valueOf(answer.getPage()));
         holder.tvQuestionNumber.setText(String.valueOf(answer.getQuestionNumber()));
@@ -117,15 +115,11 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
                     .addOnFailureListener(e ->
                             Toast.makeText(context, "Failed to delete answer", Toast.LENGTH_SHORT).show());
         });
-        holder.btnEditAnswer.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String bookId = AnswersManage.bookIdForChangeAnswer;
-                Answer answer =answerList.get(position);
-                Answer answer1 = new Answer(answer.getId(),bookId,answer.getPage(),answer.getQuestionNumber(),answer.getPicAnswer());
-                Intent go=new Intent(context, ChangeAnswer.class);
-                go.putExtra("Answer",answer1);
+                Intent go = new Intent(context, ChangeAnswer.class);
+                go.putExtra("Answer", answer);
                 context.startActivity(go);
             }
         });

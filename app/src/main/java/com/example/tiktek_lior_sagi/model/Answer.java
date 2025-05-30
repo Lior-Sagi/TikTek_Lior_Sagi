@@ -22,12 +22,6 @@ public class Answer  implements Serializable {
         this.picAnswer = picAnswer;
     }
 
-    public Answer(String id, int page, int questionNumber, String picAnswer) {
-        this.id = id;
-        this.page = page;
-        this.questionNumber = questionNumber;
-        this.picAnswer = picAnswer;
-    }
     @Override
     public String toString() {
         return "Answer{" +
