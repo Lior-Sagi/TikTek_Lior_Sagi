@@ -16,6 +16,7 @@ public class Book implements Serializable {
     protected String bookCover;
 
     // page_number -> (answer_id -> answer)
+    //all of the answers of the book
     protected Map<String, Map<String, Answer>> pagesList;
     protected int maxPages;
 
@@ -91,12 +92,15 @@ public class Book implements Serializable {
                 ", maxPages=" + maxPages +
                 '}';
     }
+    //gives the answers for a specific page
     public List<Answer> getAnswerListByPage(int pageNumber) {
+        //checks if pageNumber value is valid
         if (pageNumber < 0 || this.maxPages <= pageNumber) {
             return new ArrayList<>();
         }
 
         String key = String.valueOf(pageNumber);
+        //creates a HashMap of all of the answers
         Map<String, Answer> pagesListOrDefault = this.pagesList.getOrDefault(key, new HashMap<>());
 
         Log.d("@@@@@@@@@@@@@@", pagesList.toString());
@@ -108,12 +112,12 @@ public class Book implements Serializable {
 
         return new ArrayList<>(pagesListOrDefault.values());
     }
+    //gives the answers for a specific page and question number
     public List<Answer> getAnswerListByQuestionNumber(int pageNumber, int questionNumber) {
+        //checks if pageNumber value is valid
         if (pageNumber < 0 || this.maxPages <= pageNumber) {
             return new ArrayList<>();
         }
-
-        // First, get the map for the page using the correctly formatted key
         String pageKey = "\"" + pageNumber + "\"";
         Map<String, Answer> pageAnswers = this.pagesList.getOrDefault(pageKey, new HashMap<>());
 
@@ -123,16 +127,12 @@ public class Book implements Serializable {
         if (pageAnswers.isEmpty()) {
             return new ArrayList<>();
         }
-
-        // Now filter answers by question number
         List<Answer> answersForQuestion = new ArrayList<>();
         for (Answer answer : pageAnswers.values()) {
-            // The getQuestionNumber() should now work correctly with our fixed Answer class
             if (answer.getQuestionNumber() == questionNumber) {
                 answersForQuestion.add(answer);
             }
         }
-
         Log.d("ANSWERS_FOUND", "Answers found for page " + pageNumber +
                 ", question " + questionNumber + ": " + answersForQuestion.size());
 

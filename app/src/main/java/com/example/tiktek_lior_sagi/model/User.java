@@ -3,6 +3,7 @@ package com.example.tiktek_lior_sagi.model;
 import java.io.Serializable;
 
 public class User  implements Serializable {
+    //user info
     String id;
     String fname;
     String lname;

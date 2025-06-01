@@ -10,10 +10,6 @@
         android:title="דף ראשי"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menuLandingPage"
-        android:title="דף כניסה"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/menuSearchAnswer"
         android:title="חיפוש תשובה"
         app:showAsAction="never" />

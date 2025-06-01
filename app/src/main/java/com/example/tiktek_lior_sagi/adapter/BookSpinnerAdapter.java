@@ -21,6 +21,7 @@ import java.util.List;
 /// @see Book
 
 public class BookSpinnerAdapter extends ArrayAdapter<Book> {
+    //book adapter for AddAnswer to show to books in the spinner
 
     /// inflater for the layout
     /// @see LayoutInflater

@@ -185,7 +185,7 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
                 Log.e("saveUserSearches", "Failed to save user search", e);
             }
         });
-    }
+    }//all of the findViewById for elements in the xml and listeners
     private void initViews () {
             spSubject = findViewById(R.id.spSubject);
             spBook = findViewById(R.id.spBook);
@@ -205,16 +205,18 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
         go.putExtra("sendBook",sendBook);
         startActivity(go);
     }
+    //inflate the menu
+    //if user logged in is not an admin remove all of the admin menu buttons
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        user= SharedPreferencesUtil.getUser(this);
-        if(!user.getAdmin()){
+        user = SharedPreferencesUtil.getUser(this);
+        if (!user.getAdmin()) {
             menu.removeGroup(R.id.adminMenu);
         }
         return true;
     }
 
-
+    //get the id of the item clicked and sends to the according page
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
         int id = item.getItemId();
@@ -226,15 +228,12 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
             Intent go = new Intent(getApplicationContext(), UserGuide.class);
             startActivity(go);
         }
-        else if (id == R.id.menuLandingPage) {
-            Intent go = new Intent(getApplicationContext(), LandingPage.class);
-            startActivity(go);
-        }
         else if (id == R.id.menuAddAnswer) {
             Intent go = new Intent(getApplicationContext(), AddAnswer.class);
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
+            //signs out the user and returns them to landing page
             AuthenticationService.getInstance().signOut();
             Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
@@ -261,6 +260,10 @@ public class Search extends AppCompatActivity implements View.OnClickListener {
         }
         else if (id == R.id.menuAdminManageAnswers) {
             Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuUserProfile) {
+            Intent go = new Intent(getApplicationContext(), UserProfile.class);
             startActivity(go);
         }
         return true;

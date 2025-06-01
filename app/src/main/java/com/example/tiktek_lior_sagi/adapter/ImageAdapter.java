@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
+    //adapter for images
 
     private static final String TAG = "ImageAdapter";
 

@@ -13,12 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:layout_marginBottom="32dp"
         android:text="חיפוש שאלה"
         android:textColor="#B1B695"
         android:textSize="32sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/searchFormCard"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,11 +28,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
         app:cardBackgroundColor="#61707D"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2">
@@ -159,15 +161,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginBottom="24dp"
         android:backgroundTint="#C08497"
         android:padding="16dp"
         android:text="חפש"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recentSearchesTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchFormCard" />
@@ -176,20 +177,20 @@
         android:id="@+id/recentSearchesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="2dp"
         android:text="חיפושים אחרונים"
         android:textColor="#B1B695"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/recentSearchesCard"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/recentSearchesCard"
+        app:layout_constraintTop_toBottomOf="@+id/btnSearch" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/recentSearchesCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
         android:layout_marginBottom="24dp"
         app:cardBackgroundColor="#61707D"
         app:cardCornerRadius="12dp"
@@ -197,15 +198,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearch">
+        app:layout_constraintTop_toBottomOf="@+id/recentSearchesTitle">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="195dp"
             android:orientation="vertical"
             android:padding="16dp">
-
-            <!-- Empty state message -->
             <TextView
                 android:id="@+id/emptyRecentSearchesText"
                 android:layout_width="match_parent"
@@ -230,8 +229,7 @@
                 android:paddingBottom="8dp"
                 android:scrollbars="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                 />
+                tools:itemCount="3" />
 
         </LinearLayout>
 

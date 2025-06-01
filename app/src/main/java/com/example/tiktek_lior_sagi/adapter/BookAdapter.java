@@ -28,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder> {
+    //book adapter for BooksManage
     private List<Book> bookList;
     private List<String> bookIds;
     private Context context;
@@ -106,7 +107,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
             Log.e("BookAdapter", "Error decoding book cover: " + e.getMessage());
             holder.imgVBookCover.setImageResource(R.drawable.ic_launcher_background); // Replace with your default image
         }
-
+        //goes to firebase path and deletes book
         holder.btnDeleteBook.setOnClickListener(v -> {
             // Store the current position and book data to avoid index issues
             final int currentPosition = holder.getAdapterPosition();
@@ -140,6 +141,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.UserViewHolder
                         Log.e("BookAdapter", "Failed to delete book: " + e.getMessage());
                     });
         });
+        //after button is clicked send the info of the book to ChangeBook
         holder.btnEditBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

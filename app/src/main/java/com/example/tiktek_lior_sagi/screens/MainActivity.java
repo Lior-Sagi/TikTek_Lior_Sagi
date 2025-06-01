@@ -114,10 +114,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
+    //all of the findViewById for elements in the xml and listeners
     private void initviews()
     {
-
         btnToAddAnswer=findViewById(R.id.btnToAddAnswer);
         btnToAddAnswer.setOnClickListener(this);
 
@@ -126,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tvAnswerCounter=findViewById(R.id.tvAnswerCounter);
         tvBookCounter=findViewById(R.id.tvBookCounter);
-
     }
 
     @Override
@@ -143,14 +141,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //inflate the menu
+    //if user logged in is not an admin remove all of the admin menu buttons
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        user= SharedPreferencesUtil.getUser(this);
-        if(!user.getAdmin()){
+        user = SharedPreferencesUtil.getUser(this);
+        if (!user.getAdmin()) {
             menu.removeGroup(R.id.adminMenu);
         }
         return true;
     }
+
+    //get the id of the item clicked and sends to the according page
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
         int id = item.getItemId();
@@ -162,15 +164,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent go = new Intent(getApplicationContext(), UserGuide.class);
             startActivity(go);
         }
-        else if (id == R.id.menuLandingPage) {
-            Intent go = new Intent(getApplicationContext(), LandingPage.class);
-            startActivity(go);
-        }
         else if (id == R.id.menuAddAnswer) {
             Intent go = new Intent(getApplicationContext(), AddAnswer.class);
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
+            //signs out the user and returns them to landing page
             AuthenticationService.getInstance().signOut();
             Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);

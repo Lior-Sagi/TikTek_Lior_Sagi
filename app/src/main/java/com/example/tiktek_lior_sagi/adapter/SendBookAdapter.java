@@ -22,6 +22,7 @@ import com.example.tiktek_lior_sagi.screens.Answers;
 import java.util.List;
 
 public class SendBookAdapter extends RecyclerView.Adapter<SendBookAdapter.UserViewHolder> {
+    //adapter for Search to show the last searches of a user
 
     private List<SendBook> sendBookList;
     private List<String> sendBookIds;
@@ -40,7 +41,7 @@ public class SendBookAdapter extends RecyclerView.Adapter<SendBookAdapter.UserVi
             tvBookName = itemView.findViewById(R.id.tvBookName);
             tvQuestionNumber = itemView.findViewById(R.id.tvQuestionNumber);
             tvPageNumber = itemView.findViewById(R.id.tvPageNumber);
-
+            //after item is clicked send the info of the sendBook item in an intent to Answers
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -78,7 +78,7 @@
         android:background="#61707D"
         android:popupBackground="#61707D"
         android:padding="12dp"
-        android:entries="@array/questionsArr"
+        android:entries="@array/add_answerArr"
         android:textAlignment="viewEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

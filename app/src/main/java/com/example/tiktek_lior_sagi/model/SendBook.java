@@ -3,7 +3,7 @@ package com.example.tiktek_lior_sagi.model;
 import java.io.Serializable;
 
 public class SendBook implements Serializable {
-    //class to send in Search.java
+    //class to send in Search.java to Answers.java
     String bookId;
     String bookName;
     int page;

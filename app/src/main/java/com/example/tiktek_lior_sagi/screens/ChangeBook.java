@@ -74,7 +74,7 @@ public class ChangeBook extends AppCompatActivity implements View.OnClickListene
             }
         });
     }
-
+    //all of the findViewById for elements in the xml and listeners
     private void initViews() {
         spSubject = findViewById(R.id.spSubject);
         etBookName = findViewById(R.id.etBookName);

@@ -37,6 +37,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     String email, pass;
     DatabaseService databaseService;
     private User user2=null;
+    private AuthenticationService authenticationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,26 +51,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         });
         initViews();
         databaseService=DatabaseService.getInstance();
-
+        authenticationService = AuthenticationService.getInstance();
         user2= SharedPreferencesUtil.getUser(this);
         if(user2!=null){
-
             etEmail.setText( user2.getEmail());
            etPassword.setText(user2.getPassword());
         }
     }
+    //all of the findViewById for elements in the xml and listeners
     private void initViews() {
-
         etEmail= findViewById(R.id.etEmailLogin);
         etPassword= findViewById(R.id.etPasswordLogin);
         btnLog = findViewById(R.id.btnLogin);
         btnLog.setOnClickListener(this);
-
     }
 
     @Override
     public void onClick(View v) {
-
         email = etEmail.getText().toString();
         pass = etPassword.getText().toString();
         AuthenticationService.getInstance().signIn(email, pass,
@@ -90,7 +88,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             }
                         }
                     }
-
                     @Override
                     public void onFailed(Exception e) {
                         Log.w("TAG", "signInWithEmail:failure", e);
@@ -98,7 +95,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     }
                 });
             }
-
             @Override
             public void onFailed(Exception e) {
                 Log.w("TAG", "signInWithEmail:failure", e);
@@ -106,12 +102,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }
         });
     }
+    //inflate the menu
+    //if user logged in is not an admin remove all of the admin menu buttons
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        if(authenticationService.isUserSignedIn()) {
+            getMenuInflater().inflate(R.menu.menu, menu);
+            user2 = SharedPreferencesUtil.getUser(this);
+            if (!user2.getAdmin()) {
+                menu.removeGroup(R.id.adminMenu);
+            }
+        }
         return true;
     }
-
-
+    //get the id of the item clicked and sends to the according page
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
         int id = item.getItemId();
@@ -123,15 +126,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             Intent go = new Intent(getApplicationContext(), UserGuide.class);
             startActivity(go);
         }
-        else if (id == R.id.menuLandingPage) {
-            Intent go = new Intent(getApplicationContext(), LandingPage.class);
-            startActivity(go);
-        }
         else if (id == R.id.menuAddAnswer) {
             Intent go = new Intent(getApplicationContext(), AddAnswer.class);
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
+            //signs out the user and returns them to landing page
             AuthenticationService.getInstance().signOut();
             Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
@@ -158,6 +158,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
         else if (id == R.id.menuAdminManageAnswers) {
             Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuUserProfile) {
+            Intent go = new Intent(getApplicationContext(), UserProfile.class);
             startActivity(go);
         }
         return true;

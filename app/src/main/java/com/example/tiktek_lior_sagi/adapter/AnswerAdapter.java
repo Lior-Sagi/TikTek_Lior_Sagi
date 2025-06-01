@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHolder> {
+    //adapter for the answers in AnswersManage
     private String bookId;
     private List<Answer> answerList;
     private List<String> answerIds;
@@ -100,10 +101,11 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
 
 // Set the Bitmap to the ImageView
         holder.ivAnswerPic.setImageBitmap(decodedByte);
-
+        //goes to firebase path and deletes the answer
+        //after answer is deleted from firebase remove from RecyclerView
         holder.btnDeleteAnswer.setOnClickListener(v -> {
             FirebaseDatabase.getInstance().getReference("books/" + bookId + "/pagesList")
-                    .child("\"" + stPageNumber + "\"") // page number with quotes, e.g., "1"
+                    .child(stPageNumber)
                     .child(uid)
                     .removeValue()
                     .addOnSuccessListener(aVoid -> {

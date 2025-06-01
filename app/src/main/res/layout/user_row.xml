@@ -18,12 +18,12 @@
             android:id="@+id/labelName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:text="שם:"
             android:textColor="#B1B695"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvLname"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvLname" />
 
         <TextView
@@ -31,11 +31,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="10dp"
             android:text="שם משפחה"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/tvPhone"
+            app:layout_constraintEnd_toStartOf="@+id/labelName"
             app:layout_constraintStart_toEndOf="@+id/tvFname" />
 
         <TextView
@@ -46,7 +48,6 @@
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvLname"
-            app:layout_constraintEnd_toStartOf="@+id/tvPhone"
             app:layout_constraintStart_toStartOf="@+id/tvPhone" />
 
         <TextView
@@ -90,38 +91,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="user@example.com"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvIsAdmin"
             app:layout_constraintEnd_toStartOf="@+id/labelEmail"
-            app:layout_constraintStart_toStartOf="@+id/tvPhone"
-            app:layout_constraintTop_toTopOf="@+id/adminBadge" />
+            app:layout_constraintStart_toStartOf="@+id/tvPhone" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/adminBadge"
+        <TextView
+            android:id="@+id/labelAdmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="#4361EE"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnDeleteUser"
-            app:layout_constraintStart_toStartOf="@+id/btnDeleteUser">
+            android:text="האם המשתמש מנהל:"
+            android:textColor="#B1B695"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvIsAdmin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvIsAdmin" />
 
-            <TextView
-                android:id="@+id/tvIsAdmin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:text="מנהל"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:visibility="visible" />
-        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tvIsAdmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:text="כן"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnDeleteUser"
+            app:layout_constraintEnd_toStartOf="@+id/labelAdmin"
+            app:layout_constraintStart_toStartOf="@+id/tvEmail" />
 
         <Button
             android:id="@+id/btnDeleteUser"

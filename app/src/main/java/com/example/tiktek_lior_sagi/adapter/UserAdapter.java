@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
+    //user adapter for UsersManage
     private List<User> userList;
     private List<String> userIds;
     private Context context;
@@ -60,14 +61,27 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.tvPhone.setText(user.getPhone());
         holder.tvEmail.setText(user.getEmail());
         holder.tvIsAdmin.setText(user.getAdmin()+"");
-
+        //deletes a user from firebase path and removes from  RecyclerView
         holder.btnDeleteUser.setOnClickListener(v -> {
+            // Store the current position and user data to avoid index issues
+            final int currentPosition = holder.getAdapterPosition();
+            final String userId = uid;
+
+            // Validate position before proceeding
+            if (currentPosition == RecyclerView.NO_POSITION || currentPosition >= userList.size()) {
+                Toast.makeText(context, "Error: Invalid position", Toast.LENGTH_SHORT).show();
+                return;
+            }
             FirebaseDatabase.getInstance().getReference("Users").child(uid).removeValue()
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(context, "User deleted", Toast.LENGTH_SHORT).show();
-                        userList.remove(position);
-                        userIds.remove(position);
-                        notifyItemRemoved(position);
+                        // Fallback: manual removal with bounds checking
+                        if (currentPosition >= 0 && currentPosition < userList.size() && currentPosition < userIds.size()) {
+                            userList.remove(currentPosition);
+                            userIds.remove(currentPosition);
+                            notifyItemRemoved(currentPosition);
+                            notifyItemRangeChanged(currentPosition, userList.size());
+                        }
                     })
                     .addOnFailureListener(e ->
                             Toast.makeText(context, "Failed to delete user", Toast.LENGTH_SHORT).show());

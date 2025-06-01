@@ -3,8 +3,8 @@ package com.example.tiktek_lior_sagi.model;
 import java.io.Serializable;
 
 public class Answer  implements Serializable {
-    String id;
-    String bookId;
+    String id;//the id for the answer
+    String bookId;//the id of the book the answer is for
     int page;
     int questionNumber;
     String picAnswer;

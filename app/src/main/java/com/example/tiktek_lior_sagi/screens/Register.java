@@ -40,6 +40,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    AuthenticationService authenticationService;
     private User user;
 
 
@@ -54,7 +55,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             return insets;
         });
         initViews();
-
+        authenticationService = AuthenticationService.getInstance();
 
         btnToLogin.setOnClickListener(this);
         btnReg.setOnClickListener(this);
@@ -63,7 +64,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         myRef = database.getReference("Users");
         mAuth = FirebaseAuth.getInstance();
     }
-
+    //all of the findViewById for elements in the xml and listeners
     private void initViews() {
         btnReg=findViewById(R.id.btnRegister);
         btnToLogin=findViewById(R.id.btnToLogin);
@@ -116,9 +117,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             Toast.makeText(this,"הסיסמה ארוכה מדי", Toast.LENGTH_LONG).show();
             isValid = false;
         }
-
         if (isValid==true){
-
             mAuth.createUserWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -130,7 +129,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 User newUser=new User(fireuser.getUid(), fName, lName,phone, email,pass,false);
                                 myRef.child(fireuser.getUid()).setValue(newUser);
                                 SharedPreferencesUtil.saveUser(Register.this, newUser);
-                                Intent goLog=new Intent(getApplicationContext(), Login.class);
+                                Intent goLog=new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(goLog);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -138,22 +137,24 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                                 Toast.makeText(Register.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }
-
-                            // ...
                         }
                     });
         }
     }
+    //inflate the menu
+    //if user logged in is not an admin remove all of the admin menu buttons
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        user= SharedPreferencesUtil.getUser(this);
-        if(!user.getAdmin()){
-            menu.removeGroup(R.id.adminMenu);
+        if(authenticationService.isUserSignedIn()) {
+            getMenuInflater().inflate(R.menu.menu, menu);
+            user = SharedPreferencesUtil.getUser(this);
+            if (!user.getAdmin()) {
+                menu.removeGroup(R.id.adminMenu);
+            }
         }
         return true;
     }
 
-
+    //get the id of the item clicked and sends to the according page
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
         int id = item.getItemId();
@@ -165,15 +166,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             Intent go = new Intent(getApplicationContext(), UserGuide.class);
             startActivity(go);
         }
-        else if (id == R.id.menuLandingPage) {
-            Intent go = new Intent(getApplicationContext(), LandingPage.class);
-            startActivity(go);
-        }
         else if (id == R.id.menuAddAnswer) {
             Intent go = new Intent(getApplicationContext(), AddAnswer.class);
             startActivity(go);
         }
         else if (id == R.id.menuLogOut) {
+            //signs out the user and returns them to landing page
             AuthenticationService.getInstance().signOut();
             Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
@@ -200,6 +198,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         }
         else if (id == R.id.menuAdminManageAnswers) {
             Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuUserProfile) {
+            Intent go = new Intent(getApplicationContext(), UserProfile.class);
             startActivity(go);
         }
         return true;

@@ -181,20 +181,15 @@ public class DatabaseService {
     public void updateBook(@NotNull final Book book, @Nullable final DatabaseCallback<Void> callback) {
         writeData("books/" + book.getId(), book, callback);
     }
-
     public void updateAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
         runTransaction("books/" + answer.getBookId(), Book.class, new Function<Book, Book>() {
             @Override
             public Book apply(Book book) {
-                if (book == null) return null; // Safety check
-
                 Map<String, Map<String, Answer>> pagesList = book.getPagesList();
                 if (pagesList == null) {
                     pagesList = new HashMap<>();
                 }
-
                 String pageKey = String.valueOf(answer.getPage());
-
                 Map<String, Answer> stringAnswerMap = pagesList.get(pageKey);
                 if (stringAnswerMap == null) {
                     stringAnswerMap = new HashMap<>();
@@ -217,7 +212,6 @@ public class DatabaseService {
             }
         });
     }
-
     /// create a new book in the database
     /// @param book the book object to create
     /// @param callback the callback to call when the operation is completed

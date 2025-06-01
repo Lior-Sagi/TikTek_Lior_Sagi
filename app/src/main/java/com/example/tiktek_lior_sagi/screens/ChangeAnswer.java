@@ -50,6 +50,7 @@ public class ChangeAnswer extends AppCompatActivity implements View.OnClickListe
         ivAnswerPic.setImageBitmap(bitmap);
 
     }
+    //all of the findViewById for elements in the xml and listeners
     private void initViews() {
         etPageNumber=findViewById(R.id.etPageNumber);
         etQuestionNumber=findViewById(R.id.etQuestionNumber);

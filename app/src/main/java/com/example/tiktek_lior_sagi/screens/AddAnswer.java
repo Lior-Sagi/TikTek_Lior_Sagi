@@ -63,7 +63,6 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
     private ArrayList<Book> selectedBooks = new ArrayList<>();
     private Spinner spbookSpinner, spSubject;
     String subject = "";
-
     ArrayAdapter<String> bookPagesAdapter;
     private FirebaseAuth mAuth;
     private User user;
@@ -100,8 +99,6 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 subject = (String) parent.getItemAtPosition(position);
-
-
                 databaseService.getBooks(new DatabaseService.DatabaseCallback<List<Book>>() {
                     @Override
                     public void onCompleted(List<Book> object) {
@@ -110,8 +107,6 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
 
                         // Initially filter books based on the first selected subject
                         selectedBooks.clear();
-
-
                         for (Book book : allBooks) {
                             if (book.getSubject().contains(subject)) {
                                 selectedBooks.add(book);
@@ -119,9 +114,8 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
 
                             bookSpinnerAdapter = new BookSpinnerAdapter(AddAnswer.this, android.R.layout.simple_spinner_item, selectedBooks);
 
-                            // Notify adapter instead of creating a new one
-
                             spbookSpinner.setAdapter(bookSpinnerAdapter);
+                            // Notify adapter of the changes
                             bookSpinnerAdapter.notifyDataSetChanged();
                             spbookSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
@@ -141,30 +135,22 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
 
                                 @Override
                                 public void onNothingSelected(AdapterView<?> parent) {
-                                    //   book = null;
 
                                 }
                             });
-
-
                         }
                     }
-
                     @Override
                     public void onFailed(Exception e) {
 
                     }
                 });
-
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
         /// register the activity result launcher for selecting image from gallery
         selectImageLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -187,10 +173,8 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
 
 
     }
-
     /// select image from gallery
     private void selectImageFromGallery() {
-
         imageChooser();
     }
 
@@ -199,7 +183,7 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         captureImageLauncher.launch(takePictureIntent);
     }
-
+    //all of the findViewById for elements in the xml and listeners
     private void initViews() {
         ivQuestion = findViewById(R.id.ivQuestion);
         spPages = findViewById(R.id.spPages);
@@ -310,7 +294,8 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
             addAnswerToDatabase();
         }
     }
-
+    //inflate the menu
+    //if user logged in is not an admin remove all of the admin menu buttons
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         user = SharedPreferencesUtil.getUser(this);
@@ -320,43 +305,54 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
         return true;
     }
 
-
+    //get the id of the item clicked and sends to the according page
     @Override
     public boolean onOptionsItemSelected(@NonNull android.view.MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menuMain) {
             Intent go = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(go);
-        } else if (id == R.id.menuUserGuide) {
+        }
+        else if (id == R.id.menuUserGuide) {
             Intent go = new Intent(getApplicationContext(), UserGuide.class);
             startActivity(go);
-        } else if (id == R.id.menuLandingPage) {
-            Intent go = new Intent(getApplicationContext(), LandingPage.class);
-            startActivity(go);
-        } else if (id == R.id.menuAddAnswer) {
+        }
+        else if (id == R.id.menuAddAnswer) {
             Intent go = new Intent(getApplicationContext(), AddAnswer.class);
             startActivity(go);
-        } else if (id == R.id.menuLogOut) {
+        }
+        else if (id == R.id.menuLogOut) {
+            //signs out the user and returns them to landing page
             AuthenticationService.getInstance().signOut();
             Intent go = new Intent(getApplicationContext(), LandingPage.class);
             startActivity(go);
-        } else if (id == R.id.menuSearchAnswer) {
+        }
+        else if (id == R.id.menuSearchAnswer) {
             Intent go = new Intent(getApplicationContext(), Search.class);
             startActivity(go);
-        } else if (id == R.id.menuAdminAdminPage) {
+        }
+        else if (id == R.id.menuAdminAdminPage) {
             Intent go = new Intent(getApplicationContext(), AdminPage.class);
             startActivity(go);
-        } else if (id == R.id.menuAdminAddBook) {
+        }
+        else if (id == R.id.menuAdminAddBook) {
             Intent go = new Intent(getApplicationContext(), AddBook.class);
             startActivity(go);
-        } else if (id == R.id.menuAdminManageUsers) {
+        }
+        else if (id == R.id.menuAdminManageUsers) {
             Intent go = new Intent(getApplicationContext(), UsersManage.class);
             startActivity(go);
-        } else if (id == R.id.menuAdminManageBooks) {
+        }
+        else if (id == R.id.menuAdminManageBooks) {
             Intent go = new Intent(getApplicationContext(), BooksManage.class);
             startActivity(go);
-        } else if (id == R.id.menuAdminManageAnswers) {
+        }
+        else if (id == R.id.menuAdminManageAnswers) {
             Intent go = new Intent(getApplicationContext(), AnswersManage.class);
+            startActivity(go);
+        }
+        else if (id == R.id.menuUserProfile) {
+            Intent go = new Intent(getApplicationContext(), UserProfile.class);
             startActivity(go);
         }
         return true;
