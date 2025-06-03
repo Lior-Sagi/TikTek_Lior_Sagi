@@ -101,22 +101,9 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
 
 // Set the Bitmap to the ImageView
         holder.ivAnswerPic.setImageBitmap(decodedByte);
-        //goes to firebase path and deletes the answer
-        //after answer is deleted from firebase remove from RecyclerView
-        holder.btnDeleteAnswer.setOnClickListener(v -> {
-            FirebaseDatabase.getInstance().getReference("books/" + bookId + "/pagesList")
-                    .child(stPageNumber)
-                    .child(uid)
-                    .removeValue()
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(context, "Answer deleted", Toast.LENGTH_SHORT).show();
-                        answerList.remove(position);
-                        answerIds.remove(position);
-                        notifyDataSetChanged();
-                    })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(context, "Failed to delete answer", Toast.LENGTH_SHORT).show());
-        });
+
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,10 +112,32 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.UserViewHo
                 context.startActivity(go);
             }
         });
-    }
 
+        //goes to firebase path and deletes the answer
+        //after answer is deleted from firebase remove from RecyclerView
+        holder.btnDeleteAnswer.setOnClickListener(v -> {
+            // Store the current position and answer data to avoid index issues
+            final int currentPosition = holder.getAdapterPosition();
+            FirebaseDatabase.getInstance().getReference("books/" + bookId + "/pagesList")
+                    .child(stPageNumber)
+                    .child(uid)
+                    .removeValue()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(context, "Answer deleted", Toast.LENGTH_SHORT).show();
+                        // Fallback: manual removal with bounds checking
+                        if (currentPosition >= 0 && currentPosition < answerList.size() && currentPosition < answerIds.size()) {
+                            answerList.remove(currentPosition);
+                            answerIds.remove(currentPosition);
+                            notifyItemRemoved(currentPosition);
+                            notifyItemRangeChanged(currentPosition, answerList.size());
+                        }
+                    });
+
+        });
+    };
     @Override
-    public int getItemCount() {
+    public int getItemCount () {
         return answerList.size();
     }
 }
+

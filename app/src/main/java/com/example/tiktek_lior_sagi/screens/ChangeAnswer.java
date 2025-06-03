@@ -12,13 +12,9 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tiktek_lior_sagi.R;
 import com.example.tiktek_lior_sagi.model.Answer;
-import com.example.tiktek_lior_sagi.model.Book;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 
@@ -27,7 +23,7 @@ public class ChangeAnswer extends AppCompatActivity implements View.OnClickListe
     Intent takeit;
     Answer answer;
     EditText etPageNumber,etQuestionNumber;
-    String pageNumber,questionNumber;
+    int pageNumber,questionNumber;
     Button btnSave;
     ImageView ivAnswerPic;
     private DatabaseService databaseService;
@@ -63,10 +59,24 @@ public class ChangeAnswer extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == btnSave) {
-            questionNumber=etQuestionNumber.getText().toString();
-            pageNumber=etPageNumber.getText().toString();
-            answer.setPage(Integer.parseInt(pageNumber));
-            answer.setQuestionNumber(Integer.parseInt(questionNumber));
+            questionNumber= Integer.parseInt(etQuestionNumber.getText().toString());
+            pageNumber= Integer.parseInt(etPageNumber.getText().toString());
+            if(pageNumber!=answer.getPage()) {
+                databaseService.removeAnswer(answer, new DatabaseService.DatabaseCallback<Void>() {
+                    @Override
+                    public    void onCompleted(Void object) {
+
+                    }
+
+                    @Override
+                    public    void onFailed(Exception e) {
+
+                    }
+                });
+            }
+            answer.setPage(pageNumber);
+            answer.setQuestionNumber(questionNumber);
+            //Answer answer1= new Answer(answer.getId(), answer.getBookId(), pageNumber,questionNumber, answer.getPicAnswer());
             Log.d("updateAnswer","answer to update:"+answer.toString());
             databaseService.updateAnswer(answer, new DatabaseService.DatabaseCallback<Void>() {
                 @Override

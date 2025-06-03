@@ -12,8 +12,6 @@ public class Answer  implements Serializable {
     public Answer() {
 
     }
-
-
     public Answer(String id, String bookId, int page, int questionNumber, String picAnswer) {
         this.id = id;
         this.bookId = bookId;

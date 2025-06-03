@@ -33,6 +33,7 @@ public class Book implements Serializable {
         this.maxPages = maxPages;
     }
 
+
     public String getId() {
         return id;
     }
@@ -118,7 +119,7 @@ public class Book implements Serializable {
         if (pageNumber < 0 || this.maxPages <= pageNumber) {
             return new ArrayList<>();
         }
-        String pageKey = "\"" + pageNumber + "\"";
+        String pageKey = String.valueOf(pageNumber);
         Map<String, Answer> pageAnswers = this.pagesList.getOrDefault(pageKey, new HashMap<>());
 
         Log.d("PAGE_DATA", "All pages: " + pagesList.toString());

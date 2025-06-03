@@ -35,6 +35,7 @@ import com.example.tiktek_lior_sagi.services.DatabaseService;
 import com.example.tiktek_lior_sagi.utils.SharedPreferencesUtil;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -139,11 +140,11 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
         });
     }
     private void loadAnswers(String bookId) {
-
         DatabaseReference pagesRef = FirebaseDatabase.getInstance()
                 .getReference("books")
                 .child(bookId)
                 .child("pagesList");
+
         pagesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -151,45 +152,49 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
                 answerList.clear();
                 answerIds.clear();
 
-                for (DataSnapshot pageSnap : snapshot.getChildren()) { // page keys like "1", possibly with quotes
+                for (DataSnapshot pageSnap : snapshot.getChildren()) {
                     for (DataSnapshot answerSnap : pageSnap.getChildren()) {
-                        Answer answer = answerSnap.getValue(Answer.class);
-                        if (answer != null) {
-                            String pageKey = pageSnap.getKey();
-                            if (pageKey != null) {
-                                // Remove surrounding quotes if any
-                                pageKey = pageKey.replaceAll("^\"|\"$", "");
-                                try {
-                                     pageNumber = Integer.parseInt(pageKey);
-
-                                    answer.setPage(pageNumber);
-                                } catch (NumberFormatException e) {
-                                    Log.e("AnswersManage", "Invalid page number: " + pageKey, e);
-                                    answer.setPage(0); // or any default/error value
-                                }
-                            }
-
-                            Log.d("AnswersManage", "Loaded Answer: " + answer.getPage() + " " +
-                                    answer.getQuestionNumber() + " (" + answer.getId() + ")");
-
-                            if (intQuNumber == 0) {
-                                if(answer.getPage()==pageNumber) {
-                                    answerList.add(answer);
-                                    answerIds.add(answerSnap.getKey());
-                                }
-
-                            } else {
-                                if (answer.getQuestionNumber() == intQuNumber) {
-                                    if(answer.getPage()==pageNumber) {
-                                        answerList.add(answer);
-                                        answerIds.add(answerSnap.getKey());
+                        try {
+                            Answer answer = answerSnap.getValue(Answer.class);
+                            if (answer != null) {
+                                String pageKey = pageSnap.getKey();
+                                if (pageKey != null && answer.getPage() == 0) {
+                                    try {
+                                        int pageNum = Integer.parseInt(pageKey);
+                                        answer.setPage(pageNum);
+                                    } catch (NumberFormatException e) {
+                                        Log.e("AnswersManage", "Invalid page number: " + pageKey, e);
+                                        answer.setPage(0);
                                     }
                                 }
+
+                                Log.d("AnswersManage", "Loaded Answer: Page=" + answer.getPage() +
+                                        ", Question=" + answer.getQuestionNumber() +
+                                        ", ID=" + answer.getId() +
+                                        ", Filtering for Page=" + pageNumber +
+                                        ", Question=" + intQuNumber);
+
+                                // Apply filters
+                                boolean pageMatches = (answer.getPage() == pageNumber);
+                                boolean questionMatches = (intQuNumber == 0) || (answer.getQuestionNumber() == intQuNumber);
+
+                                if (pageMatches && questionMatches) {
+                                    answerList.add(answer);
+                                    answerIds.add(answerSnap.getKey());
+                                    Log.d("AnswersManage", "Answer added to list: " + answer.getId());
+                                } else {
+                                    Log.d("AnswersManage", "Answer filtered out: Page match=" + pageMatches +
+                                            ", Question match=" + questionMatches);
+                                }
                             }
+                        } catch (DatabaseException e) {
+                            Log.e("AnswersManage", "Error deserializing answer: " + e.getMessage(), e);
                         }
                     }
                 }
+                Log.d("AnswersManage", "Total answers loaded: " + answerList.size());
                 adapter.notifyDataSetChanged();
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -280,19 +285,37 @@ public class AnswersManage extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Please select a book", Toast.LENGTH_SHORT).show();
             return;
         }
+        // Get selected page from spinner
+        String selectedPageStr = (String) spPages.getSelectedItem();
+        if (selectedPageStr == null) {
+            Toast.makeText(this, "Please select a page", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            pageNumber = Integer.parseInt(selectedPageStr);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid page number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Get selected question
+        quNumber = spQuestion.getSelectedItem().toString();
+        if (quNumber.equals("כל העמוד")) {
+            intQuNumber = 0;
+        } else {
+            try {
+                intQuNumber = Integer.parseInt(quNumber);
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Invalid question number", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        Log.d("AnswersManage", "Searching for: Book=" + selectedBook.getId() +
+                ", Page=" + pageNumber + ", Question=" + intQuNumber);
+        // Set up RecyclerView
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AnswerAdapter(selectedBook.getId(), answerList, answerIds, this);
         answerRecyclerView.setAdapter(adapter);
-
-        quNumber = spQuestion.getSelectedItem().toString();
-        if (quNumber.equals("כל העמוד"))
-        {
-            intQuNumber = 0;
-        }
-        else
-            intQuNumber = Integer.parseInt(quNumber);
-        loadAnswers(bookIdForChangeAnswer);
+        // Load answers with the correct bookId
+        loadAnswers(selectedBook.getId()); // Use selectedBook.getId() instead of bookIdForChangeAnswer
     }
-
-
 }

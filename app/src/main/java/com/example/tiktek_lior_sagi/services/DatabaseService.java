@@ -94,6 +94,21 @@ public class DatabaseService {
         });
     }
 
+
+
+    private void removeData(@NotNull final String path, final @Nullable DatabaseCallback<Void> callback) {
+        databaseReference.child(path).removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if (callback == null) return;
+                callback.onCompleted(task.getResult());
+            } else {
+                if (callback == null) return;
+                callback.onFailed(task.getException());
+            }
+        });
+    }
+
+
     /// read data from the database at a specific path
     /// @param path the path to read the data from
     /// @return a DatabaseReference object to read the data from
@@ -181,7 +196,8 @@ public class DatabaseService {
     public void updateBook(@NotNull final Book book, @Nullable final DatabaseCallback<Void> callback) {
         writeData("books/" + book.getId(), book, callback);
     }
-    public void updateAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
+
+    /*public void updateAnswer8888(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
         runTransaction("books/" + answer.getBookId(), Book.class, new Function<Book, Book>() {
             @Override
             public Book apply(Book book) {
@@ -211,7 +227,7 @@ public class DatabaseService {
                 callback.onFailed(e);
             }
         });
-    }
+    }*/
     /// create a new book in the database
     /// @param book the book object to create
     /// @param callback the callback to call when the operation is completed
@@ -224,6 +240,7 @@ public class DatabaseService {
         writeData("books/" + book.getId(), book, callback);
     }
 
+
     /// create a new answer in the database
     /// @param answer the answer object to create
     /// @param callback the callback to call when the operation is completed
@@ -232,9 +249,20 @@ public class DatabaseService {
     /// @return void
     /// @see DatabaseCallback
     /// @see Answer
+
     public void createNewAnswer(@NotNull final Answer answer, @NotNull final Book book, @Nullable final DatabaseCallback<Void> callback) {
         writeData("books/" + book.getId() + "/pagesList/\"" + answer.getPage() + "\"/" + answer.getId(), answer, callback);
     }
+    public void updateAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
+        writeData("books/" + answer.getBookId() + "/pagesList/\"" + answer.getPage() + "\"/" + answer.getId(), answer, callback);
+    }
+
+
+
+    public void removeAnswer(@NotNull final Answer answer, @Nullable final DatabaseCallback<Void> callback) {
+        removeData("books/" + answer.getBookId() + "/pagesList/\"" + answer.getPage() + "\"/" + answer.getId(), callback);
+    }
+
 
     /// get a user from the database
     /// @param uid the id of the user to get
@@ -300,7 +328,6 @@ public class DatabaseService {
                 Log.d(TAG, "Got book: " + book);
                 books.add(book);
             });
-
             callback.onCompleted(books);
         });
     }
