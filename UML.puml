@@ -1,0 +1,92 @@
+@startuml
+class com.example.tiktek_lior_sagi.model.Book {
+# String id
+# String subject
+# String bookName
+# String bookCover
+# Map<String,Map<String,Answer>> pagesList
+# int maxPages
++ String getId()
++ void setId(String)
++ String getSubject()
++ void setSubject(String)
++ String getBookName()
++ void setBookName(String)
++ String getBookCover()
++ void setBookCover(String)
++ Map<String,Map<String,Answer>> getPagesList()
++ void setPagesList(Map<String,Map<String,Answer>>)
++ int getMaxPages()
++ void setMaxPages(int)
++ String toString()
++ List<Answer> getAnswerListByQuestionNumber(int,int)
+}
+
+
+class com.example.tiktek_lior_sagi.model.User {
+~ String id
+~ String fname
+~ String lname
+~ String phone
+~ String email
+~ String password
+~ boolean admin
++ String getEmail()
++ void setEmail(String)
++ String getFname()
++ void setFname(String)
++ String getId()
++ void setId(String)
++ String getLname()
++ void setLname(String)
++ String getPassword()
++ void setPassword(String)
++ String getPhone()
++ void setPhone(String)
++ boolean getAdmin()
++ void setAdmin(boolean)
++ String toString()
+}
+
+
+class com.example.tiktek_lior_sagi.model.SendBook {
+~ String bookId
+~ String bookName
+~ int page
+~ String questionNumber
++ String getBookId()
++ void setBookId(String)
++ String getBookName()
++ void setBookName(String)
++ int getPage()
++ void setPage(int)
++ String getQuestionNumber()
++ void setQuestionNumber(String)
++ String toString()
+}
+
+
+class com.example.tiktek_lior_sagi.model.Answer {
+~ String id
+~ int page
+~ int questionNumber
+~ String picAnswer
++ String toString()
++ String getId()
++ void setId(String)
++ int getPage()
++ void setPage(int)
++ int getQuestionNumber()
++ void setQuestionNumber(int)
++ String getPicAnswer()
++ void setPicAnswer(String)
+}
+
+
+
+
+java.io.Serializable <|.. com.example.tiktek_lior_sagi.model.Book
+java.io.Serializable <|.. com.example.tiktek_lior_sagi.model.User
+java.io.Serializable <|.. com.example.tiktek_lior_sagi.model.SendBook
+java.io.Serializable <|.. com.example.tiktek_lior_sagi.model.Answer
+@enduml

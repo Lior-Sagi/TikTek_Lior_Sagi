@@ -1,0 +1,55 @@
+@startuml
+class com.example.tiktek_lior_sagi.screens.AdminPage {
+}
+class com.example.tiktek_lior_sagi.screens.Register {
+}
+class com.example.tiktek_lior_sagi.screens.OneAnswer {
+}
+class com.example.tiktek_lior_sagi.screens.Search {
+}
+class com.example.tiktek_lior_sagi.screens.AddBook {
+}
+class com.example.tiktek_lior_sagi.screens.AddAnswer {
+}
+class com.example.tiktek_lior_sagi.screens.BooksManage {
+}
+class com.example.tiktek_lior_sagi.screens.LandingPage {
+}
+class com.example.tiktek_lior_sagi.screens.Answers {
+}
+class com.example.tiktek_lior_sagi.screens.Login {
+}
+class com.example.tiktek_lior_sagi.screens.MainActivity {
+}
+class com.example.tiktek_lior_sagi.screens.UserGuide {
+}
+class com.example.tiktek_lior_sagi.screens.AnswersManage {
+}
+class com.example.tiktek_lior_sagi.screens.UsersManage {
+}
+
+
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.AdminPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AdminPage
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.Register
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Register
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.OneAnswer
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.Search
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Search
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.AddBook
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AddBook
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.AddAnswer
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AddAnswer
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.BooksManage
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.LandingPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.LandingPage
+com.example.tiktek_lior_sagi.screens.OnItemClickListener <|.. com.example.tiktek_lior_sagi.screens.Answers
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Answers
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.Login
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Login
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.UserGuide
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AnswersManage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.UsersManage
+@enduml

@@ -1,0 +1,237 @@
+@startuml
+class com.example.tiktek_lior_sagi.screens.AdminPage {
+~ Button btnToMainActivity
+- User user
+- FirebaseAuth mAuth
+# void onCreate(Bundle)
+- void initviews()
++ void onClick(View)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.Register {
+~ EditText etFName
+~ Button btnReg
+~ Button btnToLogin
+~ String fName
+- FirebaseAuth mAuth
+- FirebaseDatabase database
+- DatabaseReference myRef
+- User user
+# void onCreate(Bundle)
+- void initViews()
++ void onClick(View)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.OneAnswer {
+~ ImageView ivAnswerPic
+# void onCreate(Bundle)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.Search {
+~ Spinner spSubject
+~ String subject
+~ Button btnSearch
+- {static} String TAG
+- DatabaseService databaseService
+- ArrayList<Book> allBooks
+- ArrayList<Book> selectedBooks
+~ BookSpinnerAdapter bookSpinnerAdapter
+~ ArrayAdapter<String> bookPagesAdapter
+~ Book book2
+- FirebaseAuth mAuth
+- User user
+# void onCreate(Bundle)
+- void initViews()
++ void onClick(View)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.AddBook {
+~ EditText etBookName
+~ Spinner spSubject
+~ Button btnCamera
+- ActivityResultLauncher<Intent> selectImageLauncher
+- ActivityResultLauncher<Intent> captureImageLauncher
+- DatabaseService databaseService
+~ ImageView IVPreviewImage
+~ int SELECT_PICTURE
+- User user
+# void onCreate(Bundle)
+- void initviews()
++ void onClick(View)
+- void addBookToDatabase()
+- void selectImageFromGallery()
+- void captureImageFromCamera()
+- boolean isValid(String,String,String)
++ void imageChooser()
++ void onActivityResult(int,int,Intent)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.AddAnswer {
+- {static} String TAG
+~ ImageView ivQuestion
+~ Spinner spPages
+~ Button btnCamera
+~ Book book2
+- ActivityResultLauncher<Intent> selectImageLauncher
+- ActivityResultLauncher<Intent> captureImageLauncher
+~ int SELECT_PICTURE
+- DatabaseService databaseService
+~ BookSpinnerAdapter bookSpinnerAdapter
+- ArrayList<Book> allBooks
+- ArrayList<Book> selectedBooks
+- Spinner spbookSpinner
+~ String subject
+~ ArrayAdapter<String> bookPagesAdapter
+- FirebaseAuth mAuth
+- User user
+# void onCreate(Bundle)
+- void selectImageFromGallery()
+- void captureImageFromCamera()
+- void initViews()
++ void imageChooser()
++ void onActivityResult(int,int,Intent)
+- void addAnswerToDatabase()
++ void onClick(View)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.BooksManage {
+~ RecyclerView bookRecyclerView
+~ List<Book> bookList
+~ List<String> bookIds
+~ BookAdapter adapter
+- User user
+# void onCreate(Bundle)
+- void loadBooks()
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.LandingPage {
+~ Button btnToRegister
+~ User user
+- FirebaseAuth mAuth
+# void onCreate(Bundle)
+- void initviews()
++ void onClick(View)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.Answers {
+- {static} String TAG
+~ ListView lvAnswers
+- ImageAdapter adapter
+- DatabaseService databaseService
+~ SendBook sendBook
+- FirebaseAuth mAuth
+- User user
+# void onCreate(Bundle)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
++ void onItemClick(AdapterView<?>,View,int,long)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.Login {
+~ EditText etEmail
+~ Button btnLog
+~ String email
+~ DatabaseService databaseService
+- User user
+# void onCreate(Bundle)
+- void initViews()
++ void onClick(View)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.MainActivity {
+~ Button btnToAddAnswer
+~ User user
+- FirebaseAuth mAuth
+# void onCreate(Bundle)
+- void initviews()
++ void onClick(View)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.UserGuide {
+- FirebaseAuth mAuth
+- User user
+# void onCreate(Bundle)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.AnswersManage {
+~ Spinner spSubject
+~ Button btnSearch
+~ ListView lvAnswers
+- User user
+# void onCreate(Bundle)
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+class com.example.tiktek_lior_sagi.screens.UsersManage {
+~ RecyclerView userRecyclerView
+~ List<User> userList
+~ List<String> userIds
+~ UserAdapter adapter
+- User user
+# void onCreate(Bundle)
+- void loadUsers()
++ boolean onCreateOptionsMenu(Menu)
++ boolean onOptionsItemSelected(android.view.MenuItem)
+}
+
+
+
+
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.AdminPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AdminPage
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.Register
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Register
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.OneAnswer
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.Search
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Search
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.AddBook
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AddBook
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.AddAnswer
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AddAnswer
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.BooksManage
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.LandingPage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.LandingPage
+com.example.tiktek_lior_sagi.screens.OnItemClickListener <|.. com.example.tiktek_lior_sagi.screens.Answers
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Answers
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.Login
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.Login
+com.example.tiktek_lior_sagi.screens.OnClickListener <|.. com.example.tiktek_lior_sagi.screens.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.MainActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.UserGuide
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.AnswersManage
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tiktek_lior_sagi.screens.UsersManage
+@enduml
