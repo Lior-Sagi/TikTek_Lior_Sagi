@@ -3,6 +3,7 @@ package com.example.tiktek_lior_sagi.screens;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import com.example.tiktek_lior_sagi.model.SendBook;
 import com.example.tiktek_lior_sagi.model.User;
 import com.example.tiktek_lior_sagi.services.AuthenticationService;
 import com.example.tiktek_lior_sagi.services.DatabaseService;
+import com.example.tiktek_lior_sagi.utils.DataHolder;
 import com.example.tiktek_lior_sagi.utils.ImageUtil;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,8 +52,32 @@ public class ChangeBook extends AppCompatActivity implements View.OnClickListene
         });
         initViews();
         databaseService = new DatabaseService();
-        book=getIntent().getSerializableExtra("Book", Book.class);
-        this.retrieveData();
+        //book=getIntent().getSerializableExtra("Book", Book.class);
+        String bookId = getIntent().getStringExtra("BookId");
+        databaseService.getBook(bookId, new DatabaseService.DatabaseCallback<Book>() {
+            @Override
+            public void onCompleted(Book object) {
+                if (object == null) {
+                    Toast.makeText(ChangeBook.this, "הספר לא נמצא", Toast.LENGTH_SHORT).show();
+                    finish(); // Avoid further crashes
+                    return;
+                }
+                book = object;
+                etBookName.setText(String.valueOf(book.getBookName()));
+                etPagesNumber.setText(String.valueOf(book.getMaxPages()));
+                tvCurrentSubject.setText(String.valueOf(book.getSubject()));
+                String base64Image = book.getBookCover();
+                Bitmap bitmap = ImageUtil.convertFrom64base(base64Image);
+                ivBookCover.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+
+            }
+        });
+
+        //this.retrieveData();
     }
 
     private void retrieveData() {
@@ -61,12 +87,13 @@ public class ChangeBook extends AppCompatActivity implements View.OnClickListene
             public void onCompleted(Book object) {
                 book=object;
                 if(book!=null) {
-                    etBookName.setText(String.valueOf(book.getBookName()));
-                    etPagesNumber.setText(String.valueOf(book.getMaxPages()));
-                    tvCurrentSubject.setText(String.valueOf(book.getSubject()));
-                    String base64Image = book.getBookCover();
-                    Bitmap bitmap = ImageUtil.convertFrom64base(base64Image);
-                    ivBookCover.setImageBitmap(bitmap);
+
+                    String imageBase64 = DataHolder.base64Image;
+                    Bitmap bitmap = ImageUtil.convertFrom64base(imageBase64);
+                    if (bitmap != null) {
+                        ivBookCover.setImageBitmap(bitmap);
+                    }
+
                 }
             }
             @Override

@@ -256,7 +256,7 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onCompleted(Void object) {
                 Log.d(TAG, "Book added successfully");
-                Toast.makeText(AddAnswer.this, "Answer added successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddAnswer.this, "תשובה נוספה בהצלחה", Toast.LENGTH_SHORT).show();
                 /// clear the input fields after adding the book for the next answer
                 ivQuestion.setImageBitmap(null);
             }
@@ -264,7 +264,7 @@ public class AddAnswer extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onFailed(Exception e) {
                 Log.e(TAG, "Failed to add answer", e);
-                Toast.makeText(AddAnswer.this, "Failed to add answer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddAnswer.this, "תקלה,תשובה לא נוספה", Toast.LENGTH_SHORT).show();
             }
         });
     }
